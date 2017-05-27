@@ -75,16 +75,45 @@ namespace XML.classes
         {
             XElement offers = new XElement("offers");
             var items = OfferModel.GetAll();
+            string vendor = ShopModel.Get().First().Name;
             
             foreach (var item in items)
             {
-                offers.Add(new XElement("offer",
+                int categoryId = CategoryModel.GetOne(item.CategoryTitle).First().CategoryId;
+
+                XElement offer = new XElement("offer",
                     new XAttribute("available", item.IsAviable),
-                    new XAttribute("id", item.Id)
-                ));
+                    new XAttribute("id", item.Id),
+                    new XElement("name", item.Name),
+                    new XElement("description", item.Description),
+                    new XElement("url", item.URL),
+                    new XElement("picture", item.PictureURL),
+                    new XElement("price", item.Price),
+                    new XElement("vendor", vendor),
+                    new XElement("currencyId", item.CurrencyId),
+                    new XElement("categoryId", categoryId));
+
+                AddParams(offer, item.Params);
+                offers.Add(offer);
             }
 
             shop.Add(offers);
+        }
+
+        private static void AddParams(XElement offer, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return;
+
+            string[] arr = value.Split('|');
+            int len = arr.Length / 2;
+            
+            for (int i = 0, j = 0; i < len; i++, j += 2)
+            {
+                offer.Add(new XElement("param",
+                    new XAttribute("name", arr[j]),
+                    arr[j + 1]));
+            }
         }
     }
 }

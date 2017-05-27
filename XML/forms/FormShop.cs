@@ -14,7 +14,7 @@ namespace XML.forms
         {
             InitializeComponent();
 
-            Text = "XML - Company";
+            Text = "XML - Магазин";
 
             FillForm();
         }

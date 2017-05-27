@@ -23,5 +23,16 @@ namespace XML.classes.db.offer
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name);
         }
+
+        public static IEnumerable<OfferTable> GetOneByOfferId(int offerId)
+        {
+            return Query("SELECT * FROM " + typeof(OfferTable).Name
+                + " WHERE OfferId = ?", new object[] { offerId });
+        }
+
+        public static int GetCount()
+        {
+            return con.Table<OfferTable>().Count();
+        }
     }
 }

@@ -115,6 +115,7 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.Brown;
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(12, 309);
@@ -129,18 +130,17 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(181, 7);
+            this.label4.Location = new System.Drawing.Point(209, 7);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 13);
+            this.label4.Size = new System.Drawing.Size(96, 13);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Esc - Delete. Enter - Add";
+            this.label4.Text = "Enter - Add / Save";
             // 
             // FormList
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(338, 343);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button2);

@@ -8,7 +8,7 @@ namespace XML.classes.db.offer
         public int Id { get; set; }
 
         [Unique]
-        public int offerId { get; set; }
+        public int OfferId { get; set; }
 
         [Unique]
         public string Name { get; set; }
@@ -19,12 +19,14 @@ namespace XML.classes.db.offer
 
         public string PictureURL { get; set; }
 
+        public double Price { get; set; }
+
         public bool IsAviable { get; set; }
-        
+
+        public string Params { get; set; } // It's array |
+
         public string CategoryTitle { get; set; } // Table Category
         
         public string CurrencyId { get; set; } // Table Currency
-
-        // Params
     }
 }

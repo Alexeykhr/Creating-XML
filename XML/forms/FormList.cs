@@ -86,7 +86,7 @@ namespace XML.forms
             else
                 return;
             
-            textBox1.Text = string.Empty;
+            textBox1.Text = toggle ? (CategoryModel.GetCount() + 1).ToString() : string.Empty;
             textBox2.Text = string.Empty;
         }
 
