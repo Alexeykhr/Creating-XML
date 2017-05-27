@@ -65,8 +65,8 @@ namespace XML.forms
 
             if (!toggle)
                 textBox1.Text = textBox1.Text.ToUpper();
-            
-            if (isEdit && UpdateSelectedItemCategory() == 1)
+
+            if (isEdit && UpdateSelectedItem() == 1)
             {
                 int selectedIndex = listView1.SelectedItems[0].Index;
 
@@ -82,7 +82,9 @@ namespace XML.forms
                     textBox1.Text, textBox2.Text
                 }));
             }
-
+            else
+                return;
+            
             textBox1.Text = string.Empty;
             textBox2.Text = string.Empty;
         }
@@ -128,7 +130,7 @@ namespace XML.forms
                 foreach (var currency in currencies)
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
-                        currency.CurrencyId, currency.Rate
+                        currency.CurrencyId, currency.Rate.ToString()
                     }));
                 }
             }
@@ -137,135 +139,118 @@ namespace XML.forms
         private int InsertItem()
         {
             if (toggle)
-                return InsertItemCategory();
+            {
+                if (!int.TryParse(textBox1.Text, out int categoryId))
+                    return 0;
 
-            return InsertItemCurrency();
-        }
+                return InsertItemCategory(categoryId, textBox2.Text);
+            }
 
-        private int InsertItemCategory()
-        {
-            bool isInt = int.TryParse(textBox1.Text, out int categoryId);
-
-            if (!isInt)
+            if (!Double.TryParse(textBox2.Text, out double currencyId))
                 return 0;
 
+            return InsertItemCurrency(textBox1.Text, currencyId);
+        }
+
+        private int InsertItemCategory(int categoryId, string title)
+        {
             return CategoryModel.Insert(new CategoryTable
             {
-                Id = CategoryModel.GetCount(),
                 CategoryId = categoryId,
-                Title = textBox2.Text
+                Title = title
             });
         }
 
-        private int InsertItemCurrency()
+        private int InsertItemCurrency(string currencyId, double rate)
         {
             return CurrencyModel.Insert(new CurrencyTable
             {
-                Id = CurrencyModel.GetCount(),
-                CurrencyId = textBox1.Text,
-                Rate = textBox2.Text
+                CurrencyId = currencyId,
+                Rate = rate
             });
         }
 
         private int UpdateSelectedItem()
         {
             if (toggle)
-                return UpdateSelectedItemCategory();
+            {
+                if (!int.TryParse(textBox1.Text, out int categoryId))
+                    return 0;
 
-            return UpdateSelectedItemCurrency();
-        }
+                return UpdateSelectedItemCategory(categoryId, textBox2.Text);
+            }
 
-        private int UpdateSelectedItemCategory()
-        {
-            bool isInt = int.TryParse(textBox1.Text, out int categoryId);
-
-            if (!isInt)
+            if (!Double.TryParse(textBox2.Text, out double currencyId))
                 return 0;
 
+            return UpdateSelectedItemCurrency(textBox1.Text, currencyId);
+        }
+
+        private int UpdateSelectedItemCategory(int categoryId, string title)
+        {
             try
             {
-                int id = CategoryModel.GetOneByCategoryId(new[] {
-                    listView1.SelectedItems[0].Text
-                }).First().Id;
+                int id = CategoryModel.GetOne(
+                    int.Parse(listView1.SelectedItems[0].Text)
+                ).First().Id;
 
                 return CategoryModel.Update(new CategoryTable
                 {
                     Id = id,
                     CategoryId = categoryId,
-                    Title = textBox2.Text
+                    Title = title
                 });
             }
-            catch
-            {
-                return 0;
-            }
+            catch { return 0; }
         }
 
-        private int UpdateSelectedItemCurrency()
+        private int UpdateSelectedItemCurrency(string currencyId, double rate)
         {
             try
             {
-                int id = CurrencyModel.GetOneByCurrencyId(new[] {
+                int id = CurrencyModel.GetOne(
                     listView1.SelectedItems[0].Text
-                }).First().Id;
+                ).First().Id;
 
                 return CurrencyModel.Update(new CurrencyTable
                 {
                     Id = id,
-                    CurrencyId = textBox1.Text,
-                    Rate = textBox2.Text
+                    CurrencyId = currencyId,
+                    Rate = rate
                 });
             }
-            catch
-            {
-                return 0;
-            }
+            catch { return 0; }
         }
 
         private int DeleteSelectedItem()
         {
-            if (toggle)
-                return DeleteSelectedItemCategory();
-
-            return DeleteSelectedItemCurrency();
+            return toggle ? DeleteSelectedItemCategory() : DeleteSelectedItemCurrency();
         }
 
         private int DeleteSelectedItemCategory()
         {
-            int isDeleted = 0;
-            bool isInt = int.TryParse(listView1.SelectedItems[0].Text, out int categoryId);
-
-            if (!isInt)
-                return 0;
-
             try
             {
-                int id = CategoryModel.GetOneByCategoryId(new object[] {
-                        categoryId
-                    }).First().Id;
+                int id = CategoryModel.GetOne(
+                    int.Parse(listView1.SelectedItems[0].Text)
+                ).First().Id;
 
-                isDeleted = CategoryModel.DeleteObject<CategoryTable>(id);
+                return CategoryModel.DeleteObject<CategoryTable>(id);
             }
             catch { return 0; }
-
-            return isDeleted;
         }
 
         private int DeleteSelectedItemCurrency()
         {
-            int isDeleted = 0;
-
             try
             {
-                int id = CurrencyModel.GetOneByCurrencyId(new object[] {
-                        listView1.SelectedItems[0].Text
-                    }).First().Id;
+                int id = CurrencyModel.GetOne(
+                    listView1.SelectedItems[0].Text
+                ).First().Id;
 
-                isDeleted = CurrencyModel.DeleteObject<CurrencyTable>(id);
+                return CurrencyModel.DeleteObject<CurrencyTable>(id);
             }
             catch { return 0; }
-
-            return isDeleted;
         }
     }
 }

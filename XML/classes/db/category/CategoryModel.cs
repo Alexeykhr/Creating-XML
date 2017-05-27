@@ -24,15 +24,16 @@ namespace XML.classes.db.category
             return Query("SELECT * FROM " + typeof(CategoryTable).Name);
         }
 
-        public static IEnumerable<CategoryTable> GetOneByCategoryId(object[] args)
+        public static IEnumerable<CategoryTable> GetOne(int categoryId)
         {
             return Query("SELECT * FROM " + typeof(CategoryTable).Name
-                + " WHERE CategoryId = ? LIMIT 1", args);
+                + " WHERE CategoryId = ? LIMIT 1", new object[] { categoryId });
         }
 
-        public static int GetCount()
+        public static IEnumerable<CategoryTable> GetOne(string title)
         {
-            return con.Table<CategoryTable>().Count();
+            return Query("SELECT * FROM " + typeof(CategoryTable).Name
+                + " WHERE Title = ? LIMIT 1", new object[] { title});
         }
     }
 }

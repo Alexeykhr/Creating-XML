@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Collections.Generic;
 
 namespace XML.classes.db.offer
 {
@@ -8,11 +7,11 @@ namespace XML.classes.db.offer
         [PrimaryKey, AutoIncrement, Unique]
         public int Id { get; set; }
 
-        // Table Currency
-        public int CurrencyId { get; set; }
-
         // Table Category
         public int CategoryId { get; set; }
+
+        // Table Currency
+        public string CurrencyId { get; set; }
 
         public string Name { get; set; }
         
@@ -23,7 +22,5 @@ namespace XML.classes.db.offer
         public string PictureURL { get; set; }
 
         public bool IsAviable { get; set; }
-
-        public Dictionary<string, string> Params { get; set; }
     }
 }
