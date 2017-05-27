@@ -1,0 +1,271 @@
+﻿using System;
+using System.Linq;
+using System.Drawing;
+using System.Windows.Forms;
+
+using XML.classes.db.currency;
+using XML.classes.db.category;
+
+namespace XML.forms
+{
+    public partial class FormList : Form
+    {
+        private bool isEdit = false;
+        private bool toggle = false;
+
+        // True  - Catogory
+        // False - Currency
+        public FormList(bool toggle)
+        {
+            InitializeComponent();
+
+            this.toggle = toggle;
+
+            if (toggle)
+            {
+                Text = "XML - Категории";
+                label2.Text = "ID";
+                label3.Text = "Название";
+                listView1.Columns.Add("ID");
+                listView1.Columns.Add("Название");
+            }
+            else
+            {
+                Text = "XML - Валюты";
+                label2.Text = "Валюта";
+                label3.Text = "Ставка";
+                listView1.Columns.Add("Валюта");
+                listView1.Columns.Add("Ставка");
+            }
+
+            FillListView();
+        }
+
+        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count < 1)
+            {
+                label1.BackColor = Color.Brown;
+                isEdit = false;
+                textBox1.Text = string.Empty;
+                textBox2.Text = string.Empty;
+                return;
+            }
+
+            label1.BackColor = Color.DarkSlateGray;
+            isEdit = true;
+            textBox1.Text = listView1.SelectedItems[0].SubItems[0].Text;
+            textBox2.Text = listView1.SelectedItems[0].SubItems[1].Text;
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
+                return;
+
+            if (!toggle)
+                textBox1.Text = textBox1.Text.ToUpper();
+            
+            if (isEdit && UpdateSelectedItemCategory() == 1)
+            {
+                int selectedIndex = listView1.SelectedItems[0].Index;
+
+                listView1.Items[selectedIndex].SubItems[0].Text = textBox1.Text;
+                listView1.Items[selectedIndex].SubItems[1].Text = textBox2.Text;
+
+                if (listView1.SelectedItems.Count > 0)
+                    listView1.SelectedItems[0].Selected = false;
+            }
+            else if (InsertItem() == 1)
+            {
+                listView1.Items.Add(new ListViewItem(new[] {
+                    textBox1.Text, textBox2.Text
+                }));
+            }
+
+            textBox1.Text = string.Empty;
+            textBox2.Text = string.Empty;
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count < 1)
+                return;
+            
+            if (DeleteSelectedItem() == 1)
+                listView1.SelectedItems[0].Remove();
+        }
+
+        private void FillListView()
+        {
+            if (toggle)
+                FillListViewCategory();
+            else
+                FillListViewCurrency();
+        }
+
+        private void FillListViewCategory()
+        {
+            var categories = CategoryModel.GetAll();
+
+            if (categories != null && categories.Count() > 0)
+            {
+                foreach (var category in categories)
+                {
+                    listView1.Items.Add(new ListViewItem(new[] {
+                        category.CategoryId.ToString(), category.Title
+                    }));
+                }
+            }
+        }
+
+        private void FillListViewCurrency()
+        {
+            var currencies = CurrencyModel.GetAll();
+
+            if (currencies != null && currencies.Count() > 0)
+            {
+                foreach (var currency in currencies)
+                {
+                    listView1.Items.Add(new ListViewItem(new[] {
+                        currency.CurrencyId, currency.Rate
+                    }));
+                }
+            }
+        }
+
+        private int InsertItem()
+        {
+            if (toggle)
+                return InsertItemCategory();
+
+            return InsertItemCurrency();
+        }
+
+        private int InsertItemCategory()
+        {
+            bool isInt = int.TryParse(textBox1.Text, out int categoryId);
+
+            if (!isInt)
+                return 0;
+
+            return CategoryModel.Insert(new CategoryTable
+            {
+                Id = CategoryModel.GetCount(),
+                CategoryId = categoryId,
+                Title = textBox2.Text
+            });
+        }
+
+        private int InsertItemCurrency()
+        {
+            return CurrencyModel.Insert(new CurrencyTable
+            {
+                Id = CurrencyModel.GetCount(),
+                CurrencyId = textBox1.Text,
+                Rate = textBox2.Text
+            });
+        }
+
+        private int UpdateSelectedItem()
+        {
+            if (toggle)
+                return UpdateSelectedItemCategory();
+
+            return UpdateSelectedItemCurrency();
+        }
+
+        private int UpdateSelectedItemCategory()
+        {
+            bool isInt = int.TryParse(textBox1.Text, out int categoryId);
+
+            if (!isInt)
+                return 0;
+
+            try
+            {
+                int id = CategoryModel.GetOneByCategoryId(new[] {
+                    listView1.SelectedItems[0].Text
+                }).First().Id;
+
+                return CategoryModel.Update(new CategoryTable
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = textBox2.Text
+                });
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private int UpdateSelectedItemCurrency()
+        {
+            try
+            {
+                int id = CurrencyModel.GetOneByCurrencyId(new[] {
+                    listView1.SelectedItems[0].Text
+                }).First().Id;
+
+                return CurrencyModel.Update(new CurrencyTable
+                {
+                    Id = id,
+                    CurrencyId = textBox1.Text,
+                    Rate = textBox2.Text
+                });
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private int DeleteSelectedItem()
+        {
+            if (toggle)
+                return DeleteSelectedItemCategory();
+
+            return DeleteSelectedItemCurrency();
+        }
+
+        private int DeleteSelectedItemCategory()
+        {
+            int isDeleted = 0;
+            bool isInt = int.TryParse(listView1.SelectedItems[0].Text, out int categoryId);
+
+            if (!isInt)
+                return 0;
+
+            try
+            {
+                int id = CategoryModel.GetOneByCategoryId(new object[] {
+                        categoryId
+                    }).First().Id;
+
+                isDeleted = CategoryModel.DeleteObject<CategoryTable>(id);
+            }
+            catch { return 0; }
+
+            return isDeleted;
+        }
+
+        private int DeleteSelectedItemCurrency()
+        {
+            int isDeleted = 0;
+
+            try
+            {
+                int id = CurrencyModel.GetOneByCurrencyId(new object[] {
+                        listView1.SelectedItems[0].Text
+                    }).First().Id;
+
+                isDeleted = CurrencyModel.DeleteObject<CurrencyTable>(id);
+            }
+            catch { return 0; }
+
+            return isDeleted;
+        }
+    }
+}
