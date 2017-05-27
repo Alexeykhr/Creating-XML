@@ -20,7 +20,7 @@ namespace XML.classes.db.offer
 
         public string URL { get; set; }
 
-        public string Picture { get; set; }
+        public string PictureURL { get; set; }
 
         public bool IsAviable { get; set; }
 
