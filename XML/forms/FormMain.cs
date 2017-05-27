@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Drawing;
 using System.Xml.Linq;
 using System.Windows.Forms;
 
@@ -24,6 +25,19 @@ namespace XML.forms
 
             Text = "XML - Main";
 
+            FillListView();
+        }
+
+        private void FillListView()
+        {
+            listView1.Columns.Add("ID");
+            listView1.Columns.Add("Название");
+            listView1.Columns.Add("Товар");
+            listView1.Columns.Add("Картинка");
+            listView1.Columns.Add("Категория");
+            listView1.Columns.Add("Валюта");
+            listView1.Columns.Add("Доступен");
+
             var offers = OfferModel.GetAll();
 
             if (offers != null)
@@ -31,8 +45,9 @@ namespace XML.forms
                 foreach (var offer in offers)
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
-                        offer.Name, offer.URL, offer.PictureURL, offer.CategoryId.ToString(),
-                        offer.CurrencyId
+                        offer.offerId.ToString(), offer.Name, offer.URL, offer.PictureURL,
+                        offer.CategoryTitle,  offer.CurrencyId,
+                        offer.IsAviable ? "Да" : "Нет"
                     }));
                 }
             }
@@ -83,29 +98,38 @@ namespace XML.forms
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            int categoryId = 0;
-            string currencyId = "";
+            if (!int.TryParse(fOfferId.Text, out int offerId))
+                return;
+
+            if (string.IsNullOrWhiteSpace(fName.Text) || offerId < 1)
+                return;
+
+            if (string.IsNullOrEmpty(comboBox1.Text) || string.IsNullOrEmpty(comboBox2.Text))
+                return;
+            
+            string category = CategoryModel.GetOne(comboBox1.Text).First().Title;
+            string currencyId = CurrencyModel.GetOne(comboBox2.Text).First().CurrencyId;
 
             if (!isEdit)
             {
-                if (!string.IsNullOrWhiteSpace(comboBox1.Text))
-                    categoryId = CategoryModel.GetOne(comboBox1.Text).First().CategoryId;
-
-                if (!string.IsNullOrWhiteSpace(comboBox2.Text))
-                    currencyId = CurrencyModel.GetOne(comboBox2.Text).First().CurrencyId;
-
                 int isInserted = OfferModel.Insert(new OfferTable {
-                    Name = textBox1.Text,
-                    URL = textBox2.Text,
-                    PictureURL = textBox3.Text,
-                    Description = textBox4.Text,
-                    CategoryId = categoryId,
+                    offerId = offerId,
+                    Name = fName.Text,
+                    URL = fURL.Text,
+                    PictureURL = fPictureURL.Text,
+                    Description = fDescription.Text,
+                    CategoryTitle = category,
                     CurrencyId = currencyId,
                     IsAviable = checkBox1.Checked
                 });
 
-                MessageBox.Show("category " + categoryId + " currency " + currencyId
-                    + "\nisOk = " + isInserted);
+                if (isInserted == 1)
+                {
+                    listView1.Items.Add(new ListViewItem(new[] {
+                        fOfferId.Text, fName.Text, fURL.Text, fPictureURL.Text,
+                        category, currencyId, checkBox1.Checked ? "Да" : "Нет"
+                    }));
+                }
             }
         }
 
@@ -113,11 +137,36 @@ namespace XML.forms
         {
             if (listView1.SelectedItems.Count < 1)
             {
+                label10.BackColor = Color.Brown;
                 isEdit = false;
+                fOfferId.Text = ( OfferModel.GetCount() + 1 ).ToString();
                 return;
             }
 
+            label10.BackColor = Color.DarkSlateGray;
             isEdit = true;
+        }
+
+        private void ComboBox1_DropDown(object sender, EventArgs e)
+        {
+            var items = CategoryModel.GetAll();
+            comboBox1.Items.Clear();
+
+            foreach (var item in items)
+            {
+                comboBox1.Items.Add(item.Title);
+            }
+        }
+
+        private void ComboBox2_DropDown(object sender, EventArgs e)
+        {
+            var items = CurrencyModel.GetAll();
+            comboBox2.Items.Clear();
+
+            foreach (var item in items)
+            {
+                comboBox2.Items.Add(item.CurrencyId);
+            }
         }
     }
 }

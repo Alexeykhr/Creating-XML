@@ -29,6 +29,9 @@ namespace XML.forms
 
         private bool UpdateNewData()
         {
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+                return false;
+
             var company = new ShopTable
             {
                 Id = 1,

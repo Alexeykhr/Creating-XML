@@ -46,11 +46,10 @@ namespace XML.classes
 
             foreach (var item in items)
             {
-                XElement currency = new XElement("currency");
-                currency.SetAttributeValue("id", item.CurrencyId);
-                currency.SetAttributeValue("rate", item.Rate);
-
-                currencies.Add(currency);
+                currencies.Add(new XElement("currency",
+                    new XAttribute("id", item.CurrencyId),
+                    new XAttribute("rate", item.Rate)
+                ));
             }
 
             shop.Add(currencies);
@@ -63,11 +62,10 @@ namespace XML.classes
 
             foreach (var item in items)
             {
-                XElement category = new XElement("category");
-                category.Value = item.Title;
-                category.SetAttributeValue("id", item.CategoryId);
-
-                categories.Add(category);
+                categories.Add(new XElement("category",
+                    new XAttribute("id", item.CategoryId),
+                    item.Title
+                ));
             }
 
             shop.Add(categories);
@@ -77,6 +75,16 @@ namespace XML.classes
         {
             XElement offers = new XElement("offers");
             var items = OfferModel.GetAll();
+            
+            foreach (var item in items)
+            {
+                offers.Add(new XElement("offer",
+                    new XAttribute("available", item.IsAviable),
+                    new XAttribute("id", item.Id)
+                ));
+            }
+
+            shop.Add(offers);
         }
     }
 }

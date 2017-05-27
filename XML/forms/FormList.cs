@@ -13,7 +13,7 @@ namespace XML.forms
         private bool isEdit = false;
         private bool toggle = false;
 
-        // True  - Catogory
+        // True  - Category
         // False - Currency
         public FormList(bool toggle)
         {
@@ -28,6 +28,7 @@ namespace XML.forms
                 label3.Text = "Название";
                 listView1.Columns.Add("ID");
                 listView1.Columns.Add("Название");
+                textBox1.Text = (CategoryModel.GetCount() + 1).ToString();
             }
             else
             {
@@ -47,7 +48,7 @@ namespace XML.forms
             {
                 label1.BackColor = Color.Brown;
                 isEdit = false;
-                textBox1.Text = string.Empty;
+                textBox1.Text = toggle ? (CategoryModel.GetCount() + 1).ToString() : string.Empty;
                 textBox2.Text = string.Empty;
                 return;
             }

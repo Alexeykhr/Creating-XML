@@ -35,5 +35,10 @@ namespace XML.classes.db.category
             return Query("SELECT * FROM " + typeof(CategoryTable).Name
                 + " WHERE Title = ? LIMIT 1", new object[] { title});
         }
+
+        public static int GetCount()
+        {
+            return con.Table<CategoryTable>().Count();
+        }
     }
 }
