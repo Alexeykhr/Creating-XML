@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 
+using XML.classes;
 using XML.classes.db.shop;
 
 namespace XML.forms
@@ -21,16 +22,32 @@ namespace XML.forms
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            bool isUpdated = UpdateNewData();
-
-            if (isUpdated)
+            if (UpdateNewData())
+            {
+                MessageBox.Show("Данные сохранены");
                 Close();
+            }
         }
 
         private bool UpdateNewData()
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("Имя не указано");
                 return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                MessageBox.Show("Название не указано");
+                return false;
+            }
+
+            if (!Methods.IsWebSite(textBox3.Text))
+            {
+                MessageBox.Show("Ссылка имеет неверный формат");
+                return false;
+            }
 
             var company = new ShopTable
             {

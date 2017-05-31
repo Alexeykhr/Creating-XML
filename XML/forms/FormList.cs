@@ -3,6 +3,7 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 
+using XML.classes;
 using XML.classes.db.currency;
 using XML.classes.db.category;
 
@@ -10,18 +11,18 @@ namespace XML.forms
 {
     public partial class FormList : Form
     {
+        private bool isCategory = false;
         private bool isEdit = false;
-        private bool toggle = false;
 
         // True  - Category
         // False - Currency
-        public FormList(bool toggle)
+        public FormList(bool isCategory)
         {
             InitializeComponent();
 
-            this.toggle = toggle;
+            this.isCategory = isCategory;
 
-            if (toggle)
+            if (isCategory)
             {
                 Text = "XML - Категории";
                 label2.Text = "ID";
@@ -48,7 +49,7 @@ namespace XML.forms
             {
                 label1.BackColor = Color.Brown;
                 isEdit = false;
-                textBox1.Text = toggle ? (CategoryModel.GetCount() + 1).ToString() : string.Empty;
+                textBox1.Text = isCategory ? (CategoryModel.GetCount() + 1).ToString() : string.Empty;
                 textBox2.Text = string.Empty;
                 return;
             }
@@ -62,10 +63,13 @@ namespace XML.forms
         private void Button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                MessageBox.Show("Данные отсутствуют");
                 return;
+            }
 
-            if (!toggle)
-                textBox1.Text = textBox1.Text.ToUpper();
+            textBox1.Text = isCategory ? textBox1.Text.Trim() : textBox1.Text.ToUpper().Trim();
+            textBox2.Text = isCategory ? textBox2.Text.Trim() : Methods.ReplaceDot(textBox2.Text);
 
             if (isEdit && UpdateSelectedItem() == 1)
             {
@@ -86,22 +90,27 @@ namespace XML.forms
             else
                 return;
             
-            textBox1.Text = toggle ? (CategoryModel.GetCount() + 1).ToString() : string.Empty;
+            textBox1.Text = isCategory ? (CategoryModel.GetCount() + 1).ToString() : string.Empty;
             textBox2.Text = string.Empty;
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count < 1)
+            {
+                MessageBox.Show("Выберите строку");
                 return;
-            
+            }
+
             if (DeleteSelectedItem() == 1)
                 listView1.SelectedItems[0].Remove();
+            else
+                MessageBox.Show("Данные не удалились");
         }
 
         private void FillListView()
         {
-            if (toggle)
+            if (isCategory)
                 FillListViewCategory();
             else
                 FillListViewCurrency();
@@ -139,18 +148,33 @@ namespace XML.forms
 
         private int InsertItem()
         {
-            if (toggle)
+            int inserted = 0;
+
+            if (isCategory)
             {
                 if (!int.TryParse(textBox1.Text, out int categoryId))
+                {
+                    MessageBox.Show("ID должен быть числом");
                     return 0;
+                }
 
-                return InsertItemCategory(categoryId, textBox2.Text);
+                inserted = InsertItemCategory(categoryId, textBox2.Text);
+            }
+            else
+            {
+                if (!Double.TryParse(textBox2.Text, out double rate))
+                {
+                    MessageBox.Show("Валюта должна быть числом (возможна плавающая точка)");
+                    return 0;
+                }
+
+                inserted = InsertItemCurrency(textBox1.Text, rate);
             }
 
-            if (!Double.TryParse(textBox2.Text, out double currencyId))
-                return 0;
+            if (inserted != 1)
+                MessageBox.Show("Данные существуют");
 
-            return InsertItemCurrency(textBox1.Text, currencyId);
+            return inserted;
         }
 
         private int InsertItemCategory(int categoryId, string title)
@@ -173,16 +197,22 @@ namespace XML.forms
 
         private int UpdateSelectedItem()
         {
-            if (toggle)
+            if (isCategory)
             {
                 if (!int.TryParse(textBox1.Text, out int categoryId))
+                {
+                    MessageBox.Show("ID должен быть числом");
                     return 0;
+                }
 
                 return UpdateSelectedItemCategory(categoryId, textBox2.Text);
             }
 
             if (!Double.TryParse(textBox2.Text, out double currencyId))
+            {
+                MessageBox.Show("Валюта должна быть числом (возможна плавающая точка)");
                 return 0;
+            }
 
             return UpdateSelectedItemCurrency(textBox1.Text, currencyId);
         }
@@ -225,7 +255,7 @@ namespace XML.forms
 
         private int DeleteSelectedItem()
         {
-            return toggle ? DeleteSelectedItemCategory() : DeleteSelectedItemCurrency();
+            return isCategory ? DeleteSelectedItemCategory() : DeleteSelectedItemCurrency();
         }
 
         private int DeleteSelectedItemCategory()

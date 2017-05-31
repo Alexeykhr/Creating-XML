@@ -106,17 +106,46 @@ namespace XML.forms
 
                 doc.Save(dialog.FileName);
 
-                MessageBox.Show("Готово");
+                MessageBox.Show("Экспорт завершён");
+            }
+        }
+
+        private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = "XML Files(*.xml) | *.xml"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                XMLHelpler.ImportXML(dialog.FileName, false);
+
+                MessageBox.Show("Импорт завершён");
             }
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(fOfferId.Text, out int offerId) || !Double.TryParse(fPrice.Text, out double price))
-                return;
+            CorrectInput();
 
-            if (string.IsNullOrWhiteSpace(fName.Text) || offerId < 1 || price < 1)
+            if (!int.TryParse(fOfferId.Text, out int offerId) || !Double.TryParse(fPrice.Text, out double price))
+            {
+                MessageBox.Show("ID или цена не число");
                 return;
+            }
+
+            if (offerId < 1 || price < 1)
+            {
+                MessageBox.Show("ID или цена меньше 1");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(fName.Text))
+            {
+                MessageBox.Show("Заполните название");
+                return;
+            }
 
             if (string.IsNullOrEmpty(comboBox1.Text) || string.IsNullOrEmpty(comboBox2.Text))
                 return;
@@ -135,7 +164,7 @@ namespace XML.forms
                 CategoryTitle = category,
                 CurrencyId = currencyId,
                 IsAviable = checkBox1.Checked,
-                Params = GenerateDataGrid()
+                Params = SaveDataGrid()
             };
 
             if (!isEdit && OfferModel.Insert(offer) == 1)
@@ -163,6 +192,16 @@ namespace XML.forms
             }
         }
 
+        private void CorrectInput()
+        {
+            fPrice.Text = Methods.ReplaceDot(fPrice.Text).Trim();
+            fOfferId.Text = fOfferId.Text.Trim();
+            fPrice.Text = fPrice.Text.Trim();
+            fURL.Text = fURL.Text.Trim();
+            fPictureURL.Text = fPictureURL.Text.Trim();
+            fDescription.Text = fDescription.Text.Trim();
+        }
+
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count < 1)
@@ -188,7 +227,7 @@ namespace XML.forms
             comboBox2.Text = item.CurrencyId;
             checkBox1.Checked = item.IsAviable;
             fDescription.Text = item.Description;
-            InsertDataGrid(item.Params);
+            FillDataGrid(item.Params);
         }
 
         private void ComboBox1_DropDown(object sender, EventArgs e)
@@ -232,7 +271,7 @@ namespace XML.forms
             }
         }
 
-        private string GenerateDataGrid()
+        private string SaveDataGrid()
         {
             string sout = "";
             int len = dataGridView1.Rows.Count;
@@ -257,7 +296,7 @@ namespace XML.forms
             return sout.Substring(0, sout.Length - 1);
         }
 
-        private void InsertDataGrid(string value)
+        private void FillDataGrid(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return;

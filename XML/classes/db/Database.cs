@@ -12,7 +12,7 @@ namespace XML.classes.db
     public class Database
     {
         private static string FILE_NAME = "data.sqlite";
-        public static string URI = AppDomain.CurrentDomain.BaseDirectory;
+        public static string URI = AppDomain.CurrentDomain.BaseDirectory + "\\saves\\";
 
         protected static SQLiteConnection con;
         private static bool instanse = false;

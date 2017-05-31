@@ -66,6 +66,8 @@
   <ItemGroup>
     <Compile Include="classes\db\category\CategoryModel.cs" />
     <Compile Include="classes\db\category\CategoryTable.cs" />
+    <Compile Include="classes\db\config\ConfigModel.cs" />
+    <Compile Include="classes\db\config\ConfigTable.cs" />
     <Compile Include="classes\db\currency\CurrencyModel.cs" />
     <Compile Include="classes\db\currency\CurrencyTable.cs" />
     <Compile Include="classes\db\offer\OfferModel.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="classes\db\shop\ShopTable.cs" />
     <Compile Include="classes\db\Database.cs" />
     <Compile Include="classes\db\offer\OfferTable.cs" />
+    <Compile Include="classes\Methods.cs" />
     <Compile Include="classes\XML.cs" />
     <Compile Include="forms\FormShop.cs">
       <SubType>Form</SubType>

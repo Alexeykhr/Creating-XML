@@ -6,6 +6,7 @@ using XML.classes.db.shop;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.currency;
+using System.Windows.Forms;
 
 namespace XML.classes
 {
@@ -114,6 +115,38 @@ namespace XML.classes
                     new XAttribute("name", arr[j]),
                     arr[j + 1]));
             }
+        }
+
+        public static bool ImportXML(string uri, bool isOverWrite)
+        {
+            XDocument doc = XDocument.Load(uri);
+            
+            if (doc.Root.Element("shop") == null)
+                return false;
+
+            XElement shop = doc.Root.Element("shop");
+
+            foreach (XElement el in shop.Elements())
+            {
+                switch (el.Name.ToString())
+                {
+                    case "name":
+                        MessageBox.Show("test");
+                        break;
+                    case "company":
+                        break;
+                    case "url":
+                        break;
+                    case "currencies":
+                        break;
+                    case "categories":
+                        break;
+                    case "offers":
+                        break;
+                }
+            }
+
+            return true;
         }
     }
 }
