@@ -88,11 +88,17 @@ namespace XML.classes
                     new XElement("name", item.Name),
                     new XElement("description", item.Description),
                     new XElement("url", item.URL),
-                    new XElement("picture", item.PictureURL),
                     new XElement("price", item.Price),
                     new XElement("vendor", vendor),
                     new XElement("currencyId", item.CurrencyId),
                     new XElement("categoryId", categoryId));
+
+                // Pictures
+                string[] pictures = item.PictureURL.Split('\n');
+                foreach (string picture in pictures)
+                {
+                    offer.Add(new XElement("picture", picture.Trim()));
+                }
 
                 AddParams(offer, item.Params);
                 offers.Add(offer);

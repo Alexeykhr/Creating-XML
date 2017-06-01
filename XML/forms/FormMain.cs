@@ -143,12 +143,15 @@ namespace XML.forms
 
             if (string.IsNullOrWhiteSpace(fName.Text))
             {
-                MessageBox.Show("Заполните название");
+                MessageBox.Show("Заполните название товара");
                 return;
             }
 
             if (string.IsNullOrEmpty(comboBox1.Text) || string.IsNullOrEmpty(comboBox2.Text))
+            {
+                MessageBox.Show("Категория или валюта не выбрана");
                 return;
+            }
 
             string category = CategoryModel.GetOne(comboBox1.Text).First().Title;
             string currencyId = CurrencyModel.GetOne(comboBox2.Text).First().CurrencyId;
@@ -159,19 +162,19 @@ namespace XML.forms
                 Name = fName.Text,
                 Price = price,
                 URL = fURL.Text,
-                PictureURL = fPictureURL.Text,
+                PictureURL = fPicturesURL.Text,
                 Description = fDescription.Text,
                 CategoryTitle = category,
                 CurrencyId = currencyId,
                 IsAviable = checkBox1.Checked,
-                Params = SaveDataGrid()
+                Params = GenerateParams()
             };
 
             if (!isEdit && OfferModel.Insert(offer) == 1)
             {
                 listView1.Items.Add(new ListViewItem(new[] {
                     fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text,
-                    fPictureURL.Text, category, currencyId, checkBox1.Checked ? "Да" : "Нет"
+                    fPicturesURL.Text, category, currencyId, checkBox1.Checked ? "Да" : "Нет"
                 }));
             }
             else
@@ -184,7 +187,7 @@ namespace XML.forms
                     listView1.SelectedItems[0].SubItems[1].Text = fName.Text;
                     listView1.SelectedItems[0].SubItems[2].Text = fPrice.Text;
                     listView1.SelectedItems[0].SubItems[3].Text = fURL.Text;
-                    listView1.SelectedItems[0].SubItems[4].Text = fPictureURL.Text;
+                    listView1.SelectedItems[0].SubItems[4].Text = fPicturesURL.Text;
                     listView1.SelectedItems[0].SubItems[5].Text = category;
                     listView1.SelectedItems[0].SubItems[6].Text = currencyId;
                     listView1.SelectedItems[0].SubItems[7].Text = checkBox1.Checked ? "Да" : "Нет";
@@ -198,8 +201,18 @@ namespace XML.forms
             fOfferId.Text = fOfferId.Text.Trim();
             fPrice.Text = fPrice.Text.Trim();
             fURL.Text = fURL.Text.Trim();
-            fPictureURL.Text = fPictureURL.Text.Trim();
             fDescription.Text = fDescription.Text.Trim();
+
+            // Pictures
+            string[] pictures = fPicturesURL.Text.Trim().Split('\n');
+            string outPictures = "";
+            foreach (string picture in pictures)
+            {
+                if (!string.IsNullOrWhiteSpace(picture))
+                    outPictures += picture.Trim() + Environment.NewLine;
+            }
+
+            fPicturesURL.Text = outPictures.Trim();
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -222,12 +235,12 @@ namespace XML.forms
             fName.Text = item.Name;
             fPrice.Text = item.Price.ToString();
             fURL.Text = item.URL;
-            fPictureURL.Text = item.PictureURL;
+            fPicturesURL.Text = item.PictureURL;
             comboBox1.SelectedItem = item.CategoryTitle;
             comboBox2.Text = item.CurrencyId;
             checkBox1.Checked = item.IsAviable;
             fDescription.Text = item.Description;
-            FillDataGrid(item.Params);
+            FillDataGridParams(item.Params);
         }
 
         private void ComboBox1_DropDown(object sender, EventArgs e)
@@ -271,7 +284,7 @@ namespace XML.forms
             }
         }
 
-        private string SaveDataGrid()
+        private string GenerateParams()
         {
             string sout = "";
             int len = dataGridView1.Rows.Count;
@@ -296,7 +309,7 @@ namespace XML.forms
             return sout.Substring(0, sout.Length - 1);
         }
 
-        private void FillDataGrid(string value)
+        private void FillDataGridParams(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return;
