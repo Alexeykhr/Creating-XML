@@ -27,7 +27,19 @@ namespace XML.classes.db.offer
         public static IEnumerable<OfferTable> GetOneByOfferId(int offerId)
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name
-                + " WHERE OfferId = ?", new object[] { offerId });
+                + " WHERE OfferId = ? LIMIT 1", new object[] { offerId });
+        }
+
+        public static IEnumerable<OfferTable> GetOneByCategoryTitle(string CategoryTitle)
+        {
+            return Query("SELECT * FROM " + typeof(OfferTable).Name
+                + " WHERE CategoryTitle = ? LIMIT 1", new object[] { CategoryTitle });
+        }
+
+        public static IEnumerable<OfferTable> GetOneByCurrencyId(string CurrencyId)
+        {
+            return Query("SELECT * FROM " + typeof(OfferTable).Name
+                + " WHERE CurrencyId = ? LIMIT 1", new object[] { CurrencyId });
         }
 
         public static int GetCount()

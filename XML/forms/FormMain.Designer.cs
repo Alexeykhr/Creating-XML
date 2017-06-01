@@ -32,10 +32,10 @@
             this.компанияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.валютыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.категорииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -103,6 +103,13 @@
             this.категорииToolStripMenuItem.Text = "Категории";
             this.категорииToolStripMenuItem.Click += new System.EventHandler(this.CategoryToolStripMenuItem_Click);
             // 
+            // параметрыToolStripMenuItem
+            // 
+            this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
+            this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.параметрыToolStripMenuItem.Text = "Параметры";
+            this.параметрыToolStripMenuItem.Click += new System.EventHandler(this.ConfigToolStripMenuItem_Click);
+            // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -126,12 +133,6 @@
             this.импортToolStripMenuItem.Text = "Импорт";
             this.импортToolStripMenuItem.Click += new System.EventHandler(this.ImportToolStripMenuItem_Click);
             // 
-            // параметрыToolStripMenuItem
-            // 
-            this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
-            this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
-            this.параметрыToolStripMenuItem.Text = "Параметры";
-            // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -140,12 +141,14 @@
             this.удалитьToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.DeleteRowToolStripMenuItem_Click);
             // 
             // listView1
             // 
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 27);
             this.listView1.MultiSelect = false;
@@ -161,7 +164,6 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Controls.Add(this.fPrice);
             this.panel1.Controls.Add(this.label11);
@@ -192,6 +194,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Key,
             this.Value});
@@ -199,7 +203,7 @@
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(324, 155);
+            this.dataGridView1.Size = new System.Drawing.Size(326, 155);
             this.dataGridView1.TabIndex = 19;
             // 
             // Key
@@ -219,7 +223,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fPrice.Location = new System.Drawing.Point(4, 102);
             this.fPrice.Name = "fPrice";
-            this.fPrice.Size = new System.Drawing.Size(323, 20);
+            this.fPrice.Size = new System.Drawing.Size(325, 20);
             this.fPrice.TabIndex = 3;
             // 
             // label11
@@ -241,7 +245,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fOfferId.Location = new System.Drawing.Point(4, 24);
             this.fOfferId.Name = "fOfferId";
-            this.fOfferId.Size = new System.Drawing.Size(323, 20);
+            this.fOfferId.Size = new System.Drawing.Size(325, 20);
             this.fOfferId.TabIndex = 1;
             // 
             // label8
@@ -261,7 +265,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(270, 539);
+            this.label7.Location = new System.Drawing.Point(272, 539);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(57, 13);
             this.label7.TabIndex = 14;
@@ -275,7 +279,7 @@
             this.fDescription.Location = new System.Drawing.Point(3, 555);
             this.fDescription.Multiline = true;
             this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(324, 111);
+            this.fDescription.Size = new System.Drawing.Size(326, 113);
             this.fDescription.TabIndex = 8;
             // 
             // label6
@@ -283,7 +287,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(261, 365);
+            this.label6.Location = new System.Drawing.Point(263, 365);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 12;
@@ -311,7 +315,7 @@
             this.fPicturesURL.Location = new System.Drawing.Point(4, 180);
             this.fPicturesURL.Multiline = true;
             this.fPicturesURL.Name = "fPicturesURL";
-            this.fPicturesURL.Size = new System.Drawing.Size(323, 92);
+            this.fPicturesURL.Size = new System.Drawing.Size(325, 92);
             this.fPicturesURL.TabIndex = 5;
             // 
             // label5
@@ -322,9 +326,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(1, 164);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.Size = new System.Drawing.Size(211, 13);
             this.label5.TabIndex = 8;
-            this.label5.Text = "Картинки [URL]";
+            this.label5.Text = "Картинки [URL]. Каждая с новой строки";
             // 
             // fURL
             // 
@@ -333,7 +337,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fURL.Location = new System.Drawing.Point(4, 141);
             this.fURL.Name = "fURL";
-            this.fURL.Size = new System.Drawing.Size(323, 20);
+            this.fURL.Size = new System.Drawing.Size(325, 20);
             this.fURL.TabIndex = 4;
             // 
             // label4
@@ -355,7 +359,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fName.Location = new System.Drawing.Point(4, 63);
             this.fName.Name = "fName";
-            this.fName.Size = new System.Drawing.Size(323, 20);
+            this.fName.Size = new System.Drawing.Size(325, 20);
             this.fName.TabIndex = 2;
             // 
             // label3
@@ -403,7 +407,7 @@
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(4, 331);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(323, 21);
+            this.comboBox2.Size = new System.Drawing.Size(325, 21);
             this.comboBox2.TabIndex = 7;
             this.comboBox2.DropDown += new System.EventHandler(this.ComboBox2_DropDown);
             // 
@@ -416,7 +420,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(4, 291);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(323, 21);
+            this.comboBox1.Size = new System.Drawing.Size(325, 21);
             this.comboBox1.TabIndex = 6;
             this.comboBox1.DropDown += new System.EventHandler(this.ComboBox1_DropDown);
             // 

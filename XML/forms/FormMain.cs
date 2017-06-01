@@ -27,18 +27,6 @@ namespace XML.forms
             fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
 
             FillListView();
-
-            var categories = CategoryModel.GetAll();
-            foreach (var item in categories)
-            {
-                comboBox1.Items.Add(item.Title);
-            }
-
-            var currencies = CurrencyModel.GetAll();
-            foreach (var item in currencies)
-            {
-                comboBox2.Items.Add(item.CurrencyId);
-            }
         }
 
         private void FillListView()
@@ -47,7 +35,7 @@ namespace XML.forms
             listView1.Columns.Add("Название");
             listView1.Columns.Add("Цена");
             listView1.Columns.Add("URL");
-            listView1.Columns.Add("Картинка");
+            listView1.Columns.Add("Картинки");
             listView1.Columns.Add("Категория");
             listView1.Columns.Add("Валюта");
             listView1.Columns.Add("Доступен");
@@ -65,6 +53,22 @@ namespace XML.forms
                     }));
                 }
             }
+
+            var categories = CategoryModel.GetAll();
+            foreach (var item in categories)
+            {
+                comboBox1.Items.Add(item.Title);
+            }
+            if (categories.Count() > 0)
+                comboBox1.SelectedIndex = 0;
+
+            var currencies = CurrencyModel.GetAll();
+            foreach (var item in currencies)
+            {
+                comboBox2.Items.Add(item.CurrencyId);
+            }
+            if (currencies.Count() > 0)
+                comboBox2.SelectedIndex = 0;
         }
 
         private void CompanyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,6 +87,30 @@ namespace XML.forms
         {
             FormList f = new FormList(true);
             f.Show(this);
+        }
+
+        private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormConfig f = new FormConfig();
+            f.Show(this);
+        }
+
+        private void DeleteRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count < 1)
+            {
+                MessageBox.Show("Выберите удаляемую строку");
+                return;
+            }
+
+            int deleted = OfferModel.DeleteObject<OfferTable>(
+                OfferModel.GetOneByOfferId(GetSelectedOfferId()).First().Id
+            );
+
+            if (deleted == 1)
+                listView1.Items.RemoveAt(listView1.SelectedItems[0].Index);
+            else
+                MessageBox.Show("Строка не удалилась");
         }
 
         private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -229,18 +257,18 @@ namespace XML.forms
             label10.BackColor = Color.DarkSlateGray;
             isEdit = true;
 
-            var item = OfferModel.GetOneByOfferId(int.Parse(listView1.SelectedItems[0].Text)).First();
+            var offer = OfferModel.GetOneByOfferId(GetSelectedOfferId()).First();
 
-            fOfferId.Text = item.OfferId.ToString();
-            fName.Text = item.Name;
-            fPrice.Text = item.Price.ToString();
-            fURL.Text = item.URL;
-            fPicturesURL.Text = item.PictureURL;
-            comboBox1.SelectedItem = item.CategoryTitle;
-            comboBox2.Text = item.CurrencyId;
-            checkBox1.Checked = item.IsAviable;
-            fDescription.Text = item.Description;
-            FillDataGridParams(item.Params);
+            fOfferId.Text = offer.OfferId.ToString();
+            fName.Text = offer.Name;
+            fPrice.Text = offer.Price.ToString();
+            fURL.Text = offer.URL;
+            fPicturesURL.Text = offer.PictureURL;
+            comboBox1.Text = offer.CategoryTitle;
+            comboBox2.Text = offer.CurrencyId;
+            checkBox1.Checked = offer.IsAviable;
+            fDescription.Text = offer.Description;
+            FillDataGridParams(offer.Params);
         }
 
         private void ComboBox1_DropDown(object sender, EventArgs e)
@@ -323,6 +351,11 @@ namespace XML.forms
                 dataGridView1.Rows[i].Cells[0].Value = arr[j];
                 dataGridView1.Rows[i].Cells[1].Value = arr[j + 1];
             }
+        }
+
+        private int GetSelectedOfferId()
+        {
+            return int.Parse(listView1.SelectedItems[0].Text);
         }
     }
 }

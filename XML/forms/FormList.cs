@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using XML.classes;
 using XML.classes.db.currency;
 using XML.classes.db.category;
+using XML.classes.db.offer;
 
 namespace XML.forms
 {
@@ -266,6 +267,14 @@ namespace XML.forms
                     int.Parse(listView1.SelectedItems[0].Text)
                 ).First().Id;
 
+                var category = OfferModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[1].Text);
+
+                if (category.Count() > 0)
+                {
+                    MessageBox.Show("[" + category.First().Id + "] " + category.First().Name + " - использует эту категорию");
+                    return 0;
+                }
+
                 return CategoryModel.DeleteObject<CategoryTable>(id);
             }
             catch { return 0; }
@@ -278,6 +287,14 @@ namespace XML.forms
                 int id = CurrencyModel.GetOne(
                     listView1.SelectedItems[0].Text
                 ).First().Id;
+
+                var currency = OfferModel.GetOneByCurrencyId(listView1.SelectedItems[0].Text);
+
+                if (currency.Count() > 0)
+                {
+                    MessageBox.Show("[" + currency.First().Id + "] " + currency.First().Name + " - использует эту валюту");
+                    return 0;
+                }
 
                 return CurrencyModel.DeleteObject<CurrencyTable>(id);
             }
