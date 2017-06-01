@@ -62,6 +62,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.Info = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -153,7 +154,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 27);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(547, 701);
+            this.listView1.Size = new System.Drawing.Size(547, 677);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -185,7 +186,7 @@
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Location = new System.Drawing.Point(553, 57);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(333, 671);
+            this.panel1.Size = new System.Drawing.Size(333, 647);
             this.panel1.TabIndex = 3;
             // 
             // dataGridView1
@@ -279,7 +280,7 @@
             this.fDescription.Location = new System.Drawing.Point(3, 555);
             this.fDescription.Multiline = true;
             this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(326, 113);
+            this.fDescription.Size = new System.Drawing.Size(326, 89);
             this.fDescription.TabIndex = 8;
             // 
             // label6
@@ -455,11 +456,27 @@
             this.label10.Text = "Р";
             this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // Info
+            // 
+            this.Info.BackColor = System.Drawing.Color.White;
+            this.Info.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Info.Cursor = System.Windows.Forms.Cursors.Default;
+            this.Info.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Info.Location = new System.Drawing.Point(0, 707);
+            this.Info.Multiline = true;
+            this.Info.Name = "Info";
+            this.Info.ReadOnly = true;
+            this.Info.Size = new System.Drawing.Size(893, 20);
+            this.Info.TabIndex = 10;
+            this.Info.Text = "Уведомления";
+            this.Info.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(893, 727);
+            this.Controls.Add(this.Info);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
@@ -515,6 +532,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.ToolStripMenuItem параметрыToolStripMenuItem;
+        private System.Windows.Forms.TextBox Info;
     }
 }
 

@@ -21,7 +21,10 @@ namespace XML.forms
             InitializeComponent();
 
             if ( ! Database.SetConnection() )
+            {
+                MessageBox.Show("Ошибка при подлкючении к базе данных");
                 Close();
+            }
 
             Text = "XML - Главная форма";
             fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
@@ -99,7 +102,7 @@ namespace XML.forms
         {
             if (listView1.SelectedItems.Count < 1)
             {
-                MessageBox.Show("Выберите удаляемую строку");
+                Info.Text = "Выберите в списке удаляемый товар";
                 return;
             }
 
@@ -108,9 +111,12 @@ namespace XML.forms
             );
 
             if (deleted == 1)
+            {
                 listView1.Items.RemoveAt(listView1.SelectedItems[0].Index);
+                Info.Text = "Товар удалён";
+            }
             else
-                MessageBox.Show("Строка не удалилась");
+                Info.Text = "Товар не удалился";
         }
 
         private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -133,8 +139,8 @@ namespace XML.forms
                 XMLHelpler.AddOffers(shop);
 
                 doc.Save(dialog.FileName);
-
-                MessageBox.Show("Экспорт завершён");
+                
+                Info.Text = "Экспорт завершён";
             }
         }
 
@@ -147,9 +153,10 @@ namespace XML.forms
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                // !!!!!!!!!
                 XMLHelpler.ImportXML(dialog.FileName, false);
-
-                MessageBox.Show("Импорт завершён");
+                
+                Info.Text = "Импорт завершён";
             }
         }
 
@@ -157,30 +164,11 @@ namespace XML.forms
         {
             CorrectInput();
 
-            if (!int.TryParse(fOfferId.Text, out int offerId) || !Double.TryParse(fPrice.Text, out double price))
-            {
-                MessageBox.Show("ID или цена не число");
+            if (!CheckDataForNewData())
                 return;
-            }
 
-            if (offerId < 1 || price < 1)
-            {
-                MessageBox.Show("ID или цена меньше 1");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(fName.Text))
-            {
-                MessageBox.Show("Заполните название товара");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(comboBox1.Text) || string.IsNullOrEmpty(comboBox2.Text))
-            {
-                MessageBox.Show("Категория или валюта не выбрана");
-                return;
-            }
-
+            int offerId = int.Parse(fOfferId.Text);
+            double price = Double.Parse(fPrice.Text);
             string category = CategoryModel.GetOne(comboBox1.Text).First().Title;
             string currencyId = CurrencyModel.GetOne(comboBox2.Text).First().CurrencyId;
 
@@ -198,12 +186,19 @@ namespace XML.forms
                 Params = GenerateParams()
             };
 
-            if (!isEdit && OfferModel.Insert(offer) == 1)
+            if (!isEdit)
             {
-                listView1.Items.Add(new ListViewItem(new[] {
-                    fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text,
-                    fPicturesURL.Text, category, currencyId, checkBox1.Checked ? "Да" : "Нет"
-                }));
+                if (OfferModel.Insert(offer) == 1)
+                {
+                    listView1.Items.Add(new ListViewItem(new[] {
+                        fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text,
+                        fPicturesURL.Text, category, currencyId, checkBox1.Checked ? "Да" : "Нет"
+                    }));
+
+                    Info.Text = "Товар добавлен";
+                }
+                else
+                    Info.Text = "Товар не добавлен";
             }
             else
             {
@@ -219,7 +214,11 @@ namespace XML.forms
                     listView1.SelectedItems[0].SubItems[5].Text = category;
                     listView1.SelectedItems[0].SubItems[6].Text = currencyId;
                     listView1.SelectedItems[0].SubItems[7].Text = checkBox1.Checked ? "Да" : "Нет";
+
+                    Info.Text = "Товар обновлён";
                 }
+                else
+                    Info.Text = "Товар не обновлён - проверьте уникальность ID товара";
             }
         }
 
@@ -241,6 +240,32 @@ namespace XML.forms
             }
 
             fPicturesURL.Text = outPictures.Trim();
+        }
+
+        private bool CheckDataForNewData()
+        {
+            if (!int.TryParse(fOfferId.Text, out int offerId))
+                Info.Text = "ID должен быть число";
+
+            else if (offerId < 1)
+                Info.Text = "ID должен быть больше 0 и быть уникальным";
+
+            else if (!Double.TryParse(fPrice.Text, out double price))
+                Info.Text = "Цена должна быть числом с плавающей точкой";
+
+            else if (string.IsNullOrWhiteSpace(fName.Text))
+                Info.Text = "Заполните название товара";
+
+            else if (string.IsNullOrEmpty(comboBox1.Text))
+                Info.Text = "Категория не выбрана";
+
+            else if (string.IsNullOrEmpty(comboBox2.Text))
+                Info.Text = "Валюта не выбрана";
+
+            else
+                return true;
+
+            return false;
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
