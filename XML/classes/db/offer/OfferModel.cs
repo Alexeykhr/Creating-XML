@@ -30,6 +30,12 @@ namespace XML.classes.db.offer
                 + " WHERE OfferId = ? LIMIT 1", new object[] { offerId });
         }
 
+        public static IEnumerable<OfferTable> GetOneByName(string name)
+        {
+            return Query("SELECT * FROM " + typeof(OfferTable).Name
+                + " WHERE Name = ? LIMIT 1", new object[] { name });
+        }
+
         public static IEnumerable<OfferTable> GetOneByCategoryTitle(string CategoryTitle)
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name

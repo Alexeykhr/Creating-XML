@@ -115,7 +115,6 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.Brown;
-            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(12, 309);

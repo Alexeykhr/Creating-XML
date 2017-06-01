@@ -49,7 +49,7 @@ namespace XML.classes
             {
                 currencies.Add(new XElement("currency",
                     new XAttribute("id", item.CurrencyId),
-                    new XAttribute("rate", item.Rate)
+                    new XAttribute("rate", Methods.ReplaceComma(item.Rate.ToString()))
                 ));
             }
 

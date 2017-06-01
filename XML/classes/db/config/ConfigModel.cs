@@ -24,18 +24,6 @@ namespace XML.classes.db.config
             return Query("SELECT * FROM " + typeof(ConfigTable).Name);
         }
 
-        public static IEnumerable<ConfigTable> GetOne(string currencyId)
-        {
-            return Query("SELECT * FROM " + typeof(ConfigTable).Name
-                + " WHERE CurrencyId = ? LIMIT 1", new object[] { currencyId });
-        }
-
-        public static IEnumerable<ConfigTable> GetOne(double rate)
-        {
-            return Query("SELECT * FROM " + typeof(ConfigTable).Name
-                + " WHERE Rate = ? LIMIT 1", new object[] { rate });
-        }
-
         public static int GetCount()
         {
             return con.Table<ConfigTable>().Count();

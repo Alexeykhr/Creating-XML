@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using XML.classes;
+using XML.classes.db.offer;
 using XML.classes.db.currency;
 using XML.classes.db.category;
-using XML.classes.db.offer;
 
 namespace XML.forms
 {

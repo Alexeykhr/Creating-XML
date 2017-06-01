@@ -4,6 +4,7 @@ using System.IO;
 
 using XML.classes.db.shop;
 using XML.classes.db.offer;
+using XML.classes.db.config;
 using XML.classes.db.currency;
 using XML.classes.db.category;
 
@@ -89,6 +90,7 @@ namespace XML.classes.db
             CreateTable<ShopTable>();
             CreateTable<CategoryTable>();
             CreateTable<CurrencyTable>();
+            CreateTable<ConfigTable>();
         }
 
         public static void CloseConnection()

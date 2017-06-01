@@ -27,13 +27,14 @@ namespace XML.forms
             }
 
             Text = "XML - Главная форма";
-            fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
 
-            FillListView();
+            InitFillListView();
         }
 
-        private void FillListView()
+        private void InitFillListView()
         {
+            //ListView
+
             listView1.Columns.Add("ID");
             listView1.Columns.Add("Название");
             listView1.Columns.Add("Цена");
@@ -57,21 +58,48 @@ namespace XML.forms
                 }
             }
 
+            // Panel
+
+            fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
+            FillComboBoxCategories();
+            FillComboBoxCurrencies();
+        }
+
+        private void FillComboBoxCategories()
+        {
+            string save = comboBox1.Text;
+
+            comboBox1.Items.Clear();
+
             var categories = CategoryModel.GetAll();
             foreach (var item in categories)
             {
                 comboBox1.Items.Add(item.Title);
             }
-            if (categories.Count() > 0)
+
+            if (!isEdit && categories.Count() > 0)
                 comboBox1.SelectedIndex = 0;
+            else
+                comboBox1.Text = save;
+        }
+
+        private void FillComboBoxCurrencies()
+        {
+            string save = comboBox2.Text;
+
+            comboBox2.Items.Clear();
 
             var currencies = CurrencyModel.GetAll();
+
             foreach (var item in currencies)
             {
                 comboBox2.Items.Add(item.CurrencyId);
             }
-            if (currencies.Count() > 0)
+            
+            if (!isEdit && currencies.Count() > 0)
                 comboBox2.SelectedIndex = 0;
+            else
+                comboBox2.Text = save;
         }
 
         private void CompanyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -80,16 +108,24 @@ namespace XML.forms
             f.Show(this);
         }
 
-        private void CurrencyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormList f = new FormList(false);
-            f.Show(this);
-        }
-
         private void CategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormList f = new FormList(true);
-            f.Show(this);
+            using (FormList f = new FormList(true))
+            {
+                f.ShowDialog();
+            }
+
+            FillComboBoxCategories();
+        }
+
+        private void CurrencyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormList f = new FormList(false))
+            {
+                f.ShowDialog();
+            }
+
+            FillComboBoxCurrencies();
         }
 
         private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,7 +138,7 @@ namespace XML.forms
         {
             if (listView1.SelectedItems.Count < 1)
             {
-                Info.Text = "Выберите в списке удаляемый товар";
+                MSG("Выберите в списке удаляемый товар");
                 return;
             }
 
@@ -113,10 +149,10 @@ namespace XML.forms
             if (deleted == 1)
             {
                 listView1.Items.RemoveAt(listView1.SelectedItems[0].Index);
-                Info.Text = "Товар удалён";
+                MSG("Товар удалён");
             }
             else
-                Info.Text = "Товар не удалился";
+                MSG("Товар не удалился");
         }
 
         private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -132,15 +168,18 @@ namespace XML.forms
                 XElement shop = XMLHelpler.AddShop(doc);
 
                 if (shop == null)
+                {
+                    MSG("Нужно добавить настройки компании");
                     return;
+                }
 
                 XMLHelpler.AddCurrencies(shop);
                 XMLHelpler.AddCategories(shop);
                 XMLHelpler.AddOffers(shop);
 
                 doc.Save(dialog.FileName);
-                
-                Info.Text = "Экспорт завершён";
+
+                MSG("Экспорт завершён");
             }
         }
 
@@ -155,8 +194,8 @@ namespace XML.forms
             {
                 // !!!!!!!!!
                 XMLHelpler.ImportXML(dialog.FileName, false);
-                
-                Info.Text = "Импорт завершён";
+
+                MSG("Импорт завершён");
             }
         }
 
@@ -195,14 +234,14 @@ namespace XML.forms
                         fPicturesURL.Text, category, currencyId, checkBox1.Checked ? "Да" : "Нет"
                     }));
 
-                    Info.Text = "Товар добавлен";
+                    MSG("Товар добавлен");
                 }
                 else
-                    Info.Text = "Товар не добавлен";
+                    MSG("Товар не добавлен");
             }
             else
             {
-                offer.Id = OfferModel.GetOneByOfferId(offerId).First().Id;
+                offer.Id = OfferModel.GetOneByOfferId(int.Parse(listView1.SelectedItems[0].Text)).First().Id;
                 
                 if (OfferModel.Update(offer) == 1)
                 {
@@ -215,10 +254,10 @@ namespace XML.forms
                     listView1.SelectedItems[0].SubItems[6].Text = currencyId;
                     listView1.SelectedItems[0].SubItems[7].Text = checkBox1.Checked ? "Да" : "Нет";
 
-                    Info.Text = "Товар обновлён";
+                    MSG("Товар обновлён");
                 }
                 else
-                    Info.Text = "Товар не обновлён - проверьте уникальность ID товара";
+                    MSG("Товар не обновлён - проверьте уникальность ID товара и название");
             }
         }
 
@@ -245,22 +284,22 @@ namespace XML.forms
         private bool CheckDataForNewData()
         {
             if (!int.TryParse(fOfferId.Text, out int offerId))
-                Info.Text = "ID должен быть число";
+                MSG("ID должен быть число");
 
             else if (offerId < 1)
-                Info.Text = "ID должен быть больше 0 и быть уникальным";
+                MSG("ID должен быть больше 0 и быть уникальным");
 
             else if (!Double.TryParse(fPrice.Text, out double price))
-                Info.Text = "Цена должна быть числом с плавающей точкой";
+                MSG("Цена должна быть числом с плавающей точкой");
 
             else if (string.IsNullOrWhiteSpace(fName.Text))
-                Info.Text = "Заполните название товара";
+                MSG("Заполните название товара");
 
             else if (string.IsNullOrEmpty(comboBox1.Text))
-                Info.Text = "Категория не выбрана";
+                MSG("Категория не выбрана");
 
             else if (string.IsNullOrEmpty(comboBox2.Text))
-                Info.Text = "Валюта не выбрана";
+                MSG("Валюта не выбрана");
 
             else
                 return true;
@@ -296,34 +335,6 @@ namespace XML.forms
             FillDataGridParams(offer.Params);
         }
 
-        private void ComboBox1_DropDown(object sender, EventArgs e)
-        {
-            var items = CategoryModel.GetAll();
-            string save = comboBox1.Text;
-            comboBox1.Items.Clear();
-
-            foreach (var item in items)
-            {
-                comboBox1.Items.Add(item.Title);
-            }
-
-            comboBox1.Text = save;
-        }
-
-        private void ComboBox2_DropDown(object sender, EventArgs e)
-        {
-            var items = CurrencyModel.GetAll();
-            string save = comboBox2.Text;
-            comboBox2.Items.Clear();
-
-            foreach (var item in items)
-            {
-                comboBox2.Items.Add(item.CurrencyId);
-            }
-
-            comboBox2.Text = save;
-        }
-
         private void ClearPanel()
         {
             dataGridView1.Rows.Clear();
@@ -334,6 +345,8 @@ namespace XML.forms
                     (c as TextBox).Text = string.Empty;
                 else if (c.GetType() == typeof(ComboBox))
                     (c as ComboBox).ResetText();
+                else if (c.GetType() == typeof(CheckBox))
+                    (c as CheckBox).Checked = true;
             }
         }
 
@@ -381,6 +394,47 @@ namespace XML.forms
         private int GetSelectedOfferId()
         {
             return int.Parse(listView1.SelectedItems[0].Text);
+        }
+
+        private void FOfferId_Leave(object sender, EventArgs e)
+        {
+            bool isInt = int.TryParse(fOfferId.Text, out int id);
+
+            if (!isInt)
+            {
+                MSG("ID должен быть числом");
+                return;
+            }
+
+            var offer = OfferModel.GetOneByOfferId(id);
+
+            if (offer.Count() > 0)
+                MSG("ID используется - \"" + offer.First().Name + "\"");
+            else
+                MSG("ID свободен");
+        }
+
+        private void FName_Leave(object sender, EventArgs e)
+        {
+            var offer = OfferModel.GetOneByName(fName.Text);
+
+            if (offer.Count() > 0)
+                MSG("Имя используется - #" + offer.First().OfferId);
+            else
+                MSG("Имя не используется");
+        }
+
+        private void MSG(string text)
+        {
+            Info.Text = text;
+            Info.BackColor = Color.FromArgb(255, 192, 192);
+            timer1.Enabled = true;
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            Info.BackColor = Color.White;
+            timer1.Enabled = false;
         }
     }
 }
