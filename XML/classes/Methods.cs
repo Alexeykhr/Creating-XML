@@ -4,6 +4,8 @@ namespace XML.classes
 {
     class Methods
     {
+        public const string NAME = "XML";
+
         public static string ReplaceComma(string text)
         {
             return text.Replace(",", ".");

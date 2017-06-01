@@ -15,7 +15,7 @@ namespace XML.forms
         {
             InitializeComponent();
 
-            Text = "XML - Магазин";
+            Text = Methods.NAME + " - Магазин";
 
             FillForm();
         }

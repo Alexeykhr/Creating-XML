@@ -6,7 +6,6 @@ using XML.classes.db.shop;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.currency;
-using System.Windows.Forms;
 
 namespace XML.classes
 {
@@ -123,6 +122,12 @@ namespace XML.classes
             }
         }
 
+        // |
+        // | \/\/\/\/\/
+        // | \/IMPORT\/
+        // | \/\/\/\/\/
+        // |
+
         public static bool ImportXML(string uri, bool isOverWrite)
         {
             XDocument doc = XDocument.Load(uri);
@@ -137,7 +142,6 @@ namespace XML.classes
                 switch (el.Name.ToString())
                 {
                     case "name":
-                        MessageBox.Show("test");
                         break;
                     case "company":
                         break;
@@ -153,6 +157,11 @@ namespace XML.classes
             }
 
             return true;
+        }
+
+        public static void AddCurrencies()
+        {
+
         }
     }
 }

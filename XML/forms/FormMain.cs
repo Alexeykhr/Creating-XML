@@ -26,7 +26,7 @@ namespace XML.forms
                 Close();
             }
 
-            Text = "XML - Главная форма";
+            Text = Methods.NAME + " - Главная";
 
             InitFillListView();
         }

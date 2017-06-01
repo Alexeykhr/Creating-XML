@@ -25,7 +25,7 @@ namespace XML.forms
 
             if (isCategory)
             {
-                Text = "XML - Категории";
+                Text = Methods.NAME + " - Категории";
                 label2.Text = "ID";
                 label3.Text = "Название";
                 listView1.Columns.Add("ID");
@@ -34,7 +34,7 @@ namespace XML.forms
             }
             else
             {
-                Text = "XML - Валюты";
+                Text = Methods.NAME + " - Валюты";
                 label2.Text = "Валюта";
                 label3.Text = "Ставка";
                 listView1.Columns.Add("Валюта");
@@ -42,6 +42,7 @@ namespace XML.forms
             }
 
             FillListView();
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
