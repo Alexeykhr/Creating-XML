@@ -84,8 +84,8 @@
   <ItemGroup>
     <Compile Include="classes\db\category\CategoryModel.cs" />
     <Compile Include="classes\db\category\CategoryTable.cs" />
-    <Compile Include="classes\db\config\ConfigModel.cs" />
-    <Compile Include="classes\db\config\ConfigTable.cs" />
+    <Compile Include="classes\db\params\ParametrsModel.cs" />
+    <Compile Include="classes\db\params\ParametrsTable.cs" />
     <Compile Include="classes\db\currency\CurrencyModel.cs" />
     <Compile Include="classes\db\currency\CurrencyTable.cs" />
     <Compile Include="classes\db\offer\OfferModel.cs" />
@@ -95,11 +95,11 @@
     <Compile Include="classes\db\offer\OfferTable.cs" />
     <Compile Include="classes\Methods.cs" />
     <Compile Include="classes\XML.cs" />
-    <Compile Include="forms\FormConfig.cs">
+    <Compile Include="forms\FormParams.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\FormConfig.Designer.cs">
-      <DependentUpon>FormConfig.cs</DependentUpon>
+    <Compile Include="forms\FormParams.Designer.cs">
+      <DependentUpon>FormParams.cs</DependentUpon>
     </Compile>
     <Compile Include="forms\FormShop.cs">
       <SubType>Form</SubType>
@@ -123,8 +123,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="libs\SQLite.cs" />
     <Compile Include="libs\SQLiteAsync.cs" />
-    <EmbeddedResource Include="forms\FormConfig.resx">
-      <DependentUpon>FormConfig.cs</DependentUpon>
+    <EmbeddedResource Include="forms\FormParams.resx">
+      <DependentUpon>FormParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\FormList.resx">
       <DependentUpon>FormList.cs</DependentUpon>

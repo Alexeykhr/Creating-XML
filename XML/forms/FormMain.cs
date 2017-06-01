@@ -9,6 +9,7 @@ using XML.classes.db;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.currency;
+using XML.classes.db.parametrs;
 
 namespace XML.forms
 {
@@ -130,8 +131,10 @@ namespace XML.forms
 
         private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormConfig f = new FormConfig();
-            f.Show(this);
+            using (FormParams f = new FormParams())
+            {
+                f.ShowDialog();
+            }
         }
 
         private void DeleteRowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -263,6 +266,7 @@ namespace XML.forms
 
         private void CorrectInput()
         {
+            fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
             fPrice.Text = Methods.ReplaceDot(fPrice.Text).Trim();
             fOfferId.Text = fOfferId.Text.Trim();
             fPrice.Text = fPrice.Text.Trim();
@@ -315,6 +319,15 @@ namespace XML.forms
                 isEdit = false;
                 ClearPanel();
                 fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
+                fPrice.Text = "0";
+
+                if (comboBox1.Items.Count > 0)
+                    comboBox1.SelectedIndex = 0;
+
+                if (comboBox2.Items.Count > 0)
+                    comboBox2.SelectedIndex = 0;
+
+                FillDataGridFromBasic();
                 return;
             }
 
@@ -332,7 +345,7 @@ namespace XML.forms
             comboBox2.Text = offer.CurrencyId;
             checkBox1.Checked = offer.IsAviable;
             fDescription.Text = offer.Description;
-            FillDataGridParams(offer.Params);
+            FillDataGridFromTable(offer.Params);
         }
 
         private void ClearPanel()
@@ -375,8 +388,30 @@ namespace XML.forms
             return sout.Substring(0, sout.Length - 1);
         }
 
-        private void FillDataGridParams(string value)
+        private void FillDataGridFromBasic()
         {
+            dataGridView1.Rows.Clear();
+
+            if (string.IsNullOrWhiteSpace(comboBox1.Text) && !isEdit)
+                return;
+
+            var parametrs = ParametrsModel.GetOneByCategoryTitle(comboBox1.Text);
+
+            if (parametrs.Count() < 1)
+                return;
+
+            string[] arr = parametrs.First().Parametrs.Split('\n');
+
+            foreach (var line in arr)
+            {
+                dataGridView1.Rows.Add(line);
+            }
+        }
+
+        private void FillDataGridFromTable(string value)
+        {
+            dataGridView1.Rows.Clear();
+
             if (string.IsNullOrEmpty(value))
                 return;
 
@@ -411,17 +446,18 @@ namespace XML.forms
             if (offer.Count() > 0)
                 MSG("ID используется - \"" + offer.First().Name + "\"");
             else
-                MSG("ID свободен");
+                MSG("ID не занят");
         }
 
         private void FName_Leave(object sender, EventArgs e)
         {
+            fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
             var offer = OfferModel.GetOneByName(fName.Text);
 
             if (offer.Count() > 0)
-                MSG("Имя используется - #" + offer.First().OfferId);
+                MSG("Название товара используется - #" + offer.First().OfferId);
             else
-                MSG("Имя не используется");
+                MSG("Название товара не занято");
         }
 
         private void MSG(string text)
@@ -435,6 +471,14 @@ namespace XML.forms
         {
             Info.BackColor = Color.White;
             timer1.Enabled = false;
+        }
+
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isEdit)
+                return;
+            
+            FillDataGridFromBasic();
         }
     }
 }

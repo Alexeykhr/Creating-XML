@@ -7,6 +7,7 @@ using XML.classes;
 using XML.classes.db.offer;
 using XML.classes.db.currency;
 using XML.classes.db.category;
+using XML.classes.db.parametrs;
 
 namespace XML.forms
 {
@@ -265,7 +266,7 @@ namespace XML.forms
             try
             {
                 int id = CategoryModel.GetOne(
-                    int.Parse(listView1.SelectedItems[0].Text)
+                    listView1.SelectedItems[0].SubItems[1].Text
                 ).First().Id;
 
                 var category = OfferModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[1].Text);
@@ -276,6 +277,13 @@ namespace XML.forms
                     return 0;
                 }
 
+                // Delete parametrs
+                var parametrs = ParametrsModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[1].Text);
+
+                if (parametrs.Count() > 0)
+                    ParametrsModel.DeleteObject<ParametrsTable>(parametrs.First().Id);
+                // End
+                
                 return CategoryModel.DeleteObject<CategoryTable>(id);
             }
             catch { return 0; }

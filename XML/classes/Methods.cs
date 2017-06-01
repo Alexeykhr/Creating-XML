@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace XML.classes
 {
@@ -19,6 +20,14 @@ namespace XML.classes
         public static bool IsWebSite(string url)
         {
             return Uri.IsWellFormedUriString(url, UriKind.Absolute);
+        }
+
+        public static string FirstCharToUpper(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+                return "";
+
+            return str.First().ToString().ToUpper() + str.Substring(1);
         }
     }
 }

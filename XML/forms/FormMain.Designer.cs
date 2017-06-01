@@ -84,15 +84,15 @@
             this.удалитьToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(893, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(880, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // компанияToolStripMenuItem
             // 
             this.компанияToolStripMenuItem.Name = "компанияToolStripMenuItem";
-            this.компанияToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
-            this.компанияToolStripMenuItem.Text = "Компания";
+            this.компанияToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.компанияToolStripMenuItem.Text = "Магазин";
             this.компанияToolStripMenuItem.Click += new System.EventHandler(this.CompanyToolStripMenuItem_Click);
             // 
             // валютыToolStripMenuItem
@@ -165,7 +165,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 27);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(547, 677);
+            this.listView1.Size = new System.Drawing.Size(534, 677);
             this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -196,7 +196,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.comboBox2);
             this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Location = new System.Drawing.Point(553, 57);
+            this.panel1.Location = new System.Drawing.Point(540, 57);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(333, 647);
             this.panel1.TabIndex = 3;
@@ -436,6 +436,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(325, 21);
             this.comboBox1.TabIndex = 6;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // button1
             // 
@@ -444,7 +445,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(553, 27);
+            this.button1.Location = new System.Drawing.Point(540, 27);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(333, 24);
             this.button1.TabIndex = 5;
@@ -460,7 +461,7 @@
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(870, 9);
+            this.label10.Location = new System.Drawing.Point(857, 9);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label10.Size = new System.Drawing.Size(16, 15);
@@ -480,7 +481,7 @@
             this.Info.Multiline = true;
             this.Info.Name = "Info";
             this.Info.ReadOnly = true;
-            this.Info.Size = new System.Drawing.Size(893, 20);
+            this.Info.Size = new System.Drawing.Size(880, 20);
             this.Info.TabIndex = 10;
             this.Info.Text = "Уведомления";
             this.Info.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -494,7 +495,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(893, 727);
+            this.ClientSize = new System.Drawing.Size(880, 727);
             this.Controls.Add(this.Info);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button1);
