@@ -137,6 +137,12 @@ namespace XML.forms
             }
         }
 
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAbout f = new FormAbout();
+            f.Show(this);
+        }
+
         private void DeleteRowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count < 1)
@@ -167,19 +173,28 @@ namespace XML.forms
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
+                MSG("Создаём Файл..");
                 XDocument doc = XMLHelpler.CreateDoc();
+
+                MSG("Добавляем магазин..");
                 XElement shop = XMLHelpler.AddShop(doc);
 
                 if (shop == null)
                 {
-                    MSG("Нужно добавить настройки компании");
+                    MSG("Необходимо добавить настройки компании");
                     return;
                 }
 
+                MSG("Добавляем валюты..");
                 XMLHelpler.AddCurrencies(shop);
+
+                MSG("Добавляем категории..");
                 XMLHelpler.AddCategories(shop);
+
+                MSG("Добавляем товары..");
                 XMLHelpler.AddOffers(shop);
 
+                MSG("Сохраняем файл..");
                 doc.Save(dialog.FileName);
 
                 MSG("Экспорт завершён");
@@ -195,8 +210,13 @@ namespace XML.forms
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                // !!!!!!!!!
-                XMLHelpler.ImportXML(dialog.FileName, false);
+                DialogResult result = MessageBox.Show(
+                    "Перезаписывать существующие данные?",
+                    "XML",
+                    MessageBoxButtons.YesNo
+                );
+                
+                XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
 
                 MSG("Импорт завершён");
             }

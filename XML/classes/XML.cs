@@ -6,6 +6,7 @@ using XML.classes.db.shop;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.currency;
+using System.Windows.Forms;
 
 namespace XML.classes
 {
@@ -142,6 +143,7 @@ namespace XML.classes
                 switch (el.Name.ToString())
                 {
                     case "name":
+                        LoadName(el.Value, isOverWrite);
                         break;
                     case "company":
                         break;
@@ -159,7 +161,22 @@ namespace XML.classes
             return true;
         }
 
-        public static void AddCurrencies()
+        private static void LoadName(string name, bool isOverWrite)
+        {
+
+        }
+
+        private static void LoadCurrencies(bool isOverWrite)
+        {
+
+        }
+
+        private static void LoadCategories(bool isOverWrite)
+        {
+
+        }
+
+        private static void LoadOffers(bool isOverWrite)
         {
 
         }

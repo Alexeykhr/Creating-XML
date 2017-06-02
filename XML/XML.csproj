@@ -95,6 +95,12 @@
     <Compile Include="classes\db\offer\OfferTable.cs" />
     <Compile Include="classes\Methods.cs" />
     <Compile Include="classes\XML.cs" />
+    <Compile Include="forms\FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\FormParams.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="libs\SQLite.cs" />
     <Compile Include="libs\SQLiteAsync.cs" />
+    <EmbeddedResource Include="forms\FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="forms\FormParams.resx">
       <DependentUpon>FormParams.cs</DependentUpon>
     </EmbeddedResource>

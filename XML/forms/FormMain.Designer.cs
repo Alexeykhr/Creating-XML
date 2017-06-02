@@ -128,14 +128,15 @@
             // экспортToolStripMenuItem
             // 
             this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
-            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.экспортToolStripMenuItem.Text = "Экспорт";
             this.экспортToolStripMenuItem.Click += new System.EventHandler(this.ExportXMLToolStripMenuItem_Click);
             // 
             // импортToolStripMenuItem
             // 
+            this.импортToolStripMenuItem.Enabled = false;
             this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
-            this.импортToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.импортToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.импортToolStripMenuItem.Text = "Импорт";
             this.импортToolStripMenuItem.Click += new System.EventHandler(this.ImportToolStripMenuItem_Click);
             // 
@@ -144,6 +145,7 @@
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
             this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.оПрограммеToolStripMenuItem.Text = "О программе";
+            this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
@@ -166,7 +168,6 @@
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(534, 677);
-            this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
