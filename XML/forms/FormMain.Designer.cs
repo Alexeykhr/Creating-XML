@@ -38,6 +38,7 @@
             this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.экспортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.починитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -50,7 +51,6 @@
             this.fOfferId = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.fDescription = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.fPicturesURL = new System.Windows.Forms.TextBox();
@@ -67,7 +67,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.Info = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.починитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notify = new System.Windows.Forms.NotifyIcon(this.components);
+            this.fDescription = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -130,16 +131,23 @@
             // экспортToolStripMenuItem
             // 
             this.экспортToolStripMenuItem.Name = "экспортToolStripMenuItem";
-            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.экспортToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.экспортToolStripMenuItem.Text = "Экспорт";
             this.экспортToolStripMenuItem.Click += new System.EventHandler(this.ExportXMLToolStripMenuItem_Click);
             // 
             // импортToolStripMenuItem
             // 
             this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
-            this.импортToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.импортToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.импортToolStripMenuItem.Text = "Импорт";
             this.импортToolStripMenuItem.Click += new System.EventHandler(this.ImportToolStripMenuItem_Click);
+            // 
+            // починитьToolStripMenuItem
+            // 
+            this.починитьToolStripMenuItem.Name = "починитьToolStripMenuItem";
+            this.починитьToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.починитьToolStripMenuItem.Text = "Починить";
+            this.починитьToolStripMenuItem.Click += new System.EventHandler(this.RepairXMLToolStripMenuItem_Click);
             // 
             // оПрограммеToolStripMenuItem
             // 
@@ -179,13 +187,13 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.fDescription);
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Controls.Add(this.fPrice);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.fOfferId);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.fDescription);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.fPicturesURL);
@@ -288,17 +296,6 @@
             this.label7.Size = new System.Drawing.Size(57, 13);
             this.label7.TabIndex = 14;
             this.label7.Text = "Описание";
-            // 
-            // fDescription
-            // 
-            this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fDescription.Location = new System.Drawing.Point(3, 555);
-            this.fDescription.Multiline = true;
-            this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(326, 89);
-            this.fDescription.TabIndex = 8;
             // 
             // label6
             // 
@@ -495,12 +492,22 @@
             this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // починитьToolStripMenuItem
+            // notify
             // 
-            this.починитьToolStripMenuItem.Name = "починитьToolStripMenuItem";
-            this.починитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.починитьToolStripMenuItem.Text = "Починить";
-            this.починитьToolStripMenuItem.Click += new System.EventHandler(this.RepairXMLToolStripMenuItem_Click);
+            this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("notify.Icon")));
+            this.notify.Visible = true;
+            // 
+            // fDescription
+            // 
+            this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.fDescription.Location = new System.Drawing.Point(4, 558);
+            this.fDescription.Name = "fDescription";
+            this.fDescription.Size = new System.Drawing.Size(324, 86);
+            this.fDescription.TabIndex = 20;
+            this.fDescription.Text = "";
             // 
             // Form1
             // 
@@ -549,7 +556,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox fDescription;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem экспортToolStripMenuItem;
@@ -568,6 +574,8 @@
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem починитьToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notify;
+        private System.Windows.Forms.RichTextBox fDescription;
     }
 }
 

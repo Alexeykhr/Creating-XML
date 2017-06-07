@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -6,8 +7,6 @@ using XML.classes.db.shop;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.currency;
-
-using System.Windows.Forms;
 
 namespace XML.classes
 {
@@ -188,11 +187,11 @@ namespace XML.classes
                 return;
 
             if (name != null)
-                shop.Name = name;
+                shop.Name = name.Trim();
             else if (company != null)
-                shop.Company = company;
+                shop.Company = company.Trim();
             else if (url != null)
-                shop.Url = url;
+                shop.Url = url.Trim();
 
             if (isNew)
                 ShopModel.Insert(shop);
@@ -207,8 +206,8 @@ namespace XML.classes
                 if (currency.Attribute("id") == null || currency.Attribute("rate") == null)
                     continue;
 
-                string currencyId = currency.Attribute("id").Value;
-                string rate = Methods.ReplaceComma(currency.Attribute("rate").Value);
+                string currencyId = currency.Attribute("id").Value.Trim();
+                string rate = Methods.ReplaceComma(currency.Attribute("rate").Value.Trim());
 
                 if (string.IsNullOrWhiteSpace(currencyId) || string.IsNullOrWhiteSpace(rate))
                     continue;
@@ -239,8 +238,8 @@ namespace XML.classes
                 if (category.Attribute("id") == null)
                     continue;
 
-                bool isInt = int.TryParse(category.Attribute("id").Value, out int categoryId);
-                string title = category.Value;
+                bool isInt = int.TryParse(category.Attribute("id").Value.Trim(), out int categoryId);
+                string title = category.Value.Trim();
 
                 if (!isInt || categoryId < 1 || string.IsNullOrWhiteSpace(title))
                     continue;
@@ -266,9 +265,95 @@ namespace XML.classes
 
         private static void LoadOffers(XElement offers, bool isOverWrite)
         {
-            foreach (XElement category in offers.Elements())
+            foreach (XElement offer in offers.Elements())
             {
+                // Check important data => name, price, currencyId, categoryId
+                if (offer.Element("name") == null || offer.Element("price") == null ||
+                    offer.Element("currencyId") == null || offer.Element("categoryId") == null)
+                    continue;
 
+                bool isDouble = Double.TryParse(offer.Element("price").Value.Trim(), out double price);
+                string name = offer.Element("name").Value.Trim();
+                bool isInt = int.TryParse(offer.Element("categoryId").Value.Trim(), out int categoryId);
+                string currencyId = offer.Element("currencyId").Value.Trim();
+
+                if (string.IsNullOrWhiteSpace(name) || !isDouble || price < 0 ||
+                    !isInt || categoryId < 1 || string.IsNullOrWhiteSpace(currencyId))
+                    continue;
+                // End
+
+                // Check categoryId and currencyId in tables.
+                var categoryModel = CategoryModel.GetOne(categoryId);
+
+                if (categoryModel.Count() < 1)
+                    continue;
+
+                if (CurrencyModel.GetOneByCurrencyId(currencyId).Count() < 1)
+                    continue;
+                // End
+
+                var model = OfferModel.GetOneByName(name);
+                bool isExists = model.Count() > 0;
+
+                var table = new OfferTable
+                {
+                    Name = name,
+                    Price = price,
+                    CurrencyId = currencyId,
+                    CategoryTitle = categoryModel.First().Title,
+                    IsAviable = true
+                };
+
+                // Add More data
+                if (offer.Element("url") != null)
+                    table.URL = offer.Element("url").Value.Trim();
+
+                // -- Picture
+                string pictures = string.Empty;
+                foreach (var picture in offer.Elements("picture"))
+                {
+                    pictures += picture.Value.Trim() + Environment.NewLine;
+                }
+                if (!string.IsNullOrWhiteSpace(pictures))
+                    table.PictureURL = pictures.Trim();
+
+                // -- Parametrs
+                string parametrs = string.Empty;
+                foreach (var parametr in offer.Elements("param"))
+                {
+                    if (parametr.Attribute("name") == null || string.IsNullOrWhiteSpace(parametr.Value))
+                        continue;
+
+                    string key = parametr.Attribute("name").Value.Trim();
+                    string value = parametr.Value.Trim();
+
+                    if (string.IsNullOrWhiteSpace(key))
+                        continue;
+
+                    parametrs += key + "|" + value + "|";
+                }
+                if (!string.IsNullOrWhiteSpace(parametrs))
+                    table.Params = parametrs.Substring(0, parametrs.Length - 1);
+
+                if (offer.Element("description") != null)
+                    table.Description = offer.Element("description").Value.Trim();
+
+                if (offer.Attribute("available") != null)
+                    table.IsAviable = offer.Attribute("available").Value.Equals("true");
+                // End
+
+                // Insert / update in DB
+                if (isExists && isOverWrite)
+                {
+                    table.Id = model.First().Id;
+                    table.OfferId = model.First().OfferId;
+                    OfferModel.Update(table);
+                }
+                else if (!isExists)
+                {
+                    table.OfferId = OfferModel.GetCount() + 1;
+                    OfferModel.Insert(table);
+                }
             }
         }
 
@@ -282,14 +367,14 @@ namespace XML.classes
         {
             string str = string.Empty;
 
-            using (System.IO.StreamReader reader = System.IO.File.OpenText(uri))
+            using (StreamReader reader = File.OpenText(uri))
             {
                 str = reader.ReadToEnd();
             }
 
             str = str.Replace("&", "and");
 
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(uri))
+            using (StreamWriter file = new StreamWriter(uri))
             {
                 file.Write(str);
             }

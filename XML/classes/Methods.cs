@@ -29,5 +29,19 @@ namespace XML.classes
 
             return str.First().ToString().ToUpper() + str.Substring(1);
         }
+
+        public static string GetPickPictures(string text)
+        {
+            string[] pictures = text.Trim().Split('\n');
+            string outPictures = "";
+
+            foreach (string picture in pictures)
+            {
+                if (!string.IsNullOrWhiteSpace(picture))
+                    outPictures += picture.Trim() + Environment.NewLine;
+            }
+
+            return outPictures.Trim();
+        }
     }
 }

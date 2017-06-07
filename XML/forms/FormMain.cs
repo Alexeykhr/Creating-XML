@@ -26,13 +26,15 @@ namespace XML.forms
                 MessageBox.Show("Ошибка при подлкючении к базе данных");
                 Close();
             }
-
+            
             Text = Methods.NAME + " - Главная";
+            notify.Text = Methods.NAME;
+            notify.BalloonTipTitle = Methods.NAME + " - уведомление";
 
-            InitFillListView();
+            InitFillForm();
         }
 
-        private void InitFillListView()
+        private void InitFillForm()
         {
             //ListView
 
@@ -62,6 +64,7 @@ namespace XML.forms
             // Panel
 
             fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
+            fPrice.Text = "0";
             FillComboBoxCategories();
             FillComboBoxCurrencies();
         }
@@ -198,11 +201,20 @@ namespace XML.forms
                 doc.Save(dialog.FileName);
 
                 MSG("Экспорт завершён");
+                ShowNotify("Экспорт завершён");
             }
         }
 
         private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)\n" +
+                "После завершения программа закроется и данные обновятся\n" +
+                "Вы уверены, что хотите продолжить?",
+                "XML", MessageBoxButtons.YesNo);
+
+            if (isOpen == DialogResult.No)
+                return;
+
             OpenFileDialog dialog = new OpenFileDialog()
             {
                 Filter = "XML Files(*.xml) | *.xml"
@@ -212,18 +224,24 @@ namespace XML.forms
             {
                 DialogResult result = MessageBox.Show(
                     "Перезаписывать существующие данные?",
-                    "XML",
+                    Methods.NAME,
                     MessageBoxButtons.YesNo
                 );
 
                 bool isComplete = XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
 
                 if (isComplete)
-                    MSG("Импорт завершён");
+                {
+                    ShowNotify("Импорт завершён!\nДля продолжение - запустите программу заново.");
+                    Close();
+                }
                 else
+                {
+                    ShowNotify("Произошла ошибка при импорте", 2000, ToolTipIcon.Warning);
                     MSG("Произошла ошибка при импорте. " +
                         "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
                         "Для замены запустите починку в меню \"XML\"");
+                }
             }
         }
 
@@ -310,17 +328,7 @@ namespace XML.forms
             fOfferId.Text = fOfferId.Text.Trim();
             fURL.Text = fURL.Text.Trim();
             fDescription.Text = fDescription.Text.Trim();
-
-            // Pictures
-            string[] pictures = fPicturesURL.Text.Trim().Split('\n');
-            string outPictures = "";
-            foreach (string picture in pictures)
-            {
-                if (!string.IsNullOrWhiteSpace(picture))
-                    outPictures += picture.Trim() + Environment.NewLine;
-            }
-
-            fPicturesURL.Text = outPictures.Trim();
+            fPicturesURL.Text = Methods.GetPickPictures(fPicturesURL.Text);
         }
 
         private bool CheckDataForNewData()
@@ -398,6 +406,8 @@ namespace XML.forms
                     (c as ComboBox).ResetText();
                 else if (c.GetType() == typeof(CheckBox))
                     (c as CheckBox).Checked = true;
+                else if (c.GetType() == typeof(RichTextBox))
+                    (c as RichTextBox).Text = string.Empty;
             }
         }
 
@@ -533,6 +543,13 @@ namespace XML.forms
                 return;
             
             FillDataGridFromBasic();
+        }
+
+        private void ShowNotify(string text, int timeout = 2000, ToolTipIcon icon = ToolTipIcon.Info)
+        {
+            notify.BalloonTipText = text;
+            notify.ShowBalloonTip(timeout);
+            notify.BalloonTipIcon = icon;
         }
     }
 }
