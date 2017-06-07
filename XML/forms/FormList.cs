@@ -72,7 +72,7 @@ namespace XML.forms
             }
 
             textBox1.Text = isCategory ? textBox1.Text.Trim() : textBox1.Text.ToUpper().Trim();
-            textBox2.Text = isCategory ? textBox2.Text.Trim() : Methods.ReplaceDot(textBox2.Text);
+            textBox2.Text = isCategory ? textBox2.Text.Trim() : Methods.ReplaceComma(textBox2.Text.ToUpper().Trim());
 
             if (isEdit && UpdateSelectedItem() == 1)
             {
@@ -164,15 +164,7 @@ namespace XML.forms
                 inserted = InsertItemCategory(categoryId, textBox2.Text);
             }
             else
-            {
-                if (!Double.TryParse(textBox2.Text, out double rate))
-                {
-                    MessageBox.Show("Валюта должна быть числом (возможна плавающая точка)");
-                    return 0;
-                }
-
-                inserted = InsertItemCurrency(textBox1.Text, rate);
-            }
+                inserted = InsertItemCurrency(textBox1.Text, textBox2.Text);
 
             if (inserted != 1)
                 MessageBox.Show("Данные существуют");
@@ -189,7 +181,7 @@ namespace XML.forms
             });
         }
 
-        private int InsertItemCurrency(string currencyId, double rate)
+        private int InsertItemCurrency(string currencyId, string rate)
         {
             return CurrencyModel.Insert(new CurrencyTable
             {
@@ -211,13 +203,7 @@ namespace XML.forms
                 return UpdateSelectedItemCategory(categoryId, textBox2.Text);
             }
 
-            if (!Double.TryParse(textBox2.Text, out double currencyId))
-            {
-                MessageBox.Show("Валюта должна быть числом (возможна плавающая точка)");
-                return 0;
-            }
-
-            return UpdateSelectedItemCurrency(textBox1.Text, currencyId);
+            return UpdateSelectedItemCurrency(textBox1.Text, textBox2.Text);
         }
 
         private int UpdateSelectedItemCategory(int categoryId, string title)
@@ -238,11 +224,11 @@ namespace XML.forms
             catch { return 0; }
         }
 
-        private int UpdateSelectedItemCurrency(string currencyId, double rate)
+        private int UpdateSelectedItemCurrency(string currencyId, string rate)
         {
             try
             {
-                int id = CurrencyModel.GetOne(
+                int id = CurrencyModel.GetOneByCurrencyId(
                     listView1.SelectedItems[0].Text
                 ).First().Id;
 
@@ -293,15 +279,15 @@ namespace XML.forms
         {
             try
             {
-                int id = CurrencyModel.GetOne(
+                int id = CurrencyModel.GetOneByCurrencyId(
                     listView1.SelectedItems[0].Text
                 ).First().Id;
 
-                var currency = OfferModel.GetOneByCurrencyId(listView1.SelectedItems[0].Text);
+                var offer = OfferModel.GetOneByCurrencyId(listView1.SelectedItems[0].Text);
 
-                if (currency.Count() > 0)
+                if (offer.Count() > 0)
                 {
-                    MessageBox.Show("[" + currency.First().Id + "] " + currency.First().Name + " - использует эту валюту");
+                    MessageBox.Show("[" + offer.First().Id + "] " + offer.First().Name + " - использует эту валюту");
                     return 0;
                 }
 

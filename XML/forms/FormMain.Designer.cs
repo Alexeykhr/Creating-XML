@@ -67,6 +67,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.Info = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.починитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -120,7 +121,8 @@
             // 
             this.xMLToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.экспортToolStripMenuItem,
-            this.импортToolStripMenuItem});
+            this.импортToolStripMenuItem,
+            this.починитьToolStripMenuItem});
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
             this.xMLToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.xMLToolStripMenuItem.Text = "XML";
@@ -134,7 +136,6 @@
             // 
             // импортToolStripMenuItem
             // 
-            this.импортToolStripMenuItem.Enabled = false;
             this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
             this.импортToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.импортToolStripMenuItem.Text = "Импорт";
@@ -219,6 +220,7 @@
             this.dataGridView1.RowHeadersWidth = 30;
             this.dataGridView1.Size = new System.Drawing.Size(326, 155);
             this.dataGridView1.TabIndex = 19;
+            this.dataGridView1.Enter += new System.EventHandler(this.DataGridView1_Enter);
             // 
             // Key
             // 
@@ -239,6 +241,7 @@
             this.fPrice.Name = "fPrice";
             this.fPrice.Size = new System.Drawing.Size(325, 20);
             this.fPrice.TabIndex = 3;
+            this.fPrice.Leave += new System.EventHandler(this.FPrice_Leave);
             // 
             // label11
             // 
@@ -341,9 +344,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(1, 164);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(211, 13);
+            this.label5.Size = new System.Drawing.Size(261, 13);
             this.label5.TabIndex = 8;
-            this.label5.Text = "Картинки [URL]. Каждая с новой строки";
+            this.label5.Text = "Картинки [URL]. Каждая картинка с новой строки";
             // 
             // fURL
             // 
@@ -492,6 +495,13 @@
             this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
+            // починитьToolStripMenuItem
+            // 
+            this.починитьToolStripMenuItem.Name = "починитьToolStripMenuItem";
+            this.починитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.починитьToolStripMenuItem.Text = "Починить";
+            this.починитьToolStripMenuItem.Click += new System.EventHandler(this.RepairXMLToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -557,6 +567,7 @@
         private System.Windows.Forms.TextBox Info;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem починитьToolStripMenuItem;
     }
 }
 

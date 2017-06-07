@@ -181,7 +181,7 @@ namespace XML.forms
 
                 if (shop == null)
                 {
-                    MSG("Необходимо добавить настройки компании");
+                    MSG("Отсутствуют настройки магазина. Меню \"Магазин\"");
                     return;
                 }
 
@@ -215,10 +215,29 @@ namespace XML.forms
                     "XML",
                     MessageBoxButtons.YesNo
                 );
-                
-                XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
 
-                MSG("Импорт завершён");
+                bool isComplete = XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
+
+                if (isComplete)
+                    MSG("Импорт завершён");
+                else
+                    MSG("Произошла ошибка при импорте. " +
+                        "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
+                        "Для замены запустите починку в меню \"XML\"");
+            }
+        }
+
+        private void RepairXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = "XML Files(*.xml) | *.xml"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                XMLHelpler.Repair(dialog.FileName);
+                MSG("Починка завершена. Попробуйте импортировать файл снова.");
             }
         }
 
@@ -232,7 +251,7 @@ namespace XML.forms
             int offerId = int.Parse(fOfferId.Text);
             double price = Double.Parse(fPrice.Text);
             string category = CategoryModel.GetOne(comboBox1.Text).First().Title;
-            string currencyId = CurrencyModel.GetOne(comboBox2.Text).First().CurrencyId;
+            string currencyId = CurrencyModel.GetOneByCurrencyId(comboBox2.Text).First().CurrencyId;
 
             var offer = new OfferTable
             {
@@ -289,7 +308,6 @@ namespace XML.forms
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
             fPrice.Text = Methods.ReplaceDot(fPrice.Text).Trim();
             fOfferId.Text = fOfferId.Text.Trim();
-            fPrice.Text = fPrice.Text.Trim();
             fURL.Text = fURL.Text.Trim();
             fDescription.Text = fDescription.Text.Trim();
 
@@ -314,7 +332,7 @@ namespace XML.forms
                 MSG("ID должен быть больше 0 и быть уникальным");
 
             else if (!Double.TryParse(fPrice.Text, out double price))
-                MSG("Цена должна быть числом с плавающей точкой");
+                MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
 
             else if (string.IsNullOrWhiteSpace(fName.Text))
                 MSG("Заполните название товара");
@@ -478,6 +496,22 @@ namespace XML.forms
                 MSG("Название товара используется - #" + offer.First().OfferId);
             else
                 MSG("Название товара не занято");
+        }
+
+        private void FPrice_Leave(object sender, EventArgs e)
+        {
+            fPrice.Text = Methods.ReplaceDot(fPrice.Text);
+            bool isDouble = Double.TryParse(fPrice.Text, out double salary);
+
+            if (isDouble)
+                MSG("Цена корректная");
+            else
+                MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
+        }
+
+        private void DataGridView1_Enter(object sender, EventArgs e)
+        {
+            MSG("При отсутствии данных в обоих ячейках - данные с этой строки не сохранятся.");
         }
 
         private void MSG(string text)

@@ -6,6 +6,7 @@ using XML.classes.db.shop;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.currency;
+
 using System.Windows.Forms;
 
 namespace XML.classes
@@ -131,29 +132,41 @@ namespace XML.classes
 
         public static bool ImportXML(string uri, bool isOverWrite)
         {
-            XDocument doc = XDocument.Load(uri);
+            XDocument doc;
+
+            try
+            {
+                doc = XDocument.Load(uri);
+            }
+            catch { return false; }
             
             if (doc.Root.Element("shop") == null)
                 return false;
 
             XElement shop = doc.Root.Element("shop");
+            bool isNewShop = ShopModel.Get().Count() < 1;
 
             foreach (XElement el in shop.Elements())
             {
                 switch (el.Name.ToString())
                 {
                     case "name":
-                        LoadName(el.Value, isOverWrite);
+                        LoadShop(el.Value, null, null, isOverWrite, isNewShop);
                         break;
                     case "company":
+                        LoadShop(null, el.Value, null, isOverWrite, isNewShop);
                         break;
                     case "url":
+                        LoadShop(null, null, el.Value, isOverWrite, isNewShop);
                         break;
                     case "currencies":
+                        LoadCurrencies(el, isOverWrite);
                         break;
                     case "categories":
+                        LoadCategories(el, isOverWrite);
                         break;
                     case "offers":
+                        LoadOffers(el, isOverWrite);
                         break;
                 }
             }
@@ -161,24 +174,125 @@ namespace XML.classes
             return true;
         }
 
-        private static void LoadName(string name, bool isOverWrite)
+        private static void LoadShop(string name, string company, string url, bool isOverWrite, bool isNewShop)
         {
+            ShopTable shop;
+            var shopDB = ShopModel.Get();
+            bool isNew = shopDB.Count() < 1;
 
+            if (isNew)
+                shop = new ShopTable { Id = 1 };
+            else if (isOverWrite || isNewShop)
+                shop = shopDB.First();
+            else
+                return;
+
+            if (name != null)
+                shop.Name = name;
+            else if (company != null)
+                shop.Company = company;
+            else if (url != null)
+                shop.Url = url;
+
+            if (isNew)
+                ShopModel.Insert(shop);
+            else
+                ShopModel.Update(shop);
         }
 
-        private static void LoadCurrencies(bool isOverWrite)
+        private static void LoadCurrencies(XElement currencies, bool isOverWrite)
         {
+            foreach (XElement currency in currencies.Elements())
+            {
+                if (currency.Attribute("id") == null || currency.Attribute("rate") == null)
+                    continue;
 
+                string currencyId = currency.Attribute("id").Value;
+                string rate = Methods.ReplaceComma(currency.Attribute("rate").Value);
+
+                if (string.IsNullOrWhiteSpace(currencyId) || string.IsNullOrWhiteSpace(rate))
+                    continue;
+
+                var model = CurrencyModel.GetOneByCurrencyId(currencyId);
+                bool isExists = model.Count() > 0;
+
+                var table = new CurrencyTable
+                {
+                    CurrencyId = currencyId,
+                    Rate = rate
+                };
+
+                if (isExists && isOverWrite)
+                {
+                    table.Id = model.First().Id;
+                    CurrencyModel.Update(table);
+                }
+                else if (!isExists)
+                    CurrencyModel.Insert(table);
+            }
         }
 
-        private static void LoadCategories(bool isOverWrite)
+        private static void LoadCategories(XElement categories, bool isOverWrite)
         {
+            foreach (XElement category in categories.Elements())
+            {
+                if (category.Attribute("id") == null)
+                    continue;
 
+                bool isInt = int.TryParse(category.Attribute("id").Value, out int categoryId);
+                string title = category.Value;
+
+                if (!isInt || categoryId < 1 || string.IsNullOrWhiteSpace(title))
+                    continue;
+
+                var model = CategoryModel.GetOne(title);
+                bool isExists = model.Count() > 0;
+
+                var table = new CategoryTable
+                {
+                    CategoryId = categoryId,
+                    Title = title
+                };
+
+                if (isExists && isOverWrite)
+                {
+                    table.Id = model.First().Id;
+                    CategoryModel.Update(table);
+                }
+                else if (!isExists)
+                    CategoryModel.Insert(table);
+            }
         }
 
-        private static void LoadOffers(bool isOverWrite)
+        private static void LoadOffers(XElement offers, bool isOverWrite)
         {
+            foreach (XElement category in offers.Elements())
+            {
 
+            }
+        }
+
+        // |
+        // | \/\/\/\/\/
+        // | \/REPAIR\/
+        // | \/\/\/\/\/
+        // |
+
+        public static void Repair(string uri)
+        {
+            string str = string.Empty;
+
+            using (System.IO.StreamReader reader = System.IO.File.OpenText(uri))
+            {
+                str = reader.ReadToEnd();
+            }
+
+            str = str.Replace("&", "and");
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(uri))
+            {
+                file.Write(str);
+            }
         }
     }
 }

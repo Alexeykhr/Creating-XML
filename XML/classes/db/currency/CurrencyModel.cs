@@ -24,13 +24,13 @@ namespace XML.classes.db.currency
             return Query("SELECT * FROM " + typeof(CurrencyTable).Name);
         }
 
-        public static IEnumerable<CurrencyTable> GetOne(string currencyId)
+        public static IEnumerable<CurrencyTable> GetOneByCurrencyId(string currencyId)
         {
             return Query("SELECT * FROM " + typeof(CurrencyTable).Name
                 + " WHERE CurrencyId = ? LIMIT 1", new object[] { currencyId });
         }
 
-        public static IEnumerable<CurrencyTable> GetOne(double rate)
+        public static IEnumerable<CurrencyTable> GetOneByRate(string rate)
         {
             return Query("SELECT * FROM " + typeof(CurrencyTable).Name
                 + " WHERE Rate = ? LIMIT 1", new object[] { rate });
