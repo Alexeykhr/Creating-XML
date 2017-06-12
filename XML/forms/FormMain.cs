@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Drawing;
 using System.Xml.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using XML.classes;
@@ -30,6 +31,9 @@ namespace XML.forms
             Text = Methods.NAME + " - Главная";
             notify.Text = Methods.NAME;
             notify.BalloonTipTitle = Methods.NAME + " - уведомление";
+
+            toolTip1.SetToolTip(label12, "Требуемая последовательность: Тип товара Бренд Модель Размер Цвет");
+            button3.Enabled = false;
 
             InitFillForm();
         }
@@ -167,6 +171,27 @@ namespace XML.forms
                 MSG("Товар не удалился");
         }
 
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count < 1)
+            {
+                MSG("Выберите в списке удаляемый товар");
+                return;
+            }
+
+            int deleted = OfferModel.DeleteObject<OfferTable>(
+                OfferModel.GetOneByOfferId(GetSelectedOfferId()).First().Id
+            );
+
+            if (deleted == 1)
+            {
+                listView1.Items.RemoveAt(listView1.SelectedItems[0].Index);
+                MSG("Товар удалён");
+            }
+            else
+                MSG("Товар не удалился");
+        }
+
         private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog()
@@ -207,10 +232,10 @@ namespace XML.forms
 
         private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)\n" +
-                "После завершения программа закроется и данные обновятся\n" +
-                "Вы уверены, что хотите продолжить?",
-                "XML", MessageBoxButtons.YesNo);
+            DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)" + Environment.NewLine
+                + "После завершения программа закроется и данные обновятся" + Environment.NewLine
+                + "Вы уверены, что хотите продолжить?",
+                Methods.NAME, MessageBoxButtons.YesNo);
 
             if (isOpen == DialogResult.No)
                 return;
@@ -247,6 +272,13 @@ namespace XML.forms
 
         private void RepairXMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DialogResult isOpen = MessageBox.Show("Исходный файл будет изменён" + Environment.NewLine
+                + "Вы уверены, что хотите продолжить?",
+                Methods.NAME, MessageBoxButtons.YesNo);
+
+            if (isOpen == DialogResult.No)
+                return;
+
             OpenFileDialog dialog = new OpenFileDialog()
             {
                 Filter = "XML Files(*.xml) | *.xml"
@@ -295,6 +327,8 @@ namespace XML.forms
                     }));
 
                     MSG("Товар добавлен");
+
+                    FillDataGridFromBasic();
                 }
                 else
                     MSG("Товар не добавлен");
@@ -363,15 +397,6 @@ namespace XML.forms
             {
                 label10.BackColor = Color.Brown;
                 isEdit = false;
-                ClearPanel();
-                fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
-                fPrice.Text = "0";
-
-                if (comboBox1.Items.Count > 0)
-                    comboBox1.SelectedIndex = 0;
-
-                if (comboBox2.Items.Count > 0)
-                    comboBox2.SelectedIndex = 0;
 
                 FillDataGridFromBasic();
                 return;
@@ -438,7 +463,17 @@ namespace XML.forms
 
         private void FillDataGridFromBasic()
         {
+            ClearPanel();
             dataGridView1.Rows.Clear();
+
+            fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
+            fPrice.Text = "0";
+
+            if (comboBox1.Items.Count > 0)
+                comboBox1.SelectedIndex = 0;
+
+            if (comboBox2.Items.Count > 0)
+                comboBox2.SelectedIndex = 0;
 
             if (string.IsNullOrWhiteSpace(comboBox1.Text) && !isEdit)
                 return;
@@ -497,11 +532,6 @@ namespace XML.forms
                 MSG("ID не занят");
         }
 
-        private void FName_Enter(object sender, EventArgs e)
-        {
-            MSG("Требуемая последовательность: Тип товара Бренд Модель Размер Цвет");
-        }
-
         private void FName_Leave(object sender, EventArgs e)
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
@@ -524,11 +554,6 @@ namespace XML.forms
                 MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
         }
 
-        private void DataGridView1_Enter(object sender, EventArgs e)
-        {
-            MSG("При отсутствии данных в обоих ячейках - данные с этой строки не сохранятся.");
-        }
-
         private void MSG(string text)
         {
             Info.Text = text;
@@ -546,8 +571,19 @@ namespace XML.forms
         {
             if (isEdit)
                 return;
-            
-            FillDataGridFromBasic();
+
+            dataGridView1.Rows.Clear();
+            var parametrs = ParametrsModel.GetOneByCategoryTitle(comboBox1.Text);
+
+            if (parametrs.Count() < 1)
+                return;
+
+            string[] arr = parametrs.First().Parametrs.Split('\n');
+
+            foreach (var line in arr)
+            {
+                dataGridView1.Rows.Add(line);
+            }
         }
 
         private void ShowNotify(string text, int timeout = 2000, ToolTipIcon icon = ToolTipIcon.Info)
@@ -555,6 +591,24 @@ namespace XML.forms
             notify.BalloonTipText = text;
             notify.ShowBalloonTip(timeout);
             notify.BalloonTipIcon = icon;
+        }
+
+        private void Label9_Click(object sender, EventArgs e)
+        {
+            if (Methods.IsWebSite(fURL.Text))
+                Process.Start(fURL.Text);
+            else
+                MSG("Ссылка имеет неверный формат");
+        }
+
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            button3.Enabled = !button3.Enabled;
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

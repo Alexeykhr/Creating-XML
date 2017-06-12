@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCategory));
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -143,9 +144,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(118, 10);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 13);
+            this.label5.Size = new System.Drawing.Size(43, 13);
             this.label5.TabIndex = 19;
-            this.label5.Text = "Родительский ID";
+            this.label5.Text = "Род. ID";
             // 
             // textBox3
             // 
@@ -171,6 +172,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormCategory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

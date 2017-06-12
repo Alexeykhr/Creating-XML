@@ -40,9 +40,11 @@
             this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.починитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.fDescription = new System.Windows.Forms.RichTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,6 +71,11 @@
             this.Info = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.notify = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -82,8 +89,7 @@
             this.категорииToolStripMenuItem,
             this.параметрыToolStripMenuItem,
             this.xMLToolStripMenuItem,
-            this.оПрограммеToolStripMenuItem,
-            this.удалитьToolStripMenuItem});
+            this.оПрограммеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(880, 24);
@@ -156,16 +162,6 @@
             this.оПрограммеToolStripMenuItem.Text = "О программе";
             this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // удалитьToolStripMenuItem
-            // 
-            this.удалитьToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.удалитьToolStripMenuItem.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
-            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.удалитьToolStripMenuItem.Text = "Удалить";
-            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.DeleteRowToolStripMenuItem_Click);
-            // 
             // listView1
             // 
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -173,10 +169,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(0, 27);
+            this.listView1.Location = new System.Drawing.Point(0, 53);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(534, 677);
+            this.listView1.Size = new System.Drawing.Size(534, 651);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -186,8 +182,11 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.AutoSize = true;
+            this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.label13);
+            this.panel1.Controls.Add(this.label12);
+            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.fDescription);
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Controls.Add(this.fPrice);
@@ -211,6 +210,40 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(333, 647);
             this.panel1.TabIndex = 3;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label13.Location = new System.Drawing.Point(314, 365);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(15, 15);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "?";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Location = new System.Drawing.Point(314, 47);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(15, 15);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "?";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label9.AutoSize = true;
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label9.Location = new System.Drawing.Point(309, 141);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(0, 2, 0, 3);
+            this.label9.Size = new System.Drawing.Size(21, 20);
+            this.label9.TabIndex = 21;
+            this.label9.Text = ">>";
+            this.label9.Click += new System.EventHandler(this.Label9_Click);
             // 
             // fDescription
             // 
@@ -240,7 +273,6 @@
             this.dataGridView1.RowHeadersWidth = 30;
             this.dataGridView1.Size = new System.Drawing.Size(326, 155);
             this.dataGridView1.TabIndex = 19;
-            this.dataGridView1.Enter += new System.EventHandler(this.DataGridView1_Enter);
             // 
             // Key
             // 
@@ -314,7 +346,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(263, 365);
+            this.label6.Location = new System.Drawing.Point(245, 365);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 12;
@@ -364,7 +396,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fURL.Location = new System.Drawing.Point(4, 141);
             this.fURL.Name = "fURL";
-            this.fURL.Size = new System.Drawing.Size(325, 20);
+            this.fURL.Size = new System.Drawing.Size(306, 20);
             this.fURL.TabIndex = 4;
             // 
             // label4
@@ -388,7 +420,6 @@
             this.fName.Name = "fName";
             this.fName.Size = new System.Drawing.Size(325, 20);
             this.fName.TabIndex = 2;
-            this.fName.Enter += new System.EventHandler(this.FName_Enter);
             this.fName.Leave += new System.EventHandler(this.FName_Leave);
             // 
             // label3
@@ -450,7 +481,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(325, 21);
             this.comboBox1.TabIndex = 6;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // button1
             // 
@@ -510,11 +540,75 @@
             this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("notify.Icon")));
             this.notify.Visible = true;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 0;
+            this.toolTip1.ShowAlways = true;
+            this.toolTip1.UseAnimation = false;
+            this.toolTip1.UseFading = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(0, 27);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(393, 20);
+            this.textBox1.TabIndex = 11;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(391, 27);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(69, 20);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "Поиск";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(786, 8);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBox2.Size = new System.Drawing.Size(65, 17);
+            this.checkBox2.TabIndex = 13;
+            this.checkBox2.Text = "Защита";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(465, 27);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(69, 20);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "Удалить";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(880, 727);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.Info);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button1);
@@ -567,7 +661,6 @@
         private System.Windows.Forms.TextBox fPrice;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.ToolStripMenuItem параметрыToolStripMenuItem;
@@ -577,6 +670,14 @@
         private System.Windows.Forms.ToolStripMenuItem починитьToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon notify;
         private System.Windows.Forms.RichTextBox fDescription;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label13;
     }
 }
 

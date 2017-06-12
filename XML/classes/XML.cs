@@ -63,10 +63,15 @@ namespace XML.classes
 
             foreach (var item in items)
             {
-                categories.Add(new XElement("category",
+                var elem = new XElement("category",
                     new XAttribute("id", item.CategoryId),
                     item.Title
-                ));
+                );
+
+                if (item.ParCategoryId > 0)
+                    elem.Add(new XAttribute("parentId", item.ParCategoryId));
+
+                categories.Add(elem);
             }
 
             shop.Add(categories);
@@ -253,6 +258,16 @@ namespace XML.classes
                     Title = title
                 };
 
+                // ParentId
+                if (category.Attribute("parentId") != null)
+                {
+                    bool isCorrectParentId = int.TryParse(category.Attribute("parentId").Value.Trim(), out int parCategoryId);
+
+                    if (isCorrectParentId)
+                        table.ParCategoryId = parCategoryId;
+                }
+                // End
+
                 if (isExists && isOverWrite)
                 {
                     table.Id = model.First().Id;
@@ -272,7 +287,7 @@ namespace XML.classes
                     offer.Element("currencyId") == null || offer.Element("categoryId") == null)
                     continue;
 
-                bool isDouble = Double.TryParse(offer.Element("price").Value.Trim(), out double price);
+                bool isDouble = Double.TryParse(Methods.ReplaceDot(offer.Element("price").Value).Trim(), out double price);
                 string name = offer.Element("name").Value.Trim();
                 bool isInt = int.TryParse(offer.Element("categoryId").Value.Trim(), out int categoryId);
                 string currencyId = offer.Element("currencyId").Value.Trim();
