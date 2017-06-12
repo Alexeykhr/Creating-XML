@@ -33,6 +33,7 @@ namespace XML.forms
             notify.BalloonTipTitle = Methods.NAME + " - уведомление";
 
             toolTip1.SetToolTip(label12, "Требуемая последовательность: Тип товара Бренд Модель Размер Цвет");
+            toolTip1.SetToolTip(label13, "При отсутствии данных в обоих ячейках - данные с этой строки не сохранятся");
             button3.Enabled = false;
 
             InitFillForm();
@@ -608,7 +609,45 @@ namespace XML.forms
 
         private void Button2_Click(object sender, EventArgs e)
         {
+            int count = listView1.Items.Count;
+            int initIndex = listView1.SelectedItems.Count > 0 ? listView1.SelectedItems[0].Index + 1 : 0;
+            bool isInt = int.TryParse(textBox1.Text, out int id);
 
+            if (isInt)
+            {
+                for (int i = initIndex; i < count + initIndex; i++)
+                {
+                    if (string.Equals(textBox1.Text, listView1.Items[i % count].Text, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        listView1.Items[i % count].Selected = true;
+                        MSG("Найден товар по ID - " + listView1.Items[i % count].SubItems[1].Text
+                            + " [" + listView1.Items[i % count].Text + "]");
+                        return;
+                    }
+                }
+
+                MSG("Товар по ID не найден");
+                return;
+            }
+
+            int len = textBox1.Text.Length;
+            string text = textBox1.Text.Substring(0, len);
+            for (int i = initIndex; i < count + initIndex; i++)
+            {
+                string curText = listView1.Items[i % count].SubItems[1].Text;
+
+                if (curText.Length < len)
+                    continue;
+
+                if (string.Equals(text, curText.Substring(0, len), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    listView1.Items[i % count].Selected = true;
+                    MSG("Найден товар по названию - " + listView1.Items[i % count].SubItems[1].Text 
+                        + " [" + listView1.Items[i % count].Text + "]");
+                    return;
+                }
+            }
+            MSG("Товар по названию не найден");
         }
     }
 }
