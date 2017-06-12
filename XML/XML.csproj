@@ -101,6 +101,12 @@
     <Compile Include="forms\FormAbout.Designer.cs">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\FormCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FormCategory.Designer.cs">
+      <DependentUpon>FormCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\FormParams.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,11 +119,11 @@
     <Compile Include="forms\FormShop.Designer.cs">
       <DependentUpon>FormShop.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\FormList.cs">
+    <Compile Include="forms\FormCurrency.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\FormList.Designer.cs">
-      <DependentUpon>FormList.cs</DependentUpon>
+    <Compile Include="forms\FormCurrency.Designer.cs">
+      <DependentUpon>FormCurrency.cs</DependentUpon>
     </Compile>
     <Compile Include="forms\FormMain.cs">
       <SubType>Form</SubType>
@@ -132,11 +138,14 @@
     <EmbeddedResource Include="forms\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\FormCategory.resx">
+      <DependentUpon>FormCategory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="forms\FormParams.resx">
       <DependentUpon>FormParams.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\FormList.resx">
-      <DependentUpon>FormList.cs</DependentUpon>
+    <EmbeddedResource Include="forms\FormCurrency.resx">
+      <DependentUpon>FormCurrency.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\FormShop.resx">
       <DependentUpon>FormShop.cs</DependentUpon>

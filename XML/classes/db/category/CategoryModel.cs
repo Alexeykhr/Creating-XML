@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace XML.classes.db.category
 {
@@ -34,6 +35,20 @@ namespace XML.classes.db.category
         {
             return Query("SELECT * FROM " + typeof(CategoryTable).Name
                 + " WHERE Title = ? LIMIT 1", new object[] { title});
+        }
+
+        public static IEnumerable<CategoryTable> GetAllParCategoryId(int ParCategoryId)
+        {
+            return Query("SELECT * FROM " + typeof(CategoryTable).Name
+                + " WHERE ParCategoryId = ?", new object[] { ParCategoryId });
+        }
+
+        public static bool IsExistsCategoryId(int id)
+        {
+            var row = Query("SELECT * FROM " + typeof(CategoryTable).Name
+                + " WHERE CategoryId = ? LIMIT 1", new object[] { id });
+            
+            return row.Count() > 0;
         }
 
         public static int GetCount()

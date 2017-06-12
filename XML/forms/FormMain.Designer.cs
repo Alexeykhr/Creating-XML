@@ -43,6 +43,7 @@
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.fDescription = new System.Windows.Forms.RichTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,7 +69,6 @@
             this.Info = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.notify = new System.Windows.Forms.NotifyIcon(this.components);
-            this.fDescription = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -186,6 +186,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoSize = true;
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.fDescription);
             this.panel1.Controls.Add(this.dataGridView1);
@@ -210,6 +211,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(333, 647);
             this.panel1.TabIndex = 3;
+            // 
+            // fDescription
+            // 
+            this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fDescription.Location = new System.Drawing.Point(4, 558);
+            this.fDescription.Name = "fDescription";
+            this.fDescription.Size = new System.Drawing.Size(324, 86);
+            this.fDescription.TabIndex = 20;
+            this.fDescription.Text = "";
             // 
             // dataGridView1
             // 
@@ -376,6 +388,7 @@
             this.fName.Name = "fName";
             this.fName.Size = new System.Drawing.Size(325, 20);
             this.fName.TabIndex = 2;
+            this.fName.Enter += new System.EventHandler(this.FName_Enter);
             this.fName.Leave += new System.EventHandler(this.FName_Leave);
             // 
             // label3
@@ -496,18 +509,6 @@
             // 
             this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("notify.Icon")));
             this.notify.Visible = true;
-            // 
-            // fDescription
-            // 
-            this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.fDescription.Location = new System.Drawing.Point(4, 558);
-            this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(324, 86);
-            this.fDescription.TabIndex = 20;
-            this.fDescription.Text = "";
             // 
             // Form1
             // 

@@ -114,7 +114,7 @@ namespace XML.forms
 
         private void CategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (FormList f = new FormList(true))
+            using (FormCategory f = new FormCategory())
             {
                 f.ShowDialog();
             }
@@ -124,7 +124,7 @@ namespace XML.forms
 
         private void CurrencyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (FormList f = new FormList(false))
+            using (FormCurrency f = new FormCurrency())
             {
                 f.ShowDialog();
             }
@@ -495,6 +495,11 @@ namespace XML.forms
                 MSG("ID используется - \"" + offer.First().Name + "\"");
             else
                 MSG("ID не занят");
+        }
+
+        private void FName_Enter(object sender, EventArgs e)
+        {
+            MSG("Требуемая последовательность: Тип товара Бренд Модель Размер Цвет");
         }
 
         private void FName_Leave(object sender, EventArgs e)

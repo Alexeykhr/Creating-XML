@@ -17,9 +17,9 @@ namespace XML.classes
             return text.Replace(".", ",");
         }
 
-        public static bool IsWebSite(string url)
+        public static bool IsWebSite(string url, UriKind kind = UriKind.Absolute)
         {
-            return Uri.IsWellFormedUriString(url, UriKind.Absolute);
+            return Uri.IsWellFormedUriString(url, kind);
         }
 
         public static string FirstCharToUpper(string str)

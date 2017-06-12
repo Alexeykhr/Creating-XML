@@ -10,6 +10,8 @@ namespace XML.classes.db.category
         [Unique]
         public int CategoryId { get; set; }
 
+        public int ParCategoryId { get; set; }
+
         [Unique]
         public string Title { get; set; }
     }
