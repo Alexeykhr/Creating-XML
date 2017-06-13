@@ -283,16 +283,18 @@ namespace XML.classes
             foreach (XElement offer in offers.Elements())
             {
                 // Check important data => name, price, currencyId, categoryId
-                if (offer.Element("name") == null || offer.Element("price") == null ||
-                    offer.Element("currencyId") == null || offer.Element("categoryId") == null)
+                if (offer.Attribute("id") == null || offer.Element("name") == null ||
+                    offer.Element("price") == null || offer.Element("currencyId") == null ||
+                    offer.Element("categoryId") == null)
                     continue;
 
+                bool isCorrectOfferId = int.TryParse(offer.Attribute("id").Value.Trim(), out int offerId);
                 bool isDouble = Double.TryParse(Methods.ReplaceDot(offer.Element("price").Value).Trim(), out double price);
                 string name = offer.Element("name").Value.Trim();
                 bool isInt = int.TryParse(offer.Element("categoryId").Value.Trim(), out int categoryId);
                 string currencyId = offer.Element("currencyId").Value.Trim();
 
-                if (string.IsNullOrWhiteSpace(name) || !isDouble || price < 0 ||
+                if (string.IsNullOrWhiteSpace(name) || !isDouble || price < 0 || offerId < 1 ||
                     !isInt || categoryId < 1 || string.IsNullOrWhiteSpace(currencyId))
                     continue;
                 // End
@@ -312,6 +314,7 @@ namespace XML.classes
 
                 var table = new OfferTable
                 {
+                    OfferId = offerId,
                     Name = name,
                     Price = price,
                     CurrencyId = currencyId,
@@ -361,12 +364,13 @@ namespace XML.classes
                 if (isExists && isOverWrite)
                 {
                     table.Id = model.First().Id;
-                    table.OfferId = model.First().OfferId;
+                    //table.OfferId = model.First().OfferId;
                     OfferModel.Update(table);
                 }
                 else if (!isExists)
                 {
-                    table.OfferId = OfferModel.GetCount() + 1;
+                    //table.OfferId = OfferModel.GetCount() + 1;
+                    //table.OfferId = int.Parse(offer.Attribute("id").Value.Trim());
                     OfferModel.Insert(table);
                 }
             }

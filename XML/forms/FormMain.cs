@@ -34,7 +34,6 @@ namespace XML.forms
 
             toolTip1.SetToolTip(label12, "Требуемая последовательность: Тип товара Бренд Модель Размер Цвет");
             toolTip1.SetToolTip(label13, "При отсутствии данных в обоих ячейках - данные с этой строки не сохранятся");
-            button3.Enabled = false;
 
             InitFillForm();
         }

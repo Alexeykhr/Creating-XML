@@ -12,8 +12,8 @@ namespace XML.classes.db
 {
     public class Database
     {
-        private static string FILE_NAME = "data.sqlite";
-        public static string URI = AppDomain.CurrentDomain.BaseDirectory + "\\saves\\";
+        public static string FILE_NAME = "data.sqlite";
+        public static string DIR = AppDomain.CurrentDomain.BaseDirectory;
 
         protected static SQLiteConnection con;
         private static bool instanse = false;
@@ -25,8 +25,8 @@ namespace XML.classes.db
 
             try
             {
-                Directory.CreateDirectory(URI);
-                con = new SQLiteConnection(URI + "\\" + FILE_NAME);
+                Directory.CreateDirectory(DIR + "\\saves");
+                con = new SQLiteConnection(DIR + "\\saves\\" + FILE_NAME);
 
                 Databases();
                 instanse = true;
