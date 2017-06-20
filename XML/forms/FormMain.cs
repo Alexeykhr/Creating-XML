@@ -21,11 +21,12 @@ namespace XML.forms
         public Form1()
         {
             InitializeComponent();
-
-            if ( ! Database.SetConnection() )
+            
+            if (!Database.SetConnection())
             {
                 MessageBox.Show("Ошибка при подлкючении к базе данных");
-                Close();
+                Application.Exit();
+                return;
             }
             
             Text = Methods.NAME + " - Главная";
@@ -49,6 +50,7 @@ namespace XML.forms
             listView1.Columns.Add("Картинки");
             listView1.Columns.Add("Категория");
             listView1.Columns.Add("Валюта");
+            listView1.Columns.Add("Продавец");
             listView1.Columns.Add("Доступен");
 
             var offers = OfferModel.GetAll();
@@ -59,7 +61,7 @@ namespace XML.forms
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
                         offer.OfferId.ToString(), offer.Name, offer.Price.ToString(), offer.URL,
-                        offer.PictureURL, offer.CategoryTitle,  offer.CurrencyId,
+                        offer.PictureURL, offer.CategoryTitle,  offer.CurrencyId, offer.Vendor,
                         offer.IsAviable ? "Да" : "Нет"
                     }));
                 }
@@ -257,7 +259,7 @@ namespace XML.forms
 
                 if (isComplete)
                 {
-                    ShowNotify("Импорт завершён!\nДля продолжение - запустите программу заново.");
+                    ShowNotify("Импорт завершён!\nДля продолжения - запустите программу заново.");
                     Close();
                 }
                 else
@@ -265,7 +267,7 @@ namespace XML.forms
                     ShowNotify("Произошла ошибка при импорте", 2000, ToolTipIcon.Warning);
                     MSG("Произошла ошибка при импорте. " +
                         "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
-                        "Для замены запустите починку в меню \"XML\"");
+                        "Для замены - запустите починку в меню \"XML\"");
                 }
             }
         }
@@ -314,6 +316,7 @@ namespace XML.forms
                 CategoryTitle = category,
                 CurrencyId = currencyId,
                 IsAviable = checkBox1.Checked,
+                Vendor = fVendor.Text,
                 Params = GenerateParams()
             };
 
@@ -323,7 +326,8 @@ namespace XML.forms
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
                         fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text,
-                        fPicturesURL.Text, category, currencyId, checkBox1.Checked ? "Да" : "Нет"
+                        fPicturesURL.Text, category, currencyId, fVendor.Text,
+                        checkBox1.Checked ? "Да" : "Нет"
                     }));
 
                     MSG("Товар добавлен");
@@ -331,7 +335,7 @@ namespace XML.forms
                     FillDataGridFromBasic();
                 }
                 else
-                    MSG("Товар не добавлен");
+                    MSG("Товар не добавлен - проверьте уникальность ID товара и название");
             }
             else
             {
@@ -346,7 +350,8 @@ namespace XML.forms
                     listView1.SelectedItems[0].SubItems[4].Text = fPicturesURL.Text;
                     listView1.SelectedItems[0].SubItems[5].Text = category;
                     listView1.SelectedItems[0].SubItems[6].Text = currencyId;
-                    listView1.SelectedItems[0].SubItems[7].Text = checkBox1.Checked ? "Да" : "Нет";
+                    listView1.SelectedItems[0].SubItems[7].Text = fVendor.Text;
+                    listView1.SelectedItems[0].SubItems[8].Text = checkBox1.Checked ? "Да" : "Нет";
 
                     MSG("Товар обновлён");
                 }
@@ -355,14 +360,47 @@ namespace XML.forms
             }
         }
 
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            if (!isEdit || listView1.SelectedItems.Count < 1)
+                return;
+
+            string name = fName.Text;
+            string price = fPrice.Text;
+            string url = fURL.Text;
+            string picture = fPicturesURL.Text;
+            string category = comboBox1.Text;
+            string currency = comboBox2.Text;
+            string vendor = fVendor.Text;
+            bool checkbox = checkBox1.Checked;
+            string parameters = GenerateParams();
+            string desc = fDescription.Text;
+            
+            listView1.SelectedItems[0].Selected = false;
+
+            fName.Text = name;
+            fPrice.Text = price;
+            fURL.Text = url;
+            fPicturesURL.Text = picture;
+            comboBox1.Text = category;
+            comboBox2.Text = currency;
+            fVendor.Text = vendor;
+            checkBox1.Checked = checkbox;
+            fDescription.Text = desc;
+            FillDataGridFromTable(parameters);
+
+            MSG("Товар скопирован. Необходимо изменить название и id (при необходимости)");
+        }
+
         private void CorrectInput()
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
             fPrice.Text = Methods.ReplaceDot(fPrice.Text).Trim();
             fOfferId.Text = fOfferId.Text.Trim();
             fURL.Text = fURL.Text.Trim();
-            fDescription.Text = fDescription.Text.Trim();
+            fDescription.Text = Methods.FirstCharToUpper(fDescription.Text).Trim();
             fPicturesURL.Text = Methods.GetPickPictures(fPicturesURL.Text);
+            fVendor.Text = Methods.FirstCharToUpper(fVendor.Text).Trim();
         }
 
         private bool CheckDataForNewData()
@@ -416,6 +454,7 @@ namespace XML.forms
             comboBox2.Text = offer.CurrencyId;
             checkBox1.Checked = offer.IsAviable;
             fDescription.Text = offer.Description;
+            fVendor.Text = offer.Vendor;
             FillDataGridFromTable(offer.Params);
         }
 

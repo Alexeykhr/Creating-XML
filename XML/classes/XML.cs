@@ -81,7 +81,6 @@ namespace XML.classes
         {
             XElement offers = new XElement("offers");
             var items = OfferModel.GetAll();
-            string vendor = ShopModel.Get().First().Name;
             
             foreach (var item in items)
             {
@@ -94,7 +93,7 @@ namespace XML.classes
                     new XElement("description", item.Description),
                     new XElement("url", item.URL),
                     new XElement("price", item.Price),
-                    new XElement("vendor", vendor),
+                    new XElement("vendor", item.Vendor),
                     new XElement("currencyId", item.CurrencyId),
                     new XElement("categoryId", categoryId));
 
@@ -358,6 +357,9 @@ namespace XML.classes
 
                 if (offer.Attribute("available") != null)
                     table.IsAviable = offer.Attribute("available").Value.Equals("true");
+
+                if (offer.Element("vendor") != null)
+                    table.Vendor = offer.Element("vendor").Value.Trim();
                 // End
 
                 // Insert / update in DB

@@ -50,7 +50,11 @@ namespace XML.classes.db.offer
 
         public static int GetCount()
         {
-            return con.Table<OfferTable>().Count();
+            try
+            {
+                return con.Table<OfferTable>().Count();
+            }
+            catch { return 0; }
         }
     }
 }

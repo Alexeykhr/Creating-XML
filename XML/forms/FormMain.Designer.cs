@@ -42,6 +42,9 @@
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
+            this.fVendor = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -184,6 +187,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.fVendor);
+            this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label9);
@@ -211,12 +217,49 @@
             this.panel1.Size = new System.Drawing.Size(333, 647);
             this.panel1.TabIndex = 3;
             // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.ForeColor = System.Drawing.Color.White;
+            this.button4.Location = new System.Drawing.Point(4, 621);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(324, 20);
+            this.button4.TabIndex = 15;
+            this.button4.Text = "Скопировать для нового товара";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
+            // 
+            // fVendor
+            // 
+            this.fVendor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fVendor.Location = new System.Drawing.Point(4, 371);
+            this.fVendor.Name = "fVendor";
+            this.fVendor.Size = new System.Drawing.Size(325, 20);
+            this.fVendor.TabIndex = 24;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1, 355);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(57, 13);
+            this.label14.TabIndex = 25;
+            this.label14.Text = "Продавец";
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label13.Cursor = System.Windows.Forms.Cursors.Help;
-            this.label13.Location = new System.Drawing.Point(314, 365);
+            this.label13.Location = new System.Drawing.Point(315, 404);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(15, 15);
             this.label13.TabIndex = 23;
@@ -235,11 +278,11 @@
             // 
             // label9
             // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label9.Location = new System.Drawing.Point(309, 141);
+            this.label9.Location = new System.Drawing.Point(308, 141);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(0, 2, 0, 3);
             this.label9.Size = new System.Drawing.Size(21, 20);
@@ -252,9 +295,9 @@
             this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fDescription.Location = new System.Drawing.Point(4, 558);
+            this.fDescription.Location = new System.Drawing.Point(4, 551);
             this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(324, 86);
+            this.fDescription.Size = new System.Drawing.Size(325, 64);
             this.fDescription.TabIndex = 20;
             this.fDescription.Text = "";
             // 
@@ -269,11 +312,11 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Key,
             this.Value});
-            this.dataGridView1.Location = new System.Drawing.Point(3, 381);
+            this.dataGridView1.Location = new System.Drawing.Point(4, 420);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(326, 155);
+            this.dataGridView1.Size = new System.Drawing.Size(326, 112);
             this.dataGridView1.TabIndex = 19;
             // 
             // Key
@@ -337,7 +380,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(272, 539);
+            this.label7.Location = new System.Drawing.Point(272, 535);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(57, 13);
             this.label7.TabIndex = 14;
@@ -348,7 +391,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(245, 365);
+            this.label6.Location = new System.Drawing.Point(246, 404);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 12;
@@ -362,7 +405,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(3, 358);
+            this.checkBox1.Location = new System.Drawing.Point(4, 397);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(75, 17);
             this.checkBox1.TabIndex = 10;
@@ -442,7 +485,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(0, 315);
+            this.label2.Location = new System.Drawing.Point(1, 315);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 3;
@@ -683,6 +726,9 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox fVendor;
+        private System.Windows.Forms.Label label14;
     }
 }
 

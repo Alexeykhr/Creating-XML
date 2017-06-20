@@ -19,6 +19,8 @@ namespace XML.classes.db.offer
 
         public string PictureURL { get; set; }
 
+        public string Vendor { get; set; }
+
         public double Price { get; set; }
 
         public bool IsAviable { get; set; }
