@@ -309,101 +309,101 @@ namespace XML.forms
 
         private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //SaveFileDialog dialog = new SaveFileDialog()
-            //{
-            //    Filter = "XML Files(*.xml) | *.xml"
-            //};
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "XML Files(*.xml) | *.xml"
+            };
 
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    MSG("Создаём Файл..");
-            //    XDocument doc = XMLHelpler.CreateDoc();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                MSG("Создаём Файл..");
+                XDocument doc = XMLHelpler.CreateDoc();
 
-            //    MSG("Добавляем магазин..");
-            //    XElement shop = XMLHelpler.AddShop(doc);
+                MSG("Добавляем магазин..");
+                XElement shop = XMLHelpler.AddShop(doc);
 
-            //    if (shop == null)
-            //    {
-            //        MSG("Отсутствуют настройки магазина. Меню \"Магазин\"");
-            //        return;
-            //    }
+                if (shop == null)
+                {
+                    MSG("Отсутствуют настройки магазина. Меню \"Магазин\"");
+                    return;
+                }
 
-            //    MSG("Добавляем валюты..");
-            //    XMLHelpler.AddCurrencies(shop);
+                MSG("Добавляем валюты..");
+                XMLHelpler.AddCurrencies(shop);
 
-            //    MSG("Добавляем категории..");
-            //    XMLHelpler.AddCategories(shop);
+                MSG("Добавляем категории..");
+                XMLHelpler.AddCategories(shop);
 
-            //    MSG("Добавляем товары..");
-            //    XMLHelpler.AddOffers(shop);
+                MSG("Добавляем товары..");
+                XMLHelpler.AddOffers(shop);
 
-            //    MSG("Сохраняем файл..");
-            //    doc.Save(dialog.FileName);
+                MSG("Сохраняем файл..");
+                doc.Save(dialog.FileName);
 
-            //    MSG("Экспорт завершён");
-            //    ShowNotify("Экспорт завершён");
-            //}
+                MSG("Экспорт завершён");
+                ShowNotify("Экспорт завершён");
+            }
         }
 
         private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)" + Environment.NewLine
-            //    + "После завершения программа закроется и данные обновятся" + Environment.NewLine
-            //    + "Вы уверены, что хотите продолжить?",
-            //    Methods.NAME, MessageBoxButtons.YesNo);
+            DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)" + Environment.NewLine
+                + "После завершения программа закроется и данные обновятся" + Environment.NewLine
+                + "Вы уверены, что хотите продолжить?",
+                Methods.NAME, MessageBoxButtons.YesNo);
 
-            //if (isOpen == DialogResult.No)
-            //    return;
+            if (isOpen == DialogResult.No)
+                return;
 
-            //OpenFileDialog dialog = new OpenFileDialog()
-            //{
-            //    Filter = "XML Files(*.xml) | *.xml"
-            //};
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = "XML Files(*.xml) | *.xml"
+            };
 
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    DialogResult result = MessageBox.Show(
-            //        "Перезаписывать существующие данные?",
-            //        Methods.NAME,
-            //        MessageBoxButtons.YesNo
-            //    );
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                DialogResult result = MessageBox.Show(
+                    "Перезаписывать существующие данные?",
+                    Methods.NAME,
+                    MessageBoxButtons.YesNo
+                );
 
-            //    bool isComplete = XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
+                bool isComplete = XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
 
-            //    if (isComplete)
-            //    {
-            //        ShowNotify("Импорт завершён!\nДля продолжения - запустите программу заново.");
-            //        Close();
-            //    }
-            //    else
-            //    {
-            //        ShowNotify("Произошла ошибка при импорте", 2000, ToolTipIcon.Warning);
-            //        MSG("Произошла ошибка при импорте. " +
-            //            "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
-            //            "Для символа - запустите починку в меню \"XML\"");
-            //    }
-            //}
+                if (isComplete)
+                {
+                    ShowNotify("Импорт завершён!\nДля продолжения - запустите программу заново.");
+                    //Close();
+                }
+                else
+                {
+                    ShowNotify("Произошла ошибка при импорте", 2000, ToolTipIcon.Warning);
+                    MSG("Произошла ошибка при импорте. " +
+                        "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
+                        "Для символа - запустите починку в меню \"XML\"");
+                }
+            }
         }
 
         private void RepairXMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //DialogResult isOpen = MessageBox.Show("Исходный файл будет изменён" + Environment.NewLine
-            //    + "Вы уверены, что хотите продолжить?",
-            //    Methods.NAME, MessageBoxButtons.YesNo);
+            DialogResult isOpen = MessageBox.Show("Исходный файл будет изменён" + Environment.NewLine
+                + "Вы уверены, что хотите продолжить?",
+                Methods.NAME, MessageBoxButtons.YesNo);
 
-            //if (isOpen == DialogResult.No)
-            //    return;
+            if (isOpen == DialogResult.No)
+                return;
 
-            //OpenFileDialog dialog = new OpenFileDialog()
-            //{
-            //    Filter = "XML Files(*.xml) | *.xml"
-            //};
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = "XML Files(*.xml) | *.xml"
+            };
 
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    XMLHelpler.Repair(dialog.FileName);
-            //    MSG("Починка завершена. Попробуйте импортировать файл снова.", true);
-            //}
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                XMLHelpler.Repair(dialog.FileName);
+                MSG("Починка завершена. Попробуйте импортировать файл снова.", true);
+            }
         }
 
         // |--------------------------------------------------------------------------

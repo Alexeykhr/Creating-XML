@@ -52,6 +52,7 @@ namespace XML.forms
 
             var company = new ShopTable
             {
+                Id = 1,
                 Name = textBox1.Text,
                 Company = textBox2.Text,
                 Url = textBox3.Text
