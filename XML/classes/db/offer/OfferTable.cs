@@ -4,30 +4,37 @@ namespace XML.classes.db.offer
 {
     class OfferTable
     {
-        [PrimaryKey, Unique]
+        [PrimaryKey, Unique, NotNull]
         public int OfferId { get; set; }
-        
-        public int CoopId { get; set; }
 
-        [Unique]
+        [Unique, NotNull]
         public string Name { get; set; }
         
+        [NotNull]
         public string Description { get; set; }
-
+        
+        [NotNull]
         public string URL { get; set; }
 
-        public string PictureURL { get; set; }
+        [NotNull]
+        public string PicturesURL { get; set; }
 
+        [NotNull]
         public string Vendor { get; set; }
 
+        [NotNull]
         public double Price { get; set; }
 
+        [NotNull]
         public bool IsAviable { get; set; }
 
+        [NotNull]
         public string Params { get; set; } // It's array |
 
+        [NotNull]
         public string CategoryTitle { get; set; } // Table Category
         
+        [NotNull]
         public string CurrencyId { get; set; } // Table Currency
     }
 }

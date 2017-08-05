@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
+using XML.classes.db;
 using XML.classes.db.shop;
 using XML.classes.db.offer;
 using XML.classes.db.category;
@@ -98,7 +99,7 @@ namespace XML.classes
                     new XElement("categoryId", categoryId));
 
                 // Pictures
-                string[] pictures = item.PictureURL.Split('\n');
+                string[] pictures = item.PicturesURL.Split('\n');
                 foreach (string picture in pictures)
                 {
                     offer.Add(new XElement("picture", picture.Trim()));
@@ -179,28 +180,28 @@ namespace XML.classes
 
         private static void LoadShop(string name, string company, string url, bool isOverWrite, bool isNewShop)
         {
-            ShopTable shop;
-            var shopDB = ShopModel.Get();
-            bool isNew = shopDB.Count() < 1;
+            //ShopTable shop;
+            //var shopDB = ShopModel.Get();
+            //bool isNew = shopDB.Count() < 1;
 
-            if (isNew)
-                shop = new ShopTable { Id = 1 };
-            else if (isOverWrite || isNewShop)
-                shop = shopDB.First();
-            else
-                return;
+            //if (isNew)
+            //    shop = new ShopTable { Id = 1 };
+            //else if (isOverWrite || isNewShop)
+            //    shop = shopDB.First();
+            //else
+            //    return;
 
-            if (name != null)
-                shop.Name = name.Trim();
-            else if (company != null)
-                shop.Company = company.Trim();
-            else if (url != null)
-                shop.Url = url.Trim();
+            //if (name != null)
+            //    shop.Name = name.Trim();
+            //else if (company != null)
+            //    shop.Company = company.Trim();
+            //else if (url != null)
+            //    shop.Url = url.Trim();
 
-            if (isNew)
-                ShopModel.Insert(shop);
-            else
-                ShopModel.Update(shop);
+            //if (isNew)
+            //    Database.Insert(shop);
+            //else
+            //    Database.Update(shop);
         }
 
         private static void LoadCurrencies(XElement currencies, bool isOverWrite)
@@ -228,10 +229,10 @@ namespace XML.classes
                 if (isExists && isOverWrite)
                 {
                     //table.Id = model.First().Id;
-                    CurrencyModel.Update(table);
+                    Database.Update(table);
                 }
                 else if (!isExists)
-                    CurrencyModel.Insert(table);
+                    Database.Insert(table);
             }
         }
 
@@ -270,10 +271,10 @@ namespace XML.classes
                 if (isExists && isOverWrite)
                 {
                     //table.Id = model.First().Id;
-                    CategoryModel.Update(table);
+                    Database.Update(table);
                 }
                 else if (!isExists)
-                    CategoryModel.Insert(table);
+                    Database.Insert(table);
             }
         }
 
@@ -332,7 +333,7 @@ namespace XML.classes
                     pictures += picture.Value.Trim() + Environment.NewLine;
                 }
                 if (!string.IsNullOrWhiteSpace(pictures))
-                    table.PictureURL = pictures.Trim();
+                    table.PicturesURL = pictures.Trim();
 
                 // -- Parametrs
                 string parametrs = string.Empty;
@@ -366,13 +367,13 @@ namespace XML.classes
                 if (isExists && isOverWrite)
                 {
                     table.OfferId = model.First().OfferId;
-                    OfferModel.Update(table);
+                    Database.Update(table);
                 }
                 else if (!isExists)
                 {
                     //table.OfferId = OfferModel.GetCount() + 1;
                     //table.OfferId = int.Parse(offer.Attribute("id").Value.Trim());
-                    OfferModel.Insert(table);
+                    Database.Insert(table);
                 }
             }
         }

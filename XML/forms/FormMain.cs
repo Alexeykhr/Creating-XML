@@ -32,23 +32,13 @@ namespace XML.forms
             
             Text = Methods.NAME + " - Главная";
 
-            // Notify
-            notify.Text = Methods.NAME;
-            notify.BalloonTipTitle = Methods.NAME + " - уведомление";
-
-            // ToolTip
-            toolTip1.SetToolTip(label12, "Требуемая последовательность: Тип товара Бренд Модель Размер Цвет");
-            toolTip1.SetToolTip(label13, "При отсутствии данных в обоих ячейках - данные с этой строки не сохранятся");
-            toolTip1.SetToolTip(label15, "Картинки не менее 600х500px");
-
-            InitFillForm();
+            Initial();
         }
 
-        private void InitFillForm()
+        private void Initial()
         {
             //ListView
             listView1.Columns.Add("ID");
-            listView1.Columns.Add("Совм. ID");
             listView1.Columns.Add("Название");
             listView1.Columns.Add("Цена");
             listView1.Columns.Add("URL");
@@ -66,9 +56,9 @@ namespace XML.forms
                 foreach (var offer in offers)
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
-                        offer.OfferId.ToString(), offer.CoopId.ToString(), offer.Name, offer.Price.ToString(),
-                        offer.URL, offer.PictureURL, offer.CategoryTitle,  offer.CurrencyId, offer.Vendor,
-                        offer.IsAviable ? "Да" : "Нет"
+                        offer.OfferId.ToString(), offer.Name, offer.Price.ToString(), offer.URL.Length > 0 ? "+" : "-",
+                        offer.PicturesURL.Length > 0 ? "+" : "-", offer.CategoryTitle,  offer.CurrencyId,
+                        offer.Vendor, offer.IsAviable ? "Да" : "Нет"
                     }));
                 }
             }
@@ -80,6 +70,10 @@ namespace XML.forms
             fPrice.Text = "0";
             FillComboBoxCategories();
             FillComboBoxCurrencies();
+
+            // Notify
+            notify.Text = Methods.NAME;
+            notify.BalloonTipTitle = Methods.NAME + " - уведомление";
         }
 
         private void FillComboBoxCategories()
@@ -156,27 +150,6 @@ namespace XML.forms
         {
             FormAbout f = new FormAbout();
             f.Show(this);
-        }
-
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            if (! isEdit)
-            {
-                MSG("Выберите в списке удаляемый товар");
-                return;
-            }
-
-            string name = GetSelectedName();
-            int deleted = Database.DeleteObject<OfferTable>(GetSelectedOfferId());
-
-            if (deleted == 1)
-            {
-                MSG("Товар удалён - " + name, true);
-                listView1.Items.RemoveAt(GetSelectedIndex());
-                count--;
-            }
-            else
-                MSG("Товар не удалился");
         }
 
         private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -278,102 +251,6 @@ namespace XML.forms
             }
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            CorrectInput();
-
-            if (! CheckDataForNewData())
-                return;
-
-            var offer = new OfferTable
-            {
-                OfferId = int.Parse(fOfferId.Text),
-                CoopId = int.Parse(fCoopId.Text),
-                Name = fName.Text,
-                Price = Double.Parse(fPrice.Text),
-                URL = fURL.Text,
-                PictureURL = fPicturesURL.Text,
-                Description = fDescription.Text,
-                CategoryTitle = comboBox1.Text,
-                CurrencyId = comboBox2.Text,
-                IsAviable = checkBox1.Checked,
-                Vendor = fVendor.Text,
-                Params = GenerateParams()
-            };
-
-            if (! isEdit)
-            {
-                if (Database.Insert(offer) == 1)
-                {
-                    listView1.Items.Add(new ListViewItem(new[] {
-                        fOfferId.Text, fCoopId.Text, fName.Text, fPrice.Text.ToString(),
-                        fURL.Text, fPicturesURL.Text, comboBox1.Text, comboBox2.Text, fVendor.Text,
-                        checkBox1.Checked ? "Да" : "Нет"
-                    }));
-
-                    MSG("Товар добавлен - " + fName.Text, true);
-                    count++;
-
-                    FillDataGridFromBasic();
-                }
-                else
-                    MSG("Товар не добавлен - проверьте уникальность ID товара и название");
-            }
-            else
-            {
-                if (Database.Update(offer) == 1)
-                {
-                    listView1.SelectedItems[0].SubItems[1].Text = fCoopId.Text;
-                    listView1.SelectedItems[0].SubItems[2].Text = fName.Text;
-                    listView1.SelectedItems[0].SubItems[3].Text = fPrice.Text;
-                    listView1.SelectedItems[0].SubItems[4].Text = fURL.Text;
-                    listView1.SelectedItems[0].SubItems[5].Text = fPicturesURL.Text;
-                    listView1.SelectedItems[0].SubItems[6].Text = comboBox1.Text;
-                    listView1.SelectedItems[0].SubItems[7].Text = comboBox2.Text;
-                    listView1.SelectedItems[0].SubItems[8].Text = fVendor.Text;
-                    listView1.SelectedItems[0].SubItems[9].Text = checkBox1.Checked ? "Да" : "Нет";
-
-                    MSG("Товар обновлён - " + fName.Text, true);
-                }
-                else
-                    MSG("Товар не обновлён - проверьте уникальность ID товара и название");
-            }
-        }
-
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            if (! isEdit)
-                return;
-
-            string coopId = fCoopId.Text;
-            string name = fName.Text;
-            string price = fPrice.Text;
-            string url = fURL.Text;
-            string picture = fPicturesURL.Text;
-            string category = comboBox1.Text;
-            string currency = comboBox2.Text;
-            string vendor = fVendor.Text;
-            bool checkbox = checkBox1.Checked;
-            string parameters = GenerateParams();
-            string desc = fDescription.Text;
-            
-            listView1.SelectedItems[0].Selected = false;
-
-            fCoopId.Text = coopId;
-            fName.Text = name;
-            fPrice.Text = price;
-            fURL.Text = url;
-            fPicturesURL.Text = picture;
-            comboBox1.Text = category;
-            comboBox2.Text = currency;
-            fVendor.Text = vendor;
-            checkBox1.Checked = checkbox;
-            fDescription.Text = desc;
-            FillDataGridFromTable(parameters);
-
-            MSG("Товар скопирован. Необходимо изменить название и id (при необходимости)", true);
-        }
-
         private void CorrectInput()
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
@@ -420,7 +297,7 @@ namespace XML.forms
                 fOfferId.ReadOnly = false;
                 button1.Text = "Добавить";
 
-                FillDataGridFromBasic();
+                FillDataGridDefault();
                 return;
             }
 
@@ -432,17 +309,16 @@ namespace XML.forms
             var offer = OfferModel.GetOneByOfferId(GetSelectedOfferId()).First();
 
             fOfferId.Text = offer.OfferId.ToString();
-            fCoopId.Text = offer.CoopId.ToString();
             fName.Text = offer.Name;
             fPrice.Text = offer.Price.ToString();
             fURL.Text = offer.URL;
-            fPicturesURL.Text = offer.PictureURL;
+            fPicturesURL.Text = offer.PicturesURL;
             comboBox1.Text = offer.CategoryTitle;
             comboBox2.Text = offer.CurrencyId;
             checkBox1.Checked = offer.IsAviable;
             fDescription.Text = offer.Description;
             fVendor.Text = offer.Vendor;
-            FillDataGridFromTable(offer.Params);
+            FillDataGridDatabase(offer.Params);
         }
 
         private void ClearPanel()
@@ -487,7 +363,7 @@ namespace XML.forms
             return sout.Substring(0, sout.Length - 1);
         }
 
-        private void FillDataGridFromBasic()
+        private void FillDataGridDefault()
         {
             ClearPanel();
             dataGridView1.Rows.Clear();
@@ -517,7 +393,7 @@ namespace XML.forms
             }
         }
 
-        private void FillDataGridFromTable(string value)
+        private void FillDataGridDatabase(string value)
         {
             dataGridView1.Rows.Clear();
 
@@ -547,47 +423,7 @@ namespace XML.forms
 
         private string GetSelectedName()
         {
-            return listView1.SelectedItems[0].SubItems[2].Text;
-        }
-
-        private void FOfferId_Leave(object sender, EventArgs e)
-        {
-            bool isInt = int.TryParse(fOfferId.Text, out int id);
-
-            if (! isInt)
-            {
-                MSG("ID должен быть числом");
-                return;
-            }
-
-            var offer = OfferModel.GetOneByOfferId(id);
-
-            if (offer.Count() > 0)
-                MSG("ID используется - \"" + offer.First().Name + "\"");
-            else
-                MSG("ID не занят", true);
-        }
-
-        private void FName_Leave(object sender, EventArgs e)
-        {
-            fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
-            var offer = OfferModel.GetOneByName(fName.Text);
-
-            if (offer.Count() > 0)
-                MSG("Название товара используется - #" + offer.First().OfferId);
-            else
-                MSG("Название товара не занято", true);
-        }
-
-        private void FPrice_Leave(object sender, EventArgs e)
-        {
-            fPrice.Text = Methods.ReplaceDot(fPrice.Text);
-            bool isDouble = Double.TryParse(fPrice.Text, out double salary);
-
-            if (isDouble)
-                MSG("Цена корректная", true);
-            else
-                MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
+            return listView1.SelectedItems[0].SubItems[1].Text;
         }
 
         private void MSG(string text, bool isGood = false)
@@ -642,6 +478,73 @@ namespace XML.forms
             button3.Enabled = !button3.Enabled;
         }
 
+        // |--------------------------------------------------------------------------
+        // | Click Buttons
+        // |--------------------------------------------------------------------------
+        // |
+
+        // Save or insert
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            CorrectInput();
+
+            if (!CheckDataForNewData())
+                return;
+
+            var offer = new OfferTable
+            {
+                OfferId = int.Parse(fOfferId.Text),
+                Name = fName.Text,
+                Price = Double.Parse(fPrice.Text),
+                URL = fURL.Text,
+                PicturesURL = fPicturesURL.Text,
+                Description = fDescription.Text,
+                CategoryTitle = comboBox1.Text,
+                CurrencyId = comboBox2.Text,
+                IsAviable = checkBox1.Checked,
+                Vendor = fVendor.Text,
+                Params = GenerateParams()
+            };
+
+            if (!isEdit)
+            {
+                if (Database.Insert(offer) == 1)
+                {
+                    listView1.Items.Add(new ListViewItem(new[] {
+                        fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text.Length > 0 ? "+" : "-",
+                        fPicturesURL.Text.Length > 0 ? "+" : "-", comboBox1.Text, comboBox2.Text,
+                        fVendor.Text, checkBox1.Checked ? "Да" : "Нет"
+                    }));
+
+                    MSG("Товар добавлен [" + fOfferId.Text + "] - " + fName.Text, true);
+                    count++;
+
+                    FillDataGridDefault();
+                }
+                else
+                    MSG("Товар не добавлен - проверьте уникальность ID товара и название");
+            }
+            else
+            {
+                if (Database.Update(offer) == 1)
+                {
+                    listView1.SelectedItems[0].SubItems[1].Text = fName.Text;
+                    listView1.SelectedItems[0].SubItems[2].Text = fPrice.Text;
+                    listView1.SelectedItems[0].SubItems[3].Text = fURL.Text.Length > 0 ? "+" : "-";
+                    listView1.SelectedItems[0].SubItems[4].Text = fPicturesURL.Text.Length > 0 ? "+" : "-";
+                    listView1.SelectedItems[0].SubItems[5].Text = comboBox1.Text;
+                    listView1.SelectedItems[0].SubItems[6].Text = comboBox2.Text;
+                    listView1.SelectedItems[0].SubItems[7].Text = fVendor.Text;
+                    listView1.SelectedItems[0].SubItems[8].Text = checkBox1.Checked ? "Да" : "Нет";
+
+                    MSG("Товар обновлён [" + fOfferId.Text + "] - " + fName.Text, true);
+                }
+                else
+                    MSG("Товар не обновлён - проверьте уникальность ID товара и название");
+            }
+        }
+
+        // Search in ListView
         private void Button2_Click(object sender, EventArgs e)
         {
             int count = listView1.Items.Count;
@@ -656,7 +559,7 @@ namespace XML.forms
                     {
                         listView1.Items[i % count].Selected = true;
                         MSG("Найден товар по ID [" + listView1.Items[i % count].Text + "] - "
-                            + listView1.Items[i % count].SubItems[2].Text, true);
+                            + listView1.Items[i % count].SubItems[1].Text, true);
                         return;
                     }
                 }
@@ -670,7 +573,7 @@ namespace XML.forms
 
             for (int i = initIndex; i < count + initIndex; i++)
             {
-                string curText = listView1.Items[i % count].SubItems[2].Text;
+                string curText = listView1.Items[i % count].SubItems[1].Text;
 
                 if (curText.Length < len)
                     continue;
@@ -679,12 +582,119 @@ namespace XML.forms
                 {
                     listView1.Items[i % count].Selected = true;
                     MSG("Найден товар по названию [" + listView1.Items[i % count].Text + "] - "
-                        + listView1.Items[i % count].SubItems[2].Text, true);
+                        + listView1.Items[i % count].SubItems[1].Text, true);
                     return;
                 }
             }
 
             MSG("Товар по названию не найден");
+        }
+
+        // Delete product
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            if (!isEdit)
+            {
+                MSG("Выберите в списке удаляемый товар");
+                return;
+            }
+
+            string name = GetSelectedName();
+            int deleted = Database.DeleteObject<OfferTable>(GetSelectedOfferId());
+
+            if (deleted == 1)
+            {
+                MSG("Товар удалён - " + name, true);
+                listView1.Items.RemoveAt(GetSelectedIndex());
+                count--;
+            }
+            else
+                MSG("Товар не удалился");
+        }
+
+        // Copy product
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            if (!isEdit)
+                return;
+
+            string name = fName.Text;
+            string price = fPrice.Text;
+            string url = fURL.Text;
+            string picture = fPicturesURL.Text;
+            string category = comboBox1.Text;
+            string currency = comboBox2.Text;
+            string vendor = fVendor.Text;
+            bool checkbox = checkBox1.Checked;
+            string parameters = GenerateParams();
+            string desc = fDescription.Text;
+
+            listView1.SelectedItems[0].Selected = false;
+
+            fName.Text = name;
+            fPrice.Text = price;
+            fURL.Text = url;
+            fPicturesURL.Text = picture;
+            comboBox1.Text = category;
+            comboBox2.Text = currency;
+            fVendor.Text = vendor;
+            checkBox1.Checked = checkbox;
+            fDescription.Text = desc;
+            FillDataGridDatabase(parameters);
+
+            MSG("Товар скопирован. Необходимо изменить название и id (при необходимости)", true);
+        }
+
+        // Fall focus
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            if (isEdit)
+                listView1.SelectedItems[0].Selected = false;
+        }
+
+        // |--------------------------------------------------------------------------
+        // | Leave Inputs
+        // |--------------------------------------------------------------------------
+        // |
+
+        private void FOfferId_Leave(object sender, EventArgs e)
+        {
+            bool isInt = int.TryParse(fOfferId.Text, out int id);
+
+            if (!isInt)
+            {
+                MSG("ID должен быть числом");
+                return;
+            }
+
+            var offer = OfferModel.GetOneByOfferId(id);
+
+            if (offer.Count() > 0)
+                MSG("ID используется - \"" + offer.First().Name + "\"");
+            else
+                MSG("ID не занят", true);
+        }
+
+        private void FName_Leave(object sender, EventArgs e)
+        {
+            fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
+            var offer = OfferModel.GetOneByName(fName.Text);
+
+            if (offer.Count() > 0)
+                MSG("Название товара используется - #" + offer.First().OfferId);
+            else
+                MSG("Название товара не занято", true);
+        }
+
+        private void FPrice_Leave(object sender, EventArgs e)
+        {
+            fPrice.Text = Methods.ReplaceDot(fPrice.Text);
+            bool isDouble = Double.TryParse(fPrice.Text, out double salary);
+
+            if (isDouble)
+                MSG("Цена корректная", true);
+            else
+                MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
         }
     }
 }

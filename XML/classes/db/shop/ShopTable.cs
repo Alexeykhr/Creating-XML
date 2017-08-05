@@ -4,13 +4,13 @@ namespace XML.classes.db.shop
 {
     class ShopTable
     {
-        [PrimaryKey, AutoIncrement, Unique]
-        public int Id { get; set; }
-
+        [PrimaryKey, NotNull]
         public string Name { get; set; }
 
+        [NotNull]
         public string Company { get; set; }
 
+        [NotNull]
         public string Url { get; set; }
     }
 }

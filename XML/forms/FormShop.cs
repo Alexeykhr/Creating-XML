@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using XML.classes;
+using XML.classes.db;
 using XML.classes.db.shop;
 
 namespace XML.forms
@@ -43,7 +44,7 @@ namespace XML.forms
                 return false;
             }
 
-            if (!Methods.IsWebSite(textBox3.Text))
+            if (! Methods.IsWebSite(textBox3.Text))
             {
                 MessageBox.Show("Ссылка имеет неверный формат");
                 return false;
@@ -51,13 +52,12 @@ namespace XML.forms
 
             var company = new ShopTable
             {
-                Id = 1,
                 Name = textBox1.Text,
                 Company = textBox2.Text,
                 Url = textBox3.Text
             };
 
-            int isUpdated = isNew ? ShopModel.Insert(company) : ShopModel.Update(company);
+            int isUpdated = isNew ? Database.Insert(company) : Database.Update(company);
 
             if (isUpdated == 1)
             {

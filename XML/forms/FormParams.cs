@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using XML.classes;
+using XML.classes.db;
 using XML.classes.db.category;
 using XML.classes.db.parametrs;
 
@@ -39,10 +40,7 @@ namespace XML.forms
                 Parametrs = textBox1.Text
             };
 
-            if (model.Count() > 0)
-                table.Id = model.First().Id;
-
-            int saved = model.Count() > 0 ? ParametrsModel.Update(table) : ParametrsModel.Insert(table);
+            int saved = model.Count() > 0 ? Database.Update(table) : Database.Insert(table);
 
             if (saved == 1)
                 MessageBox.Show("Сохранено");
@@ -70,7 +68,7 @@ namespace XML.forms
             
             foreach (var line in arr)
             {
-                if (!string.IsNullOrWhiteSpace(line))
+                if (! string.IsNullOrWhiteSpace(line))
                     outText += Methods.FirstCharToUpper(line.Trim()) + Environment.NewLine;
             }
 

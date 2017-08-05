@@ -73,10 +73,10 @@ namespace XML.forms
             }
             else if (InsertItem() == 1)
             {
+                count++;
                 listView1.Items.Add(new ListViewItem(new[] {
                     textBox1.Text, textBox3.Text, textBox2.Text
                 }));
-                count++;
             }
             else
                 return;
@@ -96,8 +96,8 @@ namespace XML.forms
 
             if (DeleteSelectedItem() == 1)
             {
-                listView1.SelectedItems[0].Remove();
                 count--;
+                listView1.SelectedItems[0].Remove();
             }
             else
                 MessageBox.Show("Данные не удалились");
@@ -198,7 +198,7 @@ namespace XML.forms
                 }
 
                 // Clear submenu
-                var subMenus = CategoryModel.GetAllParCategoryId(int.Parse(listView1.SelectedItems[0].SubItems[0].Text));
+                var subMenus = CategoryModel.GetAllParCategoryId(int.Parse(listView1.SelectedItems[0].Text));
 
                 DialogResult choose = DialogResult.Yes;
                 if (subMenus.Count() > 0)
@@ -223,10 +223,7 @@ namespace XML.forms
                 // End
 
                 // Delete parametrs
-                var parametrs = ParametrsModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[2].Text);
-
-                if (parametrs.Count() > 0)
-                    Database.DeleteObject<ParametrsTable>(parametrs.First().Id);
+                Database.DeleteObject<ParametrsTable>(listView1.SelectedItems[0].SubItems[2].Text);
                 // End
                 
                 return Database.DeleteObject<CategoryTable>(listView1.SelectedItems[0].Text);

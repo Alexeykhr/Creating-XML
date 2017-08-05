@@ -4,12 +4,10 @@ namespace XML.classes.db.parametrs
 {
     class ParametrsTable
     {
-        [PrimaryKey, AutoIncrement, Unique]
-        public int Id { get; set; }
-
-        [Unique]
+        [PrimaryKey, Unique, NotNull]
         public string CategoryTitle { get; set; }
 
+        [NotNull]
         public string Parametrs { get; set; }
     }
 }

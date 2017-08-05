@@ -4,12 +4,13 @@ namespace XML.classes.db.category
 {
     class CategoryTable
     {
-        [PrimaryKey, Unique]
+        [PrimaryKey, Unique, NotNull]
         public int CategoryId { get; set; }
 
-        public int ParCategoryId { get; set; }
-
-        [Unique]
+        [Unique, NotNull]
         public string Title { get; set; }
+
+        [NotNull]
+        public int ParCategoryId { get; set; }
     }
 }
