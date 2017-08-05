@@ -227,7 +227,7 @@ namespace XML.classes
 
                 if (isExists && isOverWrite)
                 {
-                    table.Id = model.First().Id;
+                    //table.Id = model.First().Id;
                     CurrencyModel.Update(table);
                 }
                 else if (!isExists)
@@ -269,7 +269,7 @@ namespace XML.classes
 
                 if (isExists && isOverWrite)
                 {
-                    table.Id = model.First().Id;
+                    //table.Id = model.First().Id;
                     CategoryModel.Update(table);
                 }
                 else if (!isExists)

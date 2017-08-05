@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using XML.classes;
+using XML.classes.db;
 using XML.classes.db.offer;
 using XML.classes.db.category;
 using XML.classes.db.parametrs;
@@ -13,24 +14,24 @@ namespace XML.forms
     public partial class FormCategory : Form
     {
         private bool isEdit = false;
+        private int count = 0;
 
         public FormCategory()
         {
             InitializeComponent();
 
             Text = Methods.NAME + " - Категории";
+
+            Initial();
+        }
+
+        private void Initial()
+        {
+            // ListView
             listView1.Columns.Add("ID");
             listView1.Columns.Add("Родительский ID");
             listView1.Columns.Add("Название");
-            textBox1.Text = (CategoryModel.GetCount() + 1).ToString();
-            textBox3.Text = "0";
 
-            FillListView();
-            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-        }
-
-        private void FillListView()
-        {
             var categories = CategoryModel.GetAll();
 
             if (categories != null && categories.Count() > 0)
@@ -43,6 +44,13 @@ namespace XML.forms
                     }));
                 }
             }
+
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+            // Other
+            count = categories.Count();
+            textBox1.Text = (count + 1).ToString();
+            textBox3.Text = "0";
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -68,33 +76,35 @@ namespace XML.forms
                 listView1.Items.Add(new ListViewItem(new[] {
                     textBox1.Text, textBox3.Text, textBox2.Text
                 }));
+                count++;
             }
             else
                 return;
             
-            textBox1.Text = (CategoryModel.GetCount() + 1).ToString();
+            textBox1.Text = (count + 1).ToString();
             textBox2.Text = string.Empty;
             textBox3.Text = string.Empty;
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count < 1)
+            if (! isEdit)
             {
                 MessageBox.Show("Выберите строку");
                 return;
             }
 
             if (DeleteSelectedItem() == 1)
+            {
                 listView1.SelectedItems[0].Remove();
+                count--;
+            }
             else
                 MessageBox.Show("Данные не удалились");
         }
 
         private void CorrectInputs()
         {
-            textBox1.Text = textBox1.Text.Trim();
-            textBox2.Text = textBox2.Text.Trim();
             textBox3.Text = textBox3.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(textBox3.Text))
@@ -131,7 +141,7 @@ namespace XML.forms
             {
                 label1.BackColor = Color.Brown;
                 isEdit = false;
-                textBox1.Text = (CategoryModel.GetCount() + 1).ToString();
+                textBox1.Text = (count + 1).ToString();
                 textBox2.Text = string.Empty;
                 textBox3.Text = "0";
                 return;
@@ -148,7 +158,7 @@ namespace XML.forms
         {
             int inserted = 0;
 
-            inserted = CategoryModel.Insert(new CategoryTable
+            inserted = Database.Insert(new CategoryTable
             {
                 CategoryId = int.Parse(textBox1.Text),
                 ParCategoryId = int.Parse(textBox3.Text),
@@ -165,14 +175,9 @@ namespace XML.forms
         {
             try
             {
-                int id = CategoryModel.GetOne(
-                    int.Parse(listView1.SelectedItems[0].Text)
-                ).First().Id;
-
-                return CategoryModel.Update(new CategoryTable
+                return Database.Update(new CategoryTable
                 {
-                    Id = id,
-                    CategoryId = int.Parse(textBox1.Text),
+                    CategoryId = int.Parse(listView1.SelectedItems[0].Text),
                     ParCategoryId = int.Parse(textBox3.Text),
                     Title = textBox2.Text
                 });
@@ -184,10 +189,6 @@ namespace XML.forms
         {
             try
             {
-                int id = CategoryModel.GetOne(
-                    listView1.SelectedItems[0].SubItems[2].Text
-                ).First().Id;
-
                 var category = OfferModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[2].Text);
 
                 if (category.Count() > 0)
@@ -213,8 +214,7 @@ namespace XML.forms
 
                 foreach (var subMenu in subMenus)
                 {
-                    CategoryModel.Update(new CategoryTable {
-                        Id = subMenu.Id,
+                    Database.Update(new CategoryTable {
                         CategoryId = subMenu.CategoryId,
                         Title = subMenu.Title,
                         ParCategoryId = 0
@@ -226,17 +226,10 @@ namespace XML.forms
                 var parametrs = ParametrsModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[2].Text);
 
                 if (parametrs.Count() > 0)
-                    ParametrsModel.DeleteObject<ParametrsTable>(parametrs.First().Id);
+                    Database.DeleteObject<ParametrsTable>(parametrs.First().Id);
                 // End
-
-                if (subMenus.Count() > 0)
-                {
-                    CategoryModel.DeleteObject<CategoryTable>(id);
-                    Close();
-                    return 1;
-                }
                 
-                return CategoryModel.DeleteObject<CategoryTable>(id);
+                return Database.DeleteObject<CategoryTable>(listView1.SelectedItems[0].Text);
             }
             catch { return 0; }
         }

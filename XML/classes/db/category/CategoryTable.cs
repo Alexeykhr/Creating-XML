@@ -4,10 +4,7 @@ namespace XML.classes.db.category
 {
     class CategoryTable
     {
-        [PrimaryKey, AutoIncrement, Unique]
-        public int Id { get; set; }
-
-        [Unique]
+        [PrimaryKey, Unique]
         public int CategoryId { get; set; }
 
         public int ParCategoryId { get; set; }

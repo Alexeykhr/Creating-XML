@@ -4,10 +4,7 @@ namespace XML.classes.db.currency
 {
     class CurrencyTable
     {
-        [PrimaryKey, AutoIncrement, Unique]
-        public int Id { get; set; }
-
-        [Unique]
+        [PrimaryKey, Unique]
         public string CurrencyId { get; set; }
         
         public string Rate { get; set; }

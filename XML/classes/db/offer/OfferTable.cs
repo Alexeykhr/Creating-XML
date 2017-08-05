@@ -4,9 +4,6 @@ namespace XML.classes.db.offer
 {
     class OfferTable
     {
-        //[PrimaryKey, AutoIncrement, Unique]
-        //public int Id { get; set; }
-
         [PrimaryKey, Unique]
         public int OfferId { get; set; }
         

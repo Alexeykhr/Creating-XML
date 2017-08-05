@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using XML.classes;
+using XML.classes.db;
 using XML.classes.db.offer;
 using XML.classes.db.currency;
 
@@ -12,19 +13,41 @@ namespace XML.forms
     public partial class FormCurrency : Form
     {
         private bool isEdit = false;
+        private int count = 0;
         
         public FormCurrency()
         {
             InitializeComponent();
             
             Text = Methods.NAME + " - Валюты";
-            label2.Text = "Валюта";
-            label3.Text = "Ставка";
+
+            Init();
+        }
+
+        private void Init()
+        {
+            // ListView
             listView1.Columns.Add("Валюта");
             listView1.Columns.Add("Ставка");
 
-            FillListView();
+            var currencies = CurrencyModel.GetAll();
+
+            if (currencies != null && currencies.Count() > 0)
+            {
+                foreach (var currency in currencies)
+                {
+                    listView1.Items.Add(new ListViewItem(new[] {
+                        currency.CurrencyId, currency.Rate.ToString()
+                    }));
+                }
+            }
+
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+            // Other
+            label2.Text = "Валюта";
+            label3.Text = "Ставка";
+            count = currencies.Count();
         }
 
         private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -53,7 +76,7 @@ namespace XML.forms
             }
 
             textBox1.Text = textBox1.Text.ToUpper().Trim();
-            textBox2.Text = Methods.ReplaceComma(textBox2.Text.ToUpper().Trim());
+            textBox2.Text = Methods.ReplaceComma(textBox2.Text);
 
             if (isEdit && UpdateSelectedItem() == 1)
             {
@@ -70,6 +93,7 @@ namespace XML.forms
                 listView1.Items.Add(new ListViewItem(new[] {
                     textBox1.Text, textBox2.Text
                 }));
+                count++;
             }
             else
                 return;
@@ -80,36 +104,24 @@ namespace XML.forms
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count < 1)
+            if (! isEdit)
             {
                 MessageBox.Show("Выберите строку");
                 return;
             }
 
             if (DeleteSelectedItem() == 1)
+            {
                 listView1.SelectedItems[0].Remove();
+                count--;
+            }
             else
                 MessageBox.Show("Данные не удалились");
         }
 
-        private void FillListView()
-        {
-            var currencies = CurrencyModel.GetAll();
-
-            if (currencies != null && currencies.Count() > 0)
-            {
-                foreach (var currency in currencies)
-                {
-                    listView1.Items.Add(new ListViewItem(new[] {
-                        currency.CurrencyId, currency.Rate.ToString()
-                    }));
-                }
-            }
-        }
-
         private int InsertItem()
         {
-            int inserted = CurrencyModel.Insert(new CurrencyTable
+            int inserted = Database.Insert(new CurrencyTable
             {
                 CurrencyId = textBox1.Text,
                 Rate = textBox2.Text
@@ -125,14 +137,9 @@ namespace XML.forms
         {
             try
             {
-                int id = CurrencyModel.GetOneByCurrencyId(
-                    listView1.SelectedItems[0].Text
-                ).First().Id;
-
-                return CurrencyModel.Update(new CurrencyTable
+                return Database.Update(new CurrencyTable
                 {
-                    Id = id,
-                    CurrencyId = textBox1.Text,
+                    CurrencyId = listView1.SelectedItems[0].Text,
                     Rate = textBox2.Text
                 });
             }
@@ -143,10 +150,6 @@ namespace XML.forms
         {
             try
             {
-                int id = CurrencyModel.GetOneByCurrencyId(
-                    listView1.SelectedItems[0].Text
-                ).First().Id;
-
                 var offer = OfferModel.GetOneByCurrencyId(listView1.SelectedItems[0].Text);
 
                 if (offer.Count() > 0)
@@ -155,7 +158,7 @@ namespace XML.forms
                     return 0;
                 }
 
-                return CurrencyModel.DeleteObject<CurrencyTable>(id);
+                return Database.DeleteObject<CurrencyTable>(listView1.SelectedItems[0].Text);
             }
             catch { return 0; }
         }

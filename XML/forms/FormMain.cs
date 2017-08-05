@@ -73,8 +73,10 @@ namespace XML.forms
                 }
             }
 
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
             // Panel
-            fOfferId.Text = count.ToString();
+            fOfferId.Text = (count + 1).ToString();
             fPrice.Text = "0";
             FillComboBoxCategories();
             FillComboBoxCurrencies();
@@ -376,8 +378,6 @@ namespace XML.forms
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
             fPrice.Text = Methods.ReplaceDot(fPrice.Text);
-            fOfferId.Text = fOfferId.Text;
-            fCoopId.Text = fCoopId.Text;
             fURL.Text = fURL.Text.Trim();
             fDescription.Text = Methods.FirstCharToUpper(fDescription.Text).Trim();
             fPicturesURL.Text = Methods.GetPickPictures(fPicturesURL.Text);
@@ -416,7 +416,7 @@ namespace XML.forms
             {
                 label10.BackColor = Color.Brown;
                 isEdit = false;
-                fOfferId.Text = count.ToString();
+                fOfferId.Text = (count + 1).ToString();
                 fOfferId.ReadOnly = false;
                 button1.Text = "Добавить";
 
@@ -492,7 +492,7 @@ namespace XML.forms
             ClearPanel();
             dataGridView1.Rows.Clear();
 
-            fOfferId.Text = (OfferModel.GetCount() + 1).ToString();
+            fOfferId.Text = (count + 1).ToString();
             fPrice.Text = "0";
 
             if (comboBox1.Items.Count > 0)
@@ -540,11 +540,6 @@ namespace XML.forms
             return listView1.SelectedItems[0].Index;
         }
 
-        private int GetSelectedId()
-        {
-            return int.Parse(listView1.SelectedItems[0].Text);
-        }
-
         private int GetSelectedOfferId()
         {
             return int.Parse(listView1.SelectedItems[0].Text);
@@ -570,7 +565,7 @@ namespace XML.forms
             if (offer.Count() > 0)
                 MSG("ID используется - \"" + offer.First().Name + "\"");
             else
-                MSG("ID не занят");
+                MSG("ID не занят", true);
         }
 
         private void FName_Leave(object sender, EventArgs e)
@@ -581,7 +576,7 @@ namespace XML.forms
             if (offer.Count() > 0)
                 MSG("Название товара используется - #" + offer.First().OfferId);
             else
-                MSG("Название товара не занято");
+                MSG("Название товара не занято", true);
         }
 
         private void FPrice_Leave(object sender, EventArgs e)
@@ -590,7 +585,7 @@ namespace XML.forms
             bool isDouble = Double.TryParse(fPrice.Text, out double salary);
 
             if (isDouble)
-                MSG("Цена корректная");
+                MSG("Цена корректная", true);
             else
                 MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
         }

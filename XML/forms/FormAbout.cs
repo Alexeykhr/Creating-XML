@@ -24,5 +24,10 @@ namespace XML.forms
         {
             Process.Start("http://voentorg.ua/");
         }
+
+        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Alexeykhr/");
+        }
     }
 }
