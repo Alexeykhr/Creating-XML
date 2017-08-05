@@ -4,7 +4,7 @@ namespace XML.classes.db.parametrs
 {
     class ParametrsModel : Database
     {
-        public static IEnumerable<ParametrsTable> Query(string q, object[] args = null)
+        public IEnumerable<ParametrsTable> Query(string q, object[] args = null)
         {
             try
             {
@@ -19,19 +19,19 @@ namespace XML.classes.db.parametrs
             }
         }
 
-        public static IEnumerable<ParametrsTable> GetAllByCategoryTitle(string title)
+        public IEnumerable<ParametrsTable> GetAllByCategoryTitle(string title)
         {
             return Query("SELECT * FROM " + typeof(ParametrsTable).Name
                 + " WHERE CategoryTitle = ?", new object[] { title });
         }
 
-        public static IEnumerable<ParametrsTable> GetOneByCategoryTitle(string title)
+        public IEnumerable<ParametrsTable> GetOneByCategoryTitle(string title)
         {
             return Query("SELECT * FROM " + typeof(ParametrsTable).Name
                 + " WHERE CategoryTitle = ? LIMIT 1", new object[] { title });
         }
 
-        public static int GetCount()
+        public int GetCount()
         {
             return con.Table<ParametrsTable>().Count();
         }

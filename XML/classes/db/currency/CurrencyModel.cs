@@ -4,7 +4,7 @@ namespace XML.classes.db.currency
 {
     class CurrencyModel : Database
     {
-        public static IEnumerable<CurrencyTable> Query(string q, object[] args = null)
+        public IEnumerable<CurrencyTable> Query(string q, object[] args = null)
         {
             try
             {
@@ -18,25 +18,25 @@ namespace XML.classes.db.currency
                 return null;
             }
         }
-         
-        public static IEnumerable<CurrencyTable> GetAll()
+
+        public IEnumerable<CurrencyTable> GetAll()
         {
             return Query("SELECT * FROM " + typeof(CurrencyTable).Name);
         }
 
-        public static IEnumerable<CurrencyTable> GetOneByCurrencyId(string currencyId)
+        public IEnumerable<CurrencyTable> GetOneByCurrencyId(string currencyId)
         {
             return Query("SELECT * FROM " + typeof(CurrencyTable).Name
                 + " WHERE CurrencyId = ? LIMIT 1", new object[] { currencyId });
         }
 
-        public static IEnumerable<CurrencyTable> GetOneByRate(string rate)
+        public IEnumerable<CurrencyTable> GetOneByRate(string rate)
         {
             return Query("SELECT * FROM " + typeof(CurrencyTable).Name
                 + " WHERE Rate = ? LIMIT 1", new object[] { rate });
         }
 
-        public static int GetCount()
+        public int GetCount()
         {
             return con.Table<CurrencyTable>().Count();
         }

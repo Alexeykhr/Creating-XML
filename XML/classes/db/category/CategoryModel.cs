@@ -5,7 +5,7 @@ namespace XML.classes.db.category
 {
     class CategoryModel : Database
     {
-        public static IEnumerable<CategoryTable> Query(string q, object[] args = null)
+        public IEnumerable<CategoryTable> Query(string q, object[] args = null)
         {
             try
             {
@@ -20,30 +20,30 @@ namespace XML.classes.db.category
             }
         }
 
-        public static IEnumerable<CategoryTable> GetAll()
+        public IEnumerable<CategoryTable> GetAll()
         {
             return Query("SELECT * FROM " + typeof(CategoryTable).Name);
         }
 
-        public static IEnumerable<CategoryTable> GetOne(int categoryId)
+        public IEnumerable<CategoryTable> GetOne(int categoryId)
         {
             return Query("SELECT * FROM " + typeof(CategoryTable).Name
                 + " WHERE CategoryId = ? LIMIT 1", new object[] { categoryId });
         }
 
-        public static IEnumerable<CategoryTable> GetOne(string title)
+        public IEnumerable<CategoryTable> GetOne(string title)
         {
             return Query("SELECT * FROM " + typeof(CategoryTable).Name
                 + " WHERE Title = ? LIMIT 1", new object[] { title});
         }
 
-        public static IEnumerable<CategoryTable> GetAllParCategoryId(int ParCategoryId)
+        public IEnumerable<CategoryTable> GetAllParCategoryId(int ParCategoryId)
         {
             return Query("SELECT * FROM " + typeof(CategoryTable).Name
                 + " WHERE ParCategoryId = ?", new object[] { ParCategoryId });
         }
 
-        public static bool IsExistsCategoryId(int id)
+        public bool IsExistsCategoryId(int id)
         {
             var row = Query("SELECT * FROM " + typeof(CategoryTable).Name
                 + " WHERE CategoryId = ? LIMIT 1", new object[] { id });
@@ -51,7 +51,7 @@ namespace XML.classes.db.category
             return row.Count() > 0;
         }
 
-        public static int GetCount()
+        public int GetCount()
         {
             return con.Table<CategoryTable>().Count();
         }

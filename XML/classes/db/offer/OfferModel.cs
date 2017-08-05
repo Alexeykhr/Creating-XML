@@ -4,7 +4,7 @@ namespace XML.classes.db.offer
 {
     class OfferModel : Database
     {
-        public static IEnumerable<OfferTable> Query(string q, object[] args = null)
+        public IEnumerable<OfferTable> Query(string q, object[] args = null)
         {
             try
             {
@@ -19,36 +19,36 @@ namespace XML.classes.db.offer
             }
         }
 
-        public static IEnumerable<OfferTable> GetAll()
+        public IEnumerable<OfferTable> GetAll()
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name);
         }
 
-        public static IEnumerable<OfferTable> GetOneByOfferId(int offerId)
+        public IEnumerable<OfferTable> GetOneByOfferId(int offerId)
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name
                 + " WHERE OfferId = ? LIMIT 1", new object[] { offerId });
         }
 
-        public static IEnumerable<OfferTable> GetOneByName(string name)
+        public IEnumerable<OfferTable> GetOneByName(string name)
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name
                 + " WHERE Name = ? LIMIT 1", new object[] { name });
         }
 
-        public static IEnumerable<OfferTable> GetOneByCategoryTitle(string CategoryTitle)
+        public IEnumerable<OfferTable> GetOneByCategoryTitle(string CategoryTitle)
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name
                 + " WHERE CategoryTitle = ? LIMIT 1", new object[] { CategoryTitle });
         }
 
-        public static IEnumerable<OfferTable> GetOneByCurrencyId(string CurrencyId)
+        public IEnumerable<OfferTable> GetOneByCurrencyId(string CurrencyId)
         {
             return Query("SELECT * FROM " + typeof(OfferTable).Name
                 + " WHERE CurrencyId = ? LIMIT 1", new object[] { CurrencyId });
         }
 
-        public static int GetCount()
+        public int GetCount()
         {
             try
             {

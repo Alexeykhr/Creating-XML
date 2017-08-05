@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Drawing;
 using System.Xml.Linq;
@@ -22,13 +23,9 @@ namespace XML.forms
         public Form1()
         {
             InitializeComponent();
-            
-            if (! Database.SetConnection())
-            {
-                MessageBox.Show("Ошибка при подлкючении к базе данных");
-                Application.Exit();
-                return;
-            }
+
+            if (! File.Exists(Database.FILE_URI))
+                new Database().NewProject();
             
             Text = Methods.NAME + " - Главная";
 
@@ -48,7 +45,7 @@ namespace XML.forms
             listView1.Columns.Add("Продавец");
             listView1.Columns.Add("Доступен");
 
-            var offers = OfferModel.GetAll();
+            var offers = new OfferModel().GetAll();
             count = offers.Count();
 
             if (offers != null)
@@ -82,7 +79,7 @@ namespace XML.forms
 
             comboBox1.Items.Clear();
 
-            var categories = CategoryModel.GetAll();
+            var categories = new CategoryModel().GetAll();
             foreach (var item in categories)
             {
                 comboBox1.Items.Add(item.Title);
@@ -100,7 +97,7 @@ namespace XML.forms
 
             comboBox2.Items.Clear();
 
-            var currencies = CurrencyModel.GetAll();
+            var currencies = new CurrencyModel().GetAll();
             foreach (var item in currencies)
             {
                 comboBox2.Items.Add(item.CurrencyId);
@@ -111,146 +108,7 @@ namespace XML.forms
             else
                 comboBox2.Text = save;
         }
-
-        private void CompanyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormShop f = new FormShop();
-            f.Show(this);
-        }
-
-        private void CategoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (FormCategory f = new FormCategory())
-            {
-                f.ShowDialog();
-            }
-
-            FillComboBoxCategories();
-        }
-
-        private void CurrencyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (FormCurrency f = new FormCurrency())
-            {
-                f.ShowDialog();
-            }
-
-            FillComboBoxCurrencies();
-        }
-
-        private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (FormParams f = new FormParams())
-            {
-                f.ShowDialog();
-            }
-        }
-
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAbout f = new FormAbout();
-            f.Show(this);
-        }
-
-        private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog dialog = new SaveFileDialog()
-            {
-                Filter = "XML Files(*.xml) | *.xml"
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                MSG("Создаём Файл..");
-                XDocument doc = XMLHelpler.CreateDoc();
-
-                MSG("Добавляем магазин..");
-                XElement shop = XMLHelpler.AddShop(doc);
-
-                if (shop == null)
-                {
-                    MSG("Отсутствуют настройки магазина. Меню \"Магазин\"");
-                    return;
-                }
-
-                MSG("Добавляем валюты..");
-                XMLHelpler.AddCurrencies(shop);
-
-                MSG("Добавляем категории..");
-                XMLHelpler.AddCategories(shop);
-
-                MSG("Добавляем товары..");
-                XMLHelpler.AddOffers(shop);
-
-                MSG("Сохраняем файл..");
-                doc.Save(dialog.FileName);
-
-                MSG("Экспорт завершён");
-                ShowNotify("Экспорт завершён");
-            }
-        }
-
-        private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)" + Environment.NewLine
-                + "После завершения программа закроется и данные обновятся" + Environment.NewLine
-                + "Вы уверены, что хотите продолжить?",
-                Methods.NAME, MessageBoxButtons.YesNo);
-
-            if (isOpen == DialogResult.No)
-                return;
-
-            OpenFileDialog dialog = new OpenFileDialog()
-            {
-                Filter = "XML Files(*.xml) | *.xml"
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                DialogResult result = MessageBox.Show(
-                    "Перезаписывать существующие данные?",
-                    Methods.NAME,
-                    MessageBoxButtons.YesNo
-                );
-
-                bool isComplete = XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
-
-                if (isComplete)
-                {
-                    ShowNotify("Импорт завершён!\nДля продолжения - запустите программу заново.");
-                    Close();
-                }
-                else
-                {
-                    ShowNotify("Произошла ошибка при импорте", 2000, ToolTipIcon.Warning);
-                    MSG("Произошла ошибка при импорте. " +
-                        "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
-                        "Для символа - запустите починку в меню \"XML\"");
-                }
-            }
-        }
-
-        private void RepairXMLToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult isOpen = MessageBox.Show("Исходный файл будет изменён" + Environment.NewLine
-                + "Вы уверены, что хотите продолжить?",
-                Methods.NAME, MessageBoxButtons.YesNo);
-
-            if (isOpen == DialogResult.No)
-                return;
-
-            OpenFileDialog dialog = new OpenFileDialog()
-            {
-                Filter = "XML Files(*.xml) | *.xml"
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                XMLHelpler.Repair(dialog.FileName);
-                MSG("Починка завершена. Попробуйте импортировать файл снова.", true);
-            }
-        }
-
+        
         private void CorrectInput()
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
@@ -285,40 +143,6 @@ namespace XML.forms
                 return true;
 
             return false;
-        }
-
-        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listView1.SelectedItems.Count < 1)
-            {
-                label10.BackColor = Color.Brown;
-                isEdit = false;
-                fOfferId.Text = (count + 1).ToString();
-                fOfferId.ReadOnly = false;
-                button1.Text = "Добавить";
-
-                FillDataGridDefault();
-                return;
-            }
-
-            label10.BackColor = Color.DarkSlateGray;
-            isEdit = true;
-            fOfferId.ReadOnly = true;
-            button1.Text = "Обновить";
-
-            var offer = OfferModel.GetOneByOfferId(GetSelectedOfferId()).First();
-
-            fOfferId.Text = offer.OfferId.ToString();
-            fName.Text = offer.Name;
-            fPrice.Text = offer.Price.ToString();
-            fURL.Text = offer.URL;
-            fPicturesURL.Text = offer.PicturesURL;
-            comboBox1.Text = offer.CategoryTitle;
-            comboBox2.Text = offer.CurrencyId;
-            checkBox1.Checked = offer.IsAviable;
-            fDescription.Text = offer.Description;
-            fVendor.Text = offer.Vendor;
-            FillDataGridDatabase(offer.Params);
         }
 
         private void ClearPanel()
@@ -380,7 +204,7 @@ namespace XML.forms
             if (string.IsNullOrWhiteSpace(comboBox1.Text) && !isEdit)
                 return;
 
-            var parametrs = ParametrsModel.GetOneByCategoryTitle(comboBox1.Text);
+            var parametrs = new ParametrsModel().GetOneByCategoryTitle(comboBox1.Text);
 
             if (parametrs.Count() < 1)
                 return;
@@ -411,41 +235,13 @@ namespace XML.forms
             }
         }
 
-        private int GetSelectedIndex()
-        {
-            return listView1.SelectedItems[0].Index;
-        }
-
-        private int GetSelectedOfferId()
-        {
-            return int.Parse(listView1.SelectedItems[0].Text);
-        }
-
-        private string GetSelectedName()
-        {
-            return listView1.SelectedItems[0].SubItems[1].Text;
-        }
-
-        private void MSG(string text, bool isGood = false)
-        {
-            Info.Text = text;
-            Info.BackColor = isGood ? Color.FromArgb(40, 167, 69) : Color.FromArgb(255, 192, 192);
-            timer1.Enabled = true;
-        }
-
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            Info.BackColor = Color.White;
-            timer1.Enabled = false;
-        }
-
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isEdit)
                 return;
 
             dataGridView1.Rows.Clear();
-            var parametrs = ParametrsModel.GetOneByCategoryTitle(comboBox1.Text);
+            var parametrs = new ParametrsModel().GetOneByCategoryTitle(comboBox1.Text);
 
             if (parametrs.Count() < 1)
                 return;
@@ -458,24 +254,156 @@ namespace XML.forms
             }
         }
 
-        private void ShowNotify(string text, int timeout = 3000, ToolTipIcon icon = ToolTipIcon.Info)
-        {
-            notify.BalloonTipText = text;
-            notify.ShowBalloonTip(timeout);
-            notify.BalloonTipIcon = icon;
-        }
-
-        private void Label9_Click(object sender, EventArgs e)
-        {
-            if (Methods.IsWebSite(fURL.Text))
-                Process.Start(fURL.Text);
-            else
-                MSG("Ссылка имеет неверный формат");
-        }
-
         private void CheckBox2_CheckedChanged(object sender, EventArgs e)
         {
+            if (isEdit)
+                fOfferId.ReadOnly = isEdit ? button3.Enabled : false;
+
             button3.Enabled = !button3.Enabled;
+        }
+
+        // |--------------------------------------------------------------------------
+        // | Click ToolStripMenu
+        // |--------------------------------------------------------------------------
+        // |
+
+        private void CompanyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormShop f = new FormShop();
+            f.Show(this);
+        }
+
+        private void CategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormCategory f = new FormCategory())
+            {
+                f.ShowDialog();
+            }
+
+            FillComboBoxCategories();
+        }
+
+        private void CurrencyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormCurrency f = new FormCurrency())
+            {
+                f.ShowDialog();
+            }
+
+            FillComboBoxCurrencies();
+        }
+
+        private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FormParams f = new FormParams())
+            {
+                f.ShowDialog();
+            }
+        }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAbout f = new FormAbout();
+            f.Show(this);
+        }
+
+        private void ExportXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //SaveFileDialog dialog = new SaveFileDialog()
+            //{
+            //    Filter = "XML Files(*.xml) | *.xml"
+            //};
+
+            //if (dialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    MSG("Создаём Файл..");
+            //    XDocument doc = XMLHelpler.CreateDoc();
+
+            //    MSG("Добавляем магазин..");
+            //    XElement shop = XMLHelpler.AddShop(doc);
+
+            //    if (shop == null)
+            //    {
+            //        MSG("Отсутствуют настройки магазина. Меню \"Магазин\"");
+            //        return;
+            //    }
+
+            //    MSG("Добавляем валюты..");
+            //    XMLHelpler.AddCurrencies(shop);
+
+            //    MSG("Добавляем категории..");
+            //    XMLHelpler.AddCategories(shop);
+
+            //    MSG("Добавляем товары..");
+            //    XMLHelpler.AddOffers(shop);
+
+            //    MSG("Сохраняем файл..");
+            //    doc.Save(dialog.FileName);
+
+            //    MSG("Экспорт завершён");
+            //    ShowNotify("Экспорт завершён");
+            //}
+        }
+
+        private void ImportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //DialogResult isOpen = MessageBox.Show("Импорт XML может занят до 2-ух минут (зависит от системы)" + Environment.NewLine
+            //    + "После завершения программа закроется и данные обновятся" + Environment.NewLine
+            //    + "Вы уверены, что хотите продолжить?",
+            //    Methods.NAME, MessageBoxButtons.YesNo);
+
+            //if (isOpen == DialogResult.No)
+            //    return;
+
+            //OpenFileDialog dialog = new OpenFileDialog()
+            //{
+            //    Filter = "XML Files(*.xml) | *.xml"
+            //};
+
+            //if (dialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    DialogResult result = MessageBox.Show(
+            //        "Перезаписывать существующие данные?",
+            //        Methods.NAME,
+            //        MessageBoxButtons.YesNo
+            //    );
+
+            //    bool isComplete = XMLHelpler.ImportXML(dialog.FileName, result == DialogResult.Yes);
+
+            //    if (isComplete)
+            //    {
+            //        ShowNotify("Импорт завершён!\nДля продолжения - запустите программу заново.");
+            //        Close();
+            //    }
+            //    else
+            //    {
+            //        ShowNotify("Произошла ошибка при импорте", 2000, ToolTipIcon.Warning);
+            //        MSG("Произошла ошибка при импорте. " +
+            //            "Проверьте файл на наличе <shop> и отсутствии символов \"&\". " +
+            //            "Для символа - запустите починку в меню \"XML\"");
+            //    }
+            //}
+        }
+
+        private void RepairXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //DialogResult isOpen = MessageBox.Show("Исходный файл будет изменён" + Environment.NewLine
+            //    + "Вы уверены, что хотите продолжить?",
+            //    Methods.NAME, MessageBoxButtons.YesNo);
+
+            //if (isOpen == DialogResult.No)
+            //    return;
+
+            //OpenFileDialog dialog = new OpenFileDialog()
+            //{
+            //    Filter = "XML Files(*.xml) | *.xml"
+            //};
+
+            //if (dialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    XMLHelpler.Repair(dialog.FileName);
+            //    MSG("Починка завершена. Попробуйте импортировать файл снова.", true);
+            //}
         }
 
         // |--------------------------------------------------------------------------
@@ -508,7 +436,7 @@ namespace XML.forms
 
             if (!isEdit)
             {
-                if (Database.Insert(offer) == 1)
+                if (new Database().Insert(offer) == 1)
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
                         fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text.Length > 0 ? "+" : "-",
@@ -526,8 +454,11 @@ namespace XML.forms
             }
             else
             {
-                if (Database.Update(offer) == 1)
+                offer.Id = new OfferModel().GetOneByName(GetSelectedName()).First().Id;
+
+                if (new Database().Update(offer) == 1)
                 {
+                    listView1.SelectedItems[0].SubItems[0].Text = fOfferId.Text;
                     listView1.SelectedItems[0].SubItems[1].Text = fName.Text;
                     listView1.SelectedItems[0].SubItems[2].Text = fPrice.Text;
                     listView1.SelectedItems[0].SubItems[3].Text = fURL.Text.Length > 0 ? "+" : "-";
@@ -600,7 +531,7 @@ namespace XML.forms
             }
 
             string name = GetSelectedName();
-            int deleted = Database.DeleteObject<OfferTable>(GetSelectedOfferId());
+            int deleted = new Database().DeleteObject<OfferTable>(GetSelectedOfferId());
 
             if (deleted == 1)
             {
@@ -652,6 +583,15 @@ namespace XML.forms
                 listView1.SelectedItems[0].Selected = false;
         }
 
+        // Go to website
+        private void Label9_Click(object sender, EventArgs e)
+        {
+            if (Methods.IsWebSite(fURL.Text))
+                Process.Start(fURL.Text);
+            else
+                MSG("Ссылка имеет неверный формат");
+        }
+
         // |--------------------------------------------------------------------------
         // | Leave Inputs
         // |--------------------------------------------------------------------------
@@ -667,7 +607,7 @@ namespace XML.forms
                 return;
             }
 
-            var offer = OfferModel.GetOneByOfferId(id);
+            var offer = new OfferModel().GetOneByOfferId(id);
 
             if (offer.Count() > 0)
                 MSG("ID используется - \"" + offer.First().Name + "\"");
@@ -678,7 +618,7 @@ namespace XML.forms
         private void FName_Leave(object sender, EventArgs e)
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
-            var offer = OfferModel.GetOneByName(fName.Text);
+            var offer = new OfferModel().GetOneByName(fName.Text);
 
             if (offer.Count() > 0)
                 MSG("Название товара используется - #" + offer.First().OfferId);
@@ -695,6 +635,85 @@ namespace XML.forms
                 MSG("Цена корректная", true);
             else
                 MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
+        }
+
+        // |--------------------------------------------------------------------------
+        // | Notifications
+        // |--------------------------------------------------------------------------
+        // |
+
+        private void MSG(string text, bool isGood = false)
+        {
+            Info.Text = text;
+            Info.BackColor = isGood ? Color.FromArgb(40, 167, 69) : Color.FromArgb(255, 192, 192);
+            timer1.Enabled = true;
+        }
+
+        private void ShowNotify(string text, int timeout = 3000, ToolTipIcon icon = ToolTipIcon.Info)
+        {
+            notify.BalloonTipText = text;
+            notify.ShowBalloonTip(timeout);
+            notify.BalloonTipIcon = icon;
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            Info.BackColor = Color.White;
+            timer1.Enabled = false;
+        }
+        
+        // |--------------------------------------------------------------------------
+        // | ListView
+        // |--------------------------------------------------------------------------
+        // |
+
+        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count < 1)
+            {
+                label10.BackColor = Color.Brown;
+                isEdit = false;
+                fOfferId.Text = (count + 1).ToString();
+                fOfferId.ReadOnly = false;
+                button1.Text = "Добавить";
+
+                FillDataGridDefault();
+                return;
+            }
+
+            label10.BackColor = Color.DarkSlateGray;
+            isEdit = true;
+            button1.Text = "Обновить";
+            fOfferId.ReadOnly = !button3.Enabled;
+
+            var offer = new OfferModel().GetOneByOfferId(GetSelectedOfferId()).First();
+
+            fOfferId.Text = offer.OfferId.ToString();
+            fName.Text = offer.Name;
+            fPrice.Text = offer.Price.ToString();
+            fURL.Text = offer.URL;
+            fPicturesURL.Text = offer.PicturesURL;
+            comboBox1.Text = offer.CategoryTitle;
+            comboBox2.Text = offer.CurrencyId;
+            checkBox1.Checked = offer.IsAviable;
+            fDescription.Text = offer.Description;
+            fVendor.Text = offer.Vendor;
+            FillDataGridDatabase(offer.Params);
+        }
+
+        private int GetSelectedIndex()
+        {
+            return listView1.SelectedItems[0].Index;
+        }
+
+        private int GetSelectedOfferId()
+        {
+            return int.Parse(listView1.SelectedItems[0].Text);
+        }
+
+        private string GetSelectedName()
+        {
+            return listView1.SelectedItems[0].SubItems[1].Text;
         }
     }
 }

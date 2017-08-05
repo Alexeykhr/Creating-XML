@@ -14,32 +14,21 @@ namespace XML.classes.db
     {
         public static string FILE_NAME = "data.sqlite";
         public static string DIR = AppDomain.CurrentDomain.BaseDirectory;
+        public static string FILE_URI = DIR + "\\saves\\" + FILE_NAME;
 
-        protected static SQLiteConnection con;
-        private static bool instanse = false;
+        protected SQLiteConnection con;
 
-        public static bool SetConnection()
+        public Database()
         {
-            if (instanse)
-                return instanse;
-
             try
             {
                 Directory.CreateDirectory(DIR + "\\saves");
-                con = new SQLiteConnection(DIR + "\\saves\\" + FILE_NAME);
-
-                Databases();
-                instanse = true;
-
-                return instanse;
+                con = new SQLiteConnection(FILE_URI);
             }
-            catch
-            {
-                return instanse;
-            }
+            catch { }
         }
 
-        public static void CreateTable<T>()
+        public void CreateTable<T>()
         {
             try
             {
@@ -48,7 +37,7 @@ namespace XML.classes.db
             catch { }
         }
 
-        public static int Insert(object ob)
+        public int Insert(object ob)
         {
             try
             {
@@ -60,7 +49,7 @@ namespace XML.classes.db
             }
         }
 
-        public static int Update(object ob)
+        public int Update(object ob)
         {
             try
             {
@@ -72,7 +61,7 @@ namespace XML.classes.db
             }
         }
 
-        public static int DeleteObject<T>(object id)
+        public int DeleteObject<T>(object id)
         {
             try
             {
@@ -84,24 +73,13 @@ namespace XML.classes.db
             }
         }
 
-        public static void Databases()
+        public void NewProject()
         {
             CreateTable<OfferTable>();
             CreateTable<ShopTable>();
             CreateTable<CategoryTable>();
             CreateTable<CurrencyTable>();
             CreateTable<ParametrsTable>();
-        }
-
-        public static void CloseConnection()
-        {
-            con.Close();
-            instanse = false;
-        }
-
-        public static bool IsConnected()
-        {
-            return instanse;
         }
     }
 }
