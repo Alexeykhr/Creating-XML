@@ -151,7 +151,7 @@ namespace XML.forms
 
                 if (offer.Count() > 0)
                 {
-                    MessageBox.Show("[" + offer.First().Id + "] " + offer.First().Name + " - использует эту валюту");
+                    MessageBox.Show("[" + offer.First().OfferId + "] " + offer.First().Name + " - использует эту валюту");
                     return 0;
                 }
 

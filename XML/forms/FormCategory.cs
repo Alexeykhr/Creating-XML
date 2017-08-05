@@ -192,7 +192,7 @@ namespace XML.forms
 
                 if (category.Count() > 0)
                 {
-                    MessageBox.Show("[" + category.First().Id + "] " + category.First().Name + " - использует эту категорию");
+                    MessageBox.Show("[" + category.First().OfferId + "] " + category.First().Name + " - использует эту категорию");
                     return 0;
                 }
 

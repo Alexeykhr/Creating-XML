@@ -4,11 +4,13 @@ namespace XML.classes.db.offer
 {
     class OfferTable
     {
-        [PrimaryKey, AutoIncrement, Unique]
-        public int Id { get; set; }
+        //[PrimaryKey, AutoIncrement, Unique]
+        //public int Id { get; set; }
 
-        [Unique]
+        [PrimaryKey, Unique]
         public int OfferId { get; set; }
+        
+        public int CoopId { get; set; }
 
         [Unique]
         public string Name { get; set; }

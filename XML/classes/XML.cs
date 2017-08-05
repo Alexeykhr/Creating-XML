@@ -88,7 +88,7 @@ namespace XML.classes
 
                 XElement offer = new XElement("offer",
                     new XAttribute("available", item.IsAviable),
-                    new XAttribute("id", item.Id),
+                    new XAttribute("id", item.OfferId),
                     new XElement("name", item.Name),
                     new XElement("description", item.Description),
                     new XElement("url", item.URL),
@@ -365,8 +365,7 @@ namespace XML.classes
                 // Insert / update in DB
                 if (isExists && isOverWrite)
                 {
-                    table.Id = model.First().Id;
-                    //table.OfferId = model.First().OfferId;
+                    table.OfferId = model.First().OfferId;
                     OfferModel.Update(table);
                 }
                 else if (!isExists)
