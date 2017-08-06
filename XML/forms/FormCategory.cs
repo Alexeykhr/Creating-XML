@@ -32,7 +32,7 @@ namespace XML.forms
             listView1.Columns.Add("Родительский ID");
             listView1.Columns.Add("Название");
 
-            var categories = new CategoryModel().GetAll();
+            var categories = CategoryModel.GetAll();
 
             if (categories != null && categories.Count() > 0)
             {
@@ -125,7 +125,7 @@ namespace XML.forms
             else if(parCategoryId < 0)
                 MessageBox.Show("Родительский ID должен положительным числом");
 
-            else if(!isDelete && parCategoryId != 0 && !new CategoryModel().IsExistsCategoryId(parCategoryId))
+            else if(!isDelete && parCategoryId != 0 && !CategoryModel.IsExistsCategoryId(parCategoryId))
                 MessageBox.Show("Родительский ID не найден");
 
             else
@@ -158,7 +158,7 @@ namespace XML.forms
         {
             int inserted = 0;
 
-            inserted = new Database().Insert(new CategoryTable
+            inserted = Database.Insert(new CategoryTable
             {
                 CategoryId = int.Parse(textBox1.Text),
                 ParCategoryId = int.Parse(textBox3.Text),
@@ -175,7 +175,7 @@ namespace XML.forms
         {
             try
             {
-                return new Database().Update(new CategoryTable
+                return Database.Update(new CategoryTable
                 {
                     CategoryId = int.Parse(listView1.SelectedItems[0].Text),
                     ParCategoryId = int.Parse(textBox3.Text),
@@ -189,7 +189,7 @@ namespace XML.forms
         {
             try
             {
-                var category = new OfferModel().GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[2].Text);
+                var category = OfferModel.GetOneByCategoryTitle(listView1.SelectedItems[0].SubItems[2].Text);
 
                 if (category.Count() > 0)
                 {
@@ -198,7 +198,7 @@ namespace XML.forms
                 }
 
                 // Clear submenu
-                var subMenus = new CategoryModel().GetAllParCategoryId(int.Parse(listView1.SelectedItems[0].Text));
+                var subMenus = CategoryModel.GetAllParCategoryId(int.Parse(listView1.SelectedItems[0].Text));
 
                 DialogResult choose = DialogResult.Yes;
                 if (subMenus.Count() > 0)
@@ -214,7 +214,7 @@ namespace XML.forms
 
                 foreach (var subMenu in subMenus)
                 {
-                    new Database().Update(new CategoryTable {
+                    Database.Update(new CategoryTable {
                         CategoryId = subMenu.CategoryId,
                         Title = subMenu.Title,
                         ParCategoryId = 0
@@ -223,10 +223,10 @@ namespace XML.forms
                 // End
 
                 // Delete parametrs
-                new Database().DeleteObject<ParametrsTable>(listView1.SelectedItems[0].SubItems[2].Text);
+                Database.DeleteObject<ParametrsTable>(listView1.SelectedItems[0].SubItems[2].Text);
                 // End
                 
-                return new Database().DeleteObject<CategoryTable>(listView1.SelectedItems[0].Text);
+                return Database.DeleteObject<CategoryTable>(listView1.SelectedItems[0].Text);
             }
             catch { return 0; }
         }

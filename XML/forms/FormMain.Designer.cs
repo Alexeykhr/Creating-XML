@@ -166,6 +166,7 @@
             // 
             // listView1
             // 
+            this.listView1.AllowColumnReorder = true;
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -189,13 +190,11 @@
             this.panel1.Controls.Add(this.fVendor);
             this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.fDescription);
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Controls.Add(this.fPrice);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.fOfferId);
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.fPicturesURL);
@@ -208,6 +207,8 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.comboBox2);
             this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.fDescription);
             this.panel1.Location = new System.Drawing.Point(540, 57);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(333, 554);
@@ -251,9 +252,6 @@
             // 
             // fDescription
             // 
-            this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.fDescription.Location = new System.Drawing.Point(4, 443);
             this.fDescription.Name = "fDescription";
             this.fDescription.Size = new System.Drawing.Size(324, 108);
@@ -291,8 +289,8 @@
             // 
             // fPrice
             // 
-            this.fPrice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fPrice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.fPrice.Location = new System.Drawing.Point(4, 63);
             this.fPrice.Name = "fPrice";
             this.fPrice.Size = new System.Drawing.Size(66, 20);
@@ -313,8 +311,8 @@
             // 
             // fOfferId
             // 
-            this.fOfferId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fOfferId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.fOfferId.Location = new System.Drawing.Point(4, 24);
             this.fOfferId.Name = "fOfferId";
             this.fOfferId.Size = new System.Drawing.Size(66, 20);
@@ -335,8 +333,6 @@
             // 
             // label7
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(3, 427);
             this.label7.Name = "label7";
@@ -346,7 +342,8 @@
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(1, 296);
@@ -357,9 +354,8 @@
             // 
             // checkBox1
             // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -402,6 +398,7 @@
             this.fURL.Name = "fURL";
             this.fURL.Size = new System.Drawing.Size(308, 20);
             this.fURL.TabIndex = 4;
+            this.fURL.Leave += new System.EventHandler(this.FURL_Leave);
             // 
             // label4
             // 
@@ -662,6 +659,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);

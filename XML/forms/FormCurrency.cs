@@ -30,7 +30,7 @@ namespace XML.forms
             listView1.Columns.Add("Валюта");
             listView1.Columns.Add("Ставка");
 
-            var currencies = new CurrencyModel().GetAll();
+            var currencies = CurrencyModel.GetAll();
 
             if (currencies != null && currencies.Count() > 0)
             {
@@ -121,7 +121,7 @@ namespace XML.forms
 
         private int InsertItem()
         {
-            int inserted = new Database().Insert(new CurrencyTable
+            int inserted = Database.Insert(new CurrencyTable
             {
                 CurrencyId = textBox1.Text,
                 Rate = textBox2.Text
@@ -137,7 +137,7 @@ namespace XML.forms
         {
             try
             {
-                return new Database().Update(new CurrencyTable
+                return Database.Update(new CurrencyTable
                 {
                     CurrencyId = listView1.SelectedItems[0].Text,
                     Rate = textBox2.Text
@@ -150,7 +150,7 @@ namespace XML.forms
         {
             try
             {
-                var offer = new OfferModel().GetOneByCurrencyId(listView1.SelectedItems[0].Text);
+                var offer = OfferModel.GetOneByCurrencyId(listView1.SelectedItems[0].Text);
 
                 if (offer.Count() > 0)
                 {
@@ -158,7 +158,7 @@ namespace XML.forms
                     return 0;
                 }
 
-                return new Database().DeleteObject<CurrencyTable>(listView1.SelectedItems[0].Text);
+                return Database.DeleteObject<CurrencyTable>(listView1.SelectedItems[0].Text);
             }
             catch { return 0; }
         }

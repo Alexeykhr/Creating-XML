@@ -4,7 +4,7 @@ namespace XML.classes.db.shop
 {
     class ShopModel : Database
     {
-        public IEnumerable<ShopTable> Get()
+        public static IEnumerable<ShopTable> Get()
         {
             try
             {

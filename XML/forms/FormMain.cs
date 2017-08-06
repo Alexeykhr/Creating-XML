@@ -24,8 +24,11 @@ namespace XML.forms
         {
             InitializeComponent();
 
-            if (! File.Exists(Database.FILE_URI))
-                new Database().NewProject();
+            if (! Database.Connection())
+            {
+                MessageBox.Show("Ошибка соедиения с БД");
+                return;
+            }
             
             Text = Methods.NAME + " - Главная";
 
@@ -45,7 +48,7 @@ namespace XML.forms
             listView1.Columns.Add("Продавец");
             listView1.Columns.Add("Доступен");
 
-            var offers = new OfferModel().GetAll();
+            var offers = OfferModel.GetAll();
             count = offers.Count();
 
             if (offers != null)
@@ -79,7 +82,7 @@ namespace XML.forms
 
             comboBox1.Items.Clear();
 
-            var categories = new CategoryModel().GetAll();
+            var categories = CategoryModel.GetAll();
             foreach (var item in categories)
             {
                 comboBox1.Items.Add(item.Title);
@@ -97,7 +100,7 @@ namespace XML.forms
 
             comboBox2.Items.Clear();
 
-            var currencies = new CurrencyModel().GetAll();
+            var currencies = CurrencyModel.GetAll();
             foreach (var item in currencies)
             {
                 comboBox2.Items.Add(item.CurrencyId);
@@ -204,7 +207,7 @@ namespace XML.forms
             if (string.IsNullOrWhiteSpace(comboBox1.Text) && !isEdit)
                 return;
 
-            var parametrs = new ParametrsModel().GetOneByCategoryTitle(comboBox1.Text);
+            var parametrs = ParametrsModel.GetOneByCategoryTitle(comboBox1.Text);
 
             if (parametrs.Count() < 1)
                 return;
@@ -241,7 +244,7 @@ namespace XML.forms
                 return;
 
             dataGridView1.Rows.Clear();
-            var parametrs = new ParametrsModel().GetOneByCategoryTitle(comboBox1.Text);
+            var parametrs = ParametrsModel.GetOneByCategoryTitle(comboBox1.Text);
 
             if (parametrs.Count() < 1)
                 return;
@@ -260,6 +263,11 @@ namespace XML.forms
                 fOfferId.ReadOnly = isEdit ? button3.Enabled : false;
 
             button3.Enabled = !button3.Enabled;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Database.CloseConnection();
         }
 
         // |--------------------------------------------------------------------------
@@ -373,7 +381,7 @@ namespace XML.forms
                 if (isComplete)
                 {
                     ShowNotify("Импорт завершён!\nДля продолжения - запустите программу заново.");
-                    //Close();
+                    Close();
                 }
                 else
                 {
@@ -416,7 +424,7 @@ namespace XML.forms
         {
             CorrectInput();
 
-            if (!CheckDataForNewData())
+            if (! CheckDataForNewData())
                 return;
 
             var offer = new OfferTable
@@ -434,9 +442,9 @@ namespace XML.forms
                 Params = GenerateParams()
             };
 
-            if (!isEdit)
+            if (! isEdit)
             {
-                if (new Database().Insert(offer) == 1)
+                if (Database.Insert(offer) == 1)
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
                         fOfferId.Text, fName.Text, fPrice.Text.ToString(), fURL.Text.Length > 0 ? "+" : "-",
@@ -454,9 +462,9 @@ namespace XML.forms
             }
             else
             {
-                offer.Id = new OfferModel().GetOneByName(GetSelectedName()).First().Id;
+                offer.Id = OfferModel.GetOneByName(GetSelectedName()).First().Id;
 
-                if (new Database().Update(offer) == 1)
+                if (Database.Update(offer) == 1)
                 {
                     listView1.SelectedItems[0].SubItems[0].Text = fOfferId.Text;
                     listView1.SelectedItems[0].SubItems[1].Text = fName.Text;
@@ -531,7 +539,7 @@ namespace XML.forms
             }
 
             string name = GetSelectedName();
-            int deleted = new Database().DeleteObject<OfferTable>(GetSelectedOfferId());
+            int deleted = Database.DeleteObject<OfferTable>(GetSelectedOfferId());
 
             if (deleted == 1)
             {
@@ -607,7 +615,10 @@ namespace XML.forms
                 return;
             }
 
-            var offer = new OfferModel().GetOneByOfferId(id);
+            if (isEdit && GetSelectedOfferId() == id)
+                return;
+
+            var offer = OfferModel.GetOneByOfferId(id);
 
             if (offer.Count() > 0)
                 MSG("ID используется - \"" + offer.First().Name + "\"");
@@ -618,12 +629,16 @@ namespace XML.forms
         private void FName_Leave(object sender, EventArgs e)
         {
             fName.Text = Methods.FirstCharToUpper(fName.Text).Trim();
-            var offer = new OfferModel().GetOneByName(fName.Text);
 
-            if (offer.Count() > 0)
-                MSG("Название товара используется - #" + offer.First().OfferId);
-            else
+            if (isEdit && GetSelectedName() == fName.Text)
+                return;
+
+            var offer = OfferModel.GetOneByName(fName.Text);
+
+            if (offer.Count() < 1)
                 MSG("Название товара не занято", true);
+            else
+                MSG("Название товара используется - #" + offer.First().OfferId);
         }
 
         private void FPrice_Leave(object sender, EventArgs e)
@@ -635,6 +650,14 @@ namespace XML.forms
                 MSG("Цена корректная", true);
             else
                 MSG("Цена введена неверно. Пример: 25 | 2 | 5.23 | 63,745");
+        }
+
+        private void FURL_Leave(object sender, EventArgs e)
+        {
+            if (Methods.IsWebSite(fURL.Text))
+                MSG("URL корректный", true);
+            else
+                MSG("URL имеет неверный формат");
         }
 
         // |--------------------------------------------------------------------------
@@ -686,7 +709,15 @@ namespace XML.forms
             button1.Text = "Обновить";
             fOfferId.ReadOnly = !button3.Enabled;
 
-            var offer = new OfferModel().GetOneByOfferId(GetSelectedOfferId()).First();
+            var model = OfferModel.GetOneByOfferId(GetSelectedOfferId());
+
+            if (model.Count() < 1)
+            {
+                listView1.SelectedItems[0].Selected = false;
+                return;
+            }
+
+            var offer = model.First();
 
             fOfferId.Text = offer.OfferId.ToString();
             fName.Text = offer.Name;

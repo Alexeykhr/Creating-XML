@@ -58,7 +58,7 @@ namespace XML.forms
                 Url = textBox3.Text
             };
 
-            int isUpdated = isNew ? new Database().Insert(company) : new Database().Update(company);
+            int isUpdated = isNew ? Database.Insert(company) : Database.Update(company);
 
             if (isUpdated == 1)
             {
@@ -71,7 +71,7 @@ namespace XML.forms
 
         private void FillForm()
         {
-            var company = new ShopModel().Get();
+            var company = ShopModel.Get();
 
             if (company != null && company.Count() > 0)
             {

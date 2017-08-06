@@ -25,7 +25,7 @@ namespace XML.classes
         public static XElement AddShop(XDocument root)
         {
             XElement shop = new XElement("shop");
-            var items = new ShopModel().Get();
+            var items = ShopModel.Get();
 
             if (items.Count() < 1)
                 return null;
@@ -44,7 +44,7 @@ namespace XML.classes
         public static void AddCurrencies(XElement shop)
         {
             XElement currencies = new XElement("currencies");
-            var items = new CurrencyModel().GetAll();
+            var items = CurrencyModel.GetAll();
 
             foreach (var item in items)
             {
@@ -60,7 +60,7 @@ namespace XML.classes
         public static void AddCategories(XElement shop)
         {
             XElement categories = new XElement("categories");
-            var items = new CategoryModel().GetAll();
+            var items = CategoryModel.GetAll();
 
             foreach (var item in items)
             {
@@ -81,11 +81,11 @@ namespace XML.classes
         public static void AddOffers(XElement shop)
         {
             XElement offers = new XElement("offers");
-            var items = new OfferModel().GetAll();
+            var items = OfferModel.GetAll();
 
             foreach (var item in items)
             {
-                int categoryId = new CategoryModel().GetOne(item.CategoryTitle).First().CategoryId;
+                int categoryId = CategoryModel.GetOne(item.CategoryTitle).First().CategoryId;
 
                 XElement offer = new XElement("offer",
                     new XAttribute("available", item.IsAviable),
@@ -99,10 +99,13 @@ namespace XML.classes
                     new XElement("categoryId", categoryId));
 
                 // Pictures
-                string[] pictures = item.PicturesURL.Split('\n');
-                foreach (string picture in pictures)
+                if (item.PicturesURL != null && item.PicturesURL.Length > 0)
                 {
-                    offer.Add(new XElement("picture", picture.Trim()));
+                    string[] pictures = item.PicturesURL.Split('\n');
+                    foreach (string picture in pictures)
+                    {
+                        offer.Add(new XElement("picture", picture.Trim()));
+                    }
                 }
 
                 AddParams(offer, item.Params);
@@ -148,7 +151,7 @@ namespace XML.classes
                 return false;
 
             XElement shop = doc.Root.Element("shop");
-            bool isNewShop = new ShopModel().Get().Count() < 1;
+            bool isNewShop = ShopModel.Get().Count() < 1;
 
             foreach (XElement el in shop.Elements())
             {
@@ -181,7 +184,7 @@ namespace XML.classes
         private static void LoadShop(string name, string company, string url, bool isOverWrite, bool isNewShop)
         {
             ShopTable shop;
-            var shopDB = new ShopModel().Get();
+            var shopDB = ShopModel.Get();
             bool isNew = shopDB.Count() < 1;
 
             if (isNew)
@@ -199,9 +202,9 @@ namespace XML.classes
                 shop.Url = url.Trim();
 
             if (isNew)
-                new Database().Insert(shop);
+                Database.Insert(shop);
             else
-                new Database().Update(shop);
+                Database.Update(shop);
         }
 
         private static void LoadCurrencies(XElement currencies, bool isOverWrite)
@@ -217,7 +220,7 @@ namespace XML.classes
                 if (string.IsNullOrWhiteSpace(currencyId) || string.IsNullOrWhiteSpace(rate))
                     continue;
 
-                var model = new CurrencyModel().GetOneByCurrencyId(currencyId);
+                var model = CurrencyModel.GetOneByCurrencyId(currencyId);
                 bool isExists = model.Count() > 0;
 
                 var table = new CurrencyTable
@@ -227,12 +230,9 @@ namespace XML.classes
                 };
 
                 if (isExists && isOverWrite)
-                {
-                    //table.Id = model.First().Id;
-                    new Database().Update(table);
-                }
+                    Database.Update(table);
                 else if (!isExists)
-                    new Database().Insert(table);
+                    Database.Insert(table);
             }
         }
 
@@ -249,7 +249,7 @@ namespace XML.classes
                 if (!isInt || categoryId < 1 || string.IsNullOrWhiteSpace(title))
                     continue;
 
-                var model = new CategoryModel().GetOne(title);
+                var model = CategoryModel.GetOne(title);
                 bool isExists = model.Count() > 0;
 
                 var table = new CategoryTable
@@ -269,12 +269,9 @@ namespace XML.classes
                 // End
 
                 if (isExists && isOverWrite)
-                {
-                    //table.Id = model.First().Id;
-                    new Database().Update(table);
-                }
+                    Database.Update(table);
                 else if (!isExists)
-                    new Database().Insert(table);
+                    Database.Insert(table);
             }
         }
 
@@ -300,16 +297,16 @@ namespace XML.classes
                 // End
 
                 // Check categoryId and currencyId in tables.
-                var categoryModel = new CategoryModel().GetOne(categoryId);
+                var categoryModel = CategoryModel.GetOne(categoryId);
 
                 if (categoryModel.Count() < 1)
                     continue;
 
-                if (new CurrencyModel().GetOneByCurrencyId(currencyId).Count() < 1)
+                if (CurrencyModel.GetOneByCurrencyId(currencyId).Count() < 1)
                     continue;
                 // End
 
-                var model = new OfferModel().GetOneByName(name);
+                var model = OfferModel.GetOneByName(name);
                 bool isExists = model.Count() > 0;
 
                 var table = new OfferTable
@@ -350,7 +347,7 @@ namespace XML.classes
 
                     parametrs += key + "|" + value + "|";
                 }
-                if (!string.IsNullOrWhiteSpace(parametrs))
+                if (! string.IsNullOrWhiteSpace(parametrs))
                     table.Params = parametrs.Substring(0, parametrs.Length - 1);
 
                 if (offer.Element("description") != null)
@@ -365,14 +362,9 @@ namespace XML.classes
 
                 // Insert / update in DB
                 if (isExists && isOverWrite)
-                {
-                    table.OfferId = model.First().OfferId;
-                    new Database().Update(table);
-                }
+                    Database.Update(table);
                 else if (!isExists)
-                {
-                    new Database().Insert(table);
-                }
+                    Database.Insert(table);
             }
         }
 

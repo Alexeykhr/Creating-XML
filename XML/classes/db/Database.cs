@@ -16,19 +16,27 @@ namespace XML.classes.db
         public static string DIR = AppDomain.CurrentDomain.BaseDirectory;
         public static string FILE_URI = DIR + "\\saves\\" + FILE_NAME;
 
-        protected SQLiteConnection con;
+        protected static SQLiteConnection con;
 
-        public Database()
+        public static bool Connection()
         {
             try
             {
+                if (! File.Exists(FILE_URI))
+                    NewProject();
+
                 Directory.CreateDirectory(DIR + "\\saves");
                 con = new SQLiteConnection(FILE_URI);
+
+                return true;
             }
-            catch { }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void CreateTable<T>()
+        public static void CreateTable<T>()
         {
             try
             {
@@ -37,7 +45,7 @@ namespace XML.classes.db
             catch { }
         }
 
-        public int Insert(object ob)
+        public static int Insert(object ob)
         {
             try
             {
@@ -49,7 +57,7 @@ namespace XML.classes.db
             }
         }
 
-        public int Update(object ob)
+        public static int Update(object ob)
         {
             try
             {
@@ -61,7 +69,7 @@ namespace XML.classes.db
             }
         }
 
-        public int DeleteObject<T>(object id)
+        public static int DeleteObject<T>(object id)
         {
             try
             {
@@ -73,13 +81,18 @@ namespace XML.classes.db
             }
         }
 
-        public void NewProject()
+        public static void NewProject()
         {
             CreateTable<OfferTable>();
             CreateTable<ShopTable>();
             CreateTable<CategoryTable>();
             CreateTable<CurrencyTable>();
             CreateTable<ParametrsTable>();
+        }
+
+        public static void CloseConnection()
+        {
+            con.Close();
         }
     }
 }

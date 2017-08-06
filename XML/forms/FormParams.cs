@@ -17,7 +17,7 @@ namespace XML.forms
 
             Text = Methods.NAME + " - Параметры";
 
-            var categories = new CategoryModel().GetAll();
+            var categories = CategoryModel.GetAll();
 
             foreach (var category in categories)
             {
@@ -30,7 +30,7 @@ namespace XML.forms
             if (listBox1.SelectedItems.Count < 1)
                 return;
 
-            var model = new ParametrsModel().GetOneByCategoryTitle(listBox1.SelectedItem.ToString());
+            var model = ParametrsModel.GetOneByCategoryTitle(listBox1.SelectedItem.ToString());
 
             textBox1.Text = GenerateParametrs(textBox1.Text);
 
@@ -40,7 +40,7 @@ namespace XML.forms
                 Parametrs = textBox1.Text
             };
 
-            int saved = model.Count() > 0 ? new Database().Update(table) : new Database().Insert(table);
+            int saved = model.Count() > 0 ? Database.Update(table) : Database.Insert(table);
 
             if (saved == 1)
                 MessageBox.Show("Сохранено");
@@ -53,7 +53,7 @@ namespace XML.forms
             if (listBox1.SelectedItems.Count < 1)
                 return;
 
-            var parametrs = new ParametrsModel().GetAllByCategoryTitle(listBox1.SelectedItem.ToString());
+            var parametrs = ParametrsModel.GetAllByCategoryTitle(listBox1.SelectedItem.ToString());
 
             if (parametrs.Count() < 1)
                 return;
