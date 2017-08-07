@@ -50,7 +50,7 @@ namespace XML.forms
 
             var offers = OfferModel.GetAll();
 
-            if (offers != null)
+            if (offers != null && offers.Count() > 0)
             {
                 lastId = offers.Last().OfferId + 1;
                 offers = offers.OrderBy(offer => offer.Name);
@@ -177,8 +177,8 @@ namespace XML.forms
                 if (dataGridView1.Rows[i].Cells[0].Value == null || dataGridView1.Rows[i].Cells[1].Value == null)
                     continue;
 
-                string one = dataGridView1.Rows[i].Cells[0].Value.ToString().Trim();
-                string two = dataGridView1.Rows[i].Cells[1].Value.ToString().Trim();
+                string one = Methods.FirstCharToUpper(dataGridView1.Rows[i].Cells[0].Value.ToString().Trim());
+                string two = Methods.FirstCharToUpper(dataGridView1.Rows[i].Cells[1].Value.ToString().Trim());
 
                 if (string.IsNullOrWhiteSpace(one) || string.IsNullOrWhiteSpace(two))
                     continue;
