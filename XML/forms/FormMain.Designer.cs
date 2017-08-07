@@ -266,7 +266,7 @@
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(324, 112);
+            this.dataGridView1.Size = new System.Drawing.Size(324, 181);
             this.dataGridView1.TabIndex = 19;
             this.toolTip1.SetToolTip(this.dataGridView1, "При отсутствии данных в обоих ячейках - данные с этой строки не сохранятся");
             // 
@@ -472,7 +472,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 427);
+            this.label7.Location = new System.Drawing.Point(1, 496);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(57, 13);
             this.label7.TabIndex = 14;
@@ -480,9 +480,12 @@
             // 
             // fDescription
             // 
-            this.fDescription.Location = new System.Drawing.Point(4, 443);
+            this.fDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fDescription.Location = new System.Drawing.Point(4, 512);
             this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(324, 108);
+            this.fDescription.Size = new System.Drawing.Size(324, 39);
             this.fDescription.TabIndex = 20;
             this.fDescription.Text = "";
             // 
