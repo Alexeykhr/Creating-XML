@@ -22,11 +22,10 @@ namespace XML.classes.db
         {
             try
             {
-                if (! File.Exists(FILE_URI))
-                    NewProject();
-
                 Directory.CreateDirectory(DIR + "\\saves");
                 con = new SQLiteConnection(FILE_URI);
+
+                NewProject();
 
                 return true;
             }
@@ -92,7 +91,8 @@ namespace XML.classes.db
 
         public static void CloseConnection()
         {
-            con.Close();
+            if (con != null)
+                con.Close();
         }
     }
 }

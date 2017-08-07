@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Drawing;
 using System.Xml.Linq;
@@ -18,7 +17,7 @@ namespace XML.forms
     public partial class Form1 : Form
     {
         private bool isEdit = false;
-        private int count = 0;
+        private int lastId = 1;
 
         public Form1()
         {
@@ -27,12 +26,13 @@ namespace XML.forms
             if (! Database.Connection())
             {
                 MessageBox.Show("Ошибка соедиения с БД");
-                return;
             }
-            
-            Text = Methods.NAME + " - Главная";
+            else
+            {
+                Text = Methods.NAME + " - Главная";
 
-            Initial();
+                Initial();
+            }
         }
 
         private void Initial()
@@ -49,10 +49,12 @@ namespace XML.forms
             listView1.Columns.Add("Доступен");
 
             var offers = OfferModel.GetAll();
-            count = offers.Count();
 
             if (offers != null)
             {
+                lastId = offers.Last().OfferId + 1;
+                offers = offers.OrderBy(offer => offer.Name);
+
                 foreach (var offer in offers)
                 {
                     listView1.Items.Add(new ListViewItem(new[] {
@@ -66,7 +68,7 @@ namespace XML.forms
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 
             // Panel
-            fOfferId.Text = (count + 1).ToString();
+            fOfferId.Text = lastId.ToString();
             fPrice.Text = "0";
             FillComboBoxCategories();
             FillComboBoxCurrencies();
@@ -195,7 +197,7 @@ namespace XML.forms
             ClearPanel();
             dataGridView1.Rows.Clear();
 
-            fOfferId.Text = (count + 1).ToString();
+            fOfferId.Text = lastId.ToString();
             fPrice.Text = "0";
 
             if (comboBox1.Items.Count > 0)
@@ -348,7 +350,7 @@ namespace XML.forms
                 MSG("Сохраняем файл..");
                 doc.Save(dialog.FileName);
 
-                MSG("Экспорт завершён");
+                MSG("Экспорт завершён", true);
                 ShowNotify("Экспорт завершён");
             }
         }
@@ -427,9 +429,11 @@ namespace XML.forms
             if (! CheckDataForNewData())
                 return;
 
+            int offerId = int.Parse(fOfferId.Text);
+
             var offer = new OfferTable
             {
-                OfferId = int.Parse(fOfferId.Text),
+                OfferId = offerId,
                 Name = fName.Text,
                 Price = Double.Parse(fPrice.Text),
                 URL = fURL.Text,
@@ -442,6 +446,9 @@ namespace XML.forms
                 Params = GenerateParams()
             };
 
+            if (offerId >= lastId)
+                lastId = offerId + 1;
+
             if (! isEdit)
             {
                 if (Database.Insert(offer) == 1)
@@ -453,7 +460,6 @@ namespace XML.forms
                     }));
 
                     MSG("Товар добавлен [" + fOfferId.Text + "] - " + fName.Text, true);
-                    count++;
 
                     FillDataGridDefault();
                 }
@@ -543,9 +549,11 @@ namespace XML.forms
 
             if (deleted == 1)
             {
+                if (GetSelectedOfferId() == lastId)
+                    lastId--;
+
                 MSG("Товар удалён - " + name, true);
                 listView1.Items.RemoveAt(GetSelectedIndex());
-                count--;
             }
             else
                 MSG("Товар не удалился");
@@ -696,7 +704,7 @@ namespace XML.forms
             {
                 label10.BackColor = Color.Brown;
                 isEdit = false;
-                fOfferId.Text = (count + 1).ToString();
+                fOfferId.Text = lastId.ToString();
                 fOfferId.ReadOnly = false;
                 button1.Text = "Добавить";
 

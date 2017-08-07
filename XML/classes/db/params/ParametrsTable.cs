@@ -4,7 +4,7 @@ namespace XML.classes.db.parametrs
 {
     class ParametrsTable
     {
-        [PrimaryKey, Unique, NotNull]
+        [PrimaryKey, Unique]
         public string CategoryTitle { get; set; }
 
         [NotNull]

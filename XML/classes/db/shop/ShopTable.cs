@@ -4,7 +4,7 @@ namespace XML.classes.db.shop
 {
     class ShopTable
     {
-        [PrimaryKey, AutoIncrement, Unique]
+        [PrimaryKey, AutoIncrement]
         public byte Id { get; set; }
         
         public string Name { get; set; }

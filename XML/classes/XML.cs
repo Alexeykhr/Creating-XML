@@ -306,9 +306,6 @@ namespace XML.classes
                     continue;
                 // End
 
-                var model = OfferModel.GetOneByName(name);
-                bool isExists = model.Count() > 0;
-
                 var table = new OfferTable
                 {
                     OfferId = offerId,
@@ -360,9 +357,15 @@ namespace XML.classes
                     table.Vendor = offer.Element("vendor").Value.Trim();
                 // End
 
+                var model = OfferModel.GetOneByName(name);
+                bool isExists = model.Count() > 0;
+
                 // Insert / update in DB
                 if (isExists && isOverWrite)
+                {
+                    table.Id = model.First().Id;
                     Database.Update(table);
+                }
                 else if (!isExists)
                     Database.Insert(table);
             }

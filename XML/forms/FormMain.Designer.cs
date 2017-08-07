@@ -45,7 +45,6 @@
             this.fVendor = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.fDescription = new System.Windows.Forms.RichTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,7 +52,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.fOfferId = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.fPicturesURL = new System.Windows.Forms.TextBox();
@@ -66,6 +64,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.fDescription = new System.Windows.Forms.RichTextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -172,6 +172,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.FullRowSelect = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.Location = new System.Drawing.Point(0, 53);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -250,14 +251,6 @@
             this.label9.Text = ">>";
             this.label9.Click += new System.EventHandler(this.Label9_Click);
             // 
-            // fDescription
-            // 
-            this.fDescription.Location = new System.Drawing.Point(4, 443);
-            this.fDescription.Name = "fDescription";
-            this.fDescription.Size = new System.Drawing.Size(324, 108);
-            this.fDescription.TabIndex = 20;
-            this.fDescription.Text = "";
-            // 
             // dataGridView1
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -330,15 +323,6 @@
             this.label8.Size = new System.Drawing.Size(18, 13);
             this.label8.TabIndex = 15;
             this.label8.Text = "ID";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 427);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Описание";
             // 
             // label6
             // 
@@ -484,6 +468,23 @@
             this.comboBox1.Size = new System.Drawing.Size(324, 21);
             this.comboBox1.TabIndex = 6;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 427);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(57, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Описание";
+            // 
+            // fDescription
+            // 
+            this.fDescription.Location = new System.Drawing.Point(4, 443);
+            this.fDescription.Name = "fDescription";
+            this.fDescription.Size = new System.Drawing.Size(324, 108);
+            this.fDescription.TabIndex = 20;
+            this.fDescription.Text = "";
             // 
             // button4
             // 

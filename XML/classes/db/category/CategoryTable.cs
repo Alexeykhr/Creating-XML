@@ -4,7 +4,7 @@ namespace XML.classes.db.category
 {
     class CategoryTable
     {
-        [PrimaryKey, Unique, NotNull]
+        [PrimaryKey, Unique]
         public int CategoryId { get; set; }
 
         [Unique, NotNull]
