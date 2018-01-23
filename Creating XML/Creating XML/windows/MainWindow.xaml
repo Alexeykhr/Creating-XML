@@ -15,8 +15,53 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-        <materialDesign:Card Padding="32" Margin="16">
-            <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}">My First Material Design App</TextBlock>
-        </materialDesign:Card>
+        <Menu IsMainMenu="True" VerticalAlignment="Top" Background="Gainsboro">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Создать">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="FileOutline" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Сохранить">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ContentSave" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Сохранить как.." />
+                <MenuItem Header="Загрузить">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Download" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Выход">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ExitToApp" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Магазин">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Shopping" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Категории">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Database" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Валюты">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="CurrencyUsd" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Продавцы">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="FaceProfile" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="О программе" />
+        </Menu>
     </Grid>
 </Window>
