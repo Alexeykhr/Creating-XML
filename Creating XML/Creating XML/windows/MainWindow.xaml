@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
+        Title="MainWindow" Height="400" Width="600"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -14,54 +14,92 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        <Menu IsMainMenu="True" VerticalAlignment="Top" Background="Gainsboro">
-            <MenuItem Header="Файл">
-                <MenuItem Header="Создать">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="FileOutline" />
-                    </MenuItem.Icon>
+    <materialDesign:DrawerHost BorderThickness="0" BorderBrush="{DynamicResource MaterialDesignDivider}">
+        <materialDesign:DrawerHost.RightDrawerContent>
+            <GroupBox Header="Товар" Style="{DynamicResource MaterialDesignCardGroupBox}">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="InformationOutline" Height="32" Width="32" VerticalAlignment="Center" />
+                            <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <Button Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" Margin="4"
+                        HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}">
+                    Закрыть
+                </Button>
+            </GroupBox>
+        </materialDesign:DrawerHost.RightDrawerContent>
+        <Grid>
+            <Menu IsMainMenu="True" VerticalAlignment="Top" Background="Gainsboro">
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Создать">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="FileOutline" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Сохранить">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ContentSave" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Сохранить как.." />
+                    <MenuItem Header="Загрузить">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Download" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Выход">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ExitToApp" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Сохранить">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ContentSave" />
-                    </MenuItem.Icon>
+                <MenuItem Header="Данные">
+                    <MenuItem Header="Магазин">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Shopping" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Категории">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Database" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Валюты">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="CurrencyUsd" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Продавцы">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="FaceProfile" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Сохранить как.." />
-                <MenuItem Header="Загрузить">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Download" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Выход">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ExitToApp" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Настройки">
-                <MenuItem Header="Магазин">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Shopping" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Категории">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Database" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Валюты">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="CurrencyUsd" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Продавцы">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="FaceProfile" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="О программе" />
-        </Menu>
-    </Grid>
+                <MenuItem Header="О программе" />
+            </Menu>
+            <ListView ItemsSource="{Binding Items1}" Margin="0,48,0,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding art}" Header="Артикуль" />
+                        <GridViewColumn DisplayMemberBinding="{Binding name}" Header="Название" />
+                        <GridViewColumn DisplayMemberBinding="{Binding price}" Header="Цена" />
+                        <GridViewColumn DisplayMemberBinding="{Binding category}" Header="Категория" />
+                        <GridViewColumn DisplayMemberBinding="{Binding currency}" Header="Валюта" />
+                        <GridViewColumn DisplayMemberBinding="{Binding vendor}" Header="Продавец" />
+                        <GridViewColumn DisplayMemberBinding="{Binding url}" Header="Ссылка" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                    CommandParameter="{x:Static Dock.Right}"
+                    Grid.Row="1" Grid.Column="2" Margin="4">
+                    <materialDesign:PackIcon Kind="ArrowRight" />
+                </Button>
+            </Grid>
+        </Grid>
+    </materialDesign:DrawerHost>
 </Window>
