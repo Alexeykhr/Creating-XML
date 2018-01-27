@@ -63,7 +63,7 @@
             </MenuItem>
             <MenuItem Header="О программе" />
         </Menu>
-        <GroupBox Header="Товар" Style="{DynamicResource MaterialDesignCardGroupBox}" MinWidth="300" DockPanel.Dock="Right">
+        <GroupBox x:Name="groupBoxSelectedOffer" Header="Товар" Style="{DynamicResource MaterialDesignCardGroupBox}" MinWidth="300" DockPanel.Dock="Right">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
@@ -79,13 +79,13 @@
             </GroupBox.HeaderTemplate>
             <ScrollViewer>
                 <StackPanel>
-                    <StackPanel x:Name="stackPanelOfImages" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Height="100" Width="100" Stretch="UniformToFill" Margin="5,0,5,10" />
+                    <Grid Background="#FFF7F7F7">
+                        <Image Source="https://static.pexels.com/photos/36764/marguerite-daisy-beautiful-beauty.jpg" x:Name="fImage" Height="100" Width="282" />
+                    </Grid>
+                    <StackPanel Margin="5,10">
+                        <TextBlock x:Name="fSelectName" FontWeight="Bold">Название товара</TextBlock>
+                        <TextBlock x:Name="fSelectPrice" TextWrapping="Wrap" VerticalAlignment="Center">Цена</TextBlock>
                     </StackPanel>
-                    <TextBox x:Name="fSelectName" materialDesign:HintAssist.Hint="Название" IsReadOnly="True"
-                                 Margin="5,0,5,10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox x:Name="fSelectPrice" materialDesign:HintAssist.Hint="Цена" IsReadOnly="True"
-                                 Margin="5,0,5,10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <TextBox x:Name="fSelectUrl" materialDesign:HintAssist.Hint="URL" IsReadOnly="True"
                                  Margin="5,0,5,10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <TextBox x:Name="fSelectCategory" materialDesign:HintAssist.Hint="Категория" IsReadOnly="True"
@@ -93,25 +93,37 @@
                     <TextBox x:Name="fSelectCurrency" materialDesign:HintAssist.Hint="Валюта" IsReadOnly="True"
                                  Margin="5,0,5,10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <TextBox x:Name="fSelectVendor" materialDesign:HintAssist.Hint="Продавец" IsReadOnly="True"
-                                 Margin="5,0,5,10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox x:Name="fSelectDescription" Style="{StaticResource MaterialDesignTextAreaTextBox}" Margin="5,0,5,10"
+                                 Margin="5,0,5,20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox x:Name="fSelectDescription" Style="{StaticResource MaterialDesignTextAreaTextBox}" Margin="5,0,5,0"
                                  VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True"
                                  materialDesign:HintAssist.Hint="Описание" VerticalScrollBarVisibility="Auto" />
+                    <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
+                        <Button x:Name="btnUrlImage" Style="{StaticResource MaterialDesignToolButton}" Width="30"
+                                Padding="2 0 2 0" materialDesign:RippleAssist.IsCentered="True">
+                            <materialDesign:PackIcon Kind="Image" />
+                        </Button>
+                        <Button x:Name="btnUrlLink" Style="{StaticResource MaterialDesignToolButton}" Width="30"
+                                Padding="2 0 2 0" materialDesign:RippleAssist.IsCentered="True">
+                            <materialDesign:PackIcon Kind="Link" />
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>
-        <ListView ItemsSource="{Binding Items1}" DockPanel.Dock="Left">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding art}" Header="Артикуль" />
-                    <GridViewColumn DisplayMemberBinding="{Binding name}" Header="Название" />
-                    <GridViewColumn DisplayMemberBinding="{Binding price}" Header="Цена" />
-                    <GridViewColumn DisplayMemberBinding="{Binding category}" Header="Категория" />
-                    <GridViewColumn DisplayMemberBinding="{Binding currency}" Header="Валюта" />
-                    <GridViewColumn DisplayMemberBinding="{Binding vendor}" Header="Продавец" />
-                    <GridViewColumn DisplayMemberBinding="{Binding url}" Header="Ссылка" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <StackPanel>
+            <ListView ItemsSource="{Binding Items1}" DockPanel.Dock="Left">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding art}" Header="Артикуль" />
+                        <GridViewColumn DisplayMemberBinding="{Binding name}" Header="Название" />
+                        <GridViewColumn DisplayMemberBinding="{Binding price}" Header="Цена" />
+                        <GridViewColumn DisplayMemberBinding="{Binding category}" Header="Категория" />
+                        <GridViewColumn DisplayMemberBinding="{Binding currency}" Header="Валюта" />
+                        <GridViewColumn DisplayMemberBinding="{Binding vendor}" Header="Продавец" />
+                        <GridViewColumn DisplayMemberBinding="{Binding url}" Header="Ссылка" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
     </DockPanel>
 </Window>
