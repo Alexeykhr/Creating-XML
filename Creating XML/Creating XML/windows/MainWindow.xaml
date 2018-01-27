@@ -80,7 +80,7 @@
             <ScrollViewer>
                 <StackPanel>
                     <Grid Background="#FFF7F7F7">
-                        <Image Source="https://static.pexels.com/photos/36764/marguerite-daisy-beautiful-beauty.jpg" x:Name="fImage" Height="100" Width="282" />
+                        <Image x:Name="fImage" Height="100" Width="282" />
                     </Grid>
                     <StackPanel Margin="5,10">
                         <TextBlock x:Name="fSelectName" FontWeight="Bold">Название товара</TextBlock>
