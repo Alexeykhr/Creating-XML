@@ -2,7 +2,7 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class CategoryParametersTable
+    class CategoryParametersTable : Table
     {
         [Indexed]
         public int CategoryId { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class OfferImageTable
+    class OfferImageTable : Table
     {
         [Indexed]
         public int OfferId { get; set; }

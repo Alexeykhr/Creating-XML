@@ -71,6 +71,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\db\Database.cs" />
+    <Compile Include="src\db\tables\Table.cs" />
+    <Compile Include="src\db\tables\CategoryParametersTable.cs" />
+    <Compile Include="src\db\tables\CategoryTable.cs" />
+    <Compile Include="src\db\tables\CurrencyTable.cs" />
+    <Compile Include="src\db\tables\OfferImageTable.cs" />
+    <Compile Include="src\db\tables\OfferParametersTable.cs" />
+    <Compile Include="src\db\tables\OfferTable.cs" />
+    <Compile Include="src\db\tables\VendorTable.cs" />
     <Compile Include="windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -101,5 +110,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

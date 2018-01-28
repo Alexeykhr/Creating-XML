@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600" MinWidth="600" MinHeight="300"
+        Title="MainWindow" Width="600" Height="400" MinWidth="600" MinHeight="300"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -111,6 +111,8 @@
             </ScrollViewer>
         </GroupBox>
         <StackPanel>
+            <TextBox x:Name="fSearch" materialDesign:HintAssist.Hint="Поиск по названию | артикулу"
+                     Margin="5" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             <ListView ItemsSource="{Binding Items1}" DockPanel.Dock="Left">
                 <ListView.View>
                     <GridView>
@@ -124,6 +126,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <!-- Paginate -->
         </StackPanel>
     </DockPanel>
 </Window>

@@ -2,7 +2,7 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class OfferTable
+    class OfferTable : Table
     {
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }
