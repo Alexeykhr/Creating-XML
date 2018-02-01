@@ -8,11 +8,12 @@ namespace Creating_XML.src.db.models
         /// <summary>
         /// Connect and execute the request.
         /// </summary>
+        /// <see cref="SQLiteConnection.Query(object)"/>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static IEnumerable<T> Query<T>(string query, object[] args = null) where T : new()
+        protected static List<T> Query<T>(string query, object[] args = null) where T : new()
         {
             using (con = new SQLiteConnection(Project.GetCurrentFileDB()))
             {
@@ -23,9 +24,10 @@ namespace Creating_XML.src.db.models
         /// <summary>
         /// Connect and add a record.
         /// </summary>
+        /// <see cref="SQLiteConnection.Insert(object)"/>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static long Insert(object obj)
+        protected static long Insert(object obj)
         {
             using (con = new SQLiteConnection(Project.GetCurrentFileDB()))
             {
@@ -36,9 +38,10 @@ namespace Creating_XML.src.db.models
         /// <summary>
         /// Connect and update a record.
         /// </summary>
+        /// <see cref="SQLiteConnection.Update(object)"/>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static long Update(object obj)
+        protected static long Update(object obj)
         {
             using (con = new SQLiteConnection(Project.GetCurrentFileDB()))
             {
@@ -49,10 +52,11 @@ namespace Creating_XML.src.db.models
         /// <summary>
         /// Connect and delete a record.
         /// </summary>
+        /// <see cref="SQLiteConnection.Delete(object)"/>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static long Delete<T>(long id)
+        protected static long Delete<T>(long id)
         {
             using (con = new SQLiteConnection(Project.GetCurrentFileDB()))
             {
