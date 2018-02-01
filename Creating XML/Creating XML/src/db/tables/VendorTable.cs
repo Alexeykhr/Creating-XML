@@ -5,9 +5,9 @@ namespace Creating_XML.src.db.tables
     class VendorTable : Table
     {
         [AutoIncrement, PrimaryKey]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
-        [Unique]
+        [Unique, NotNull]
         public string Name { get; set; }
     }
 }

@@ -5,12 +5,12 @@ namespace Creating_XML.src.db.tables
     class CategoryTable : Table
     {
         [AutoIncrement, PrimaryKey]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Indexed]
-        public int ParentId { get; set; }
+        public long ParentId { get; set; }
 
-        [Unique]
+        [Unique, NotNull]
         public string Rate { get; set; }
     }
 }

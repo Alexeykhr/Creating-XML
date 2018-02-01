@@ -28,6 +28,8 @@ namespace Creating_XML.src.db.models
             }
 
             query += " ORDER BY ? ? LIMIT ? OFFSET ?";
+
+            // TODO: JOIN
             
             return Query<OfferTable>(query, new object[] {
                 find,
