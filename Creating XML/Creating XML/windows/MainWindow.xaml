@@ -68,7 +68,7 @@
                 <DataTemplate>
                     <Grid>
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="InformationOutline" Height="32" Width="32" VerticalAlignment="Center" />
+                            <materialDesign:PackIcon Kind="InformationOutline" Height="26" Width="32" VerticalAlignment="Center" />
                             <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
                         </StackPanel>
                         <Button Foreground="White" HorizontalAlignment="Right" IsEnabled="False">
@@ -111,8 +111,13 @@
             </ScrollViewer>
         </GroupBox>
         <StackPanel>
-            <TextBox x:Name="fSearch" materialDesign:HintAssist.Hint="Поиск по названию | артикулу"
-                     Margin="5" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+            <Grid Margin="5">
+                <TextBox x:Name="fSearch" materialDesign:HintAssist.Hint="Поиск по названию, артикулу"
+                     Margin="0,0,30,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <Button Width="25" Height="25" HorizontalAlignment="Right" Padding="0">
+                    <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" />
+                </Button>
+            </Grid>
             <ListView ItemsSource="{Binding Items1}" DockPanel.Dock="Left">
                 <ListView.View>
                     <GridView>

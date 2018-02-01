@@ -6,19 +6,20 @@ namespace Creating_XML.src.db
 {
     class Database
     {
-        private List<Table> _tables = new List<Table> {
-            new CategoryParametersTable(),
-            new CategoryTable(),
-            new CurrencyTable(),
-            new OfferImageTable(),
-            new OfferParametersTable(),
-            new OfferTable(),
-            new VendorTable()
-        };
+        protected static SQLiteConnection con;
 
-        public List<Table> Tables
+        public static void Migration()
         {
-            get { return _tables; }
+            using (con = new SQLiteConnection(Project.GetCurrentFileDB()))
+            {
+                con.CreateTable<CategoryParametersTable>();
+                con.CreateTable<CategoryTable>();
+                con.CreateTable<CurrencyTable>();
+                con.CreateTable<OfferImageTable>();
+                con.CreateTable<OfferParametersTable>();
+                con.CreateTable<OfferTable>();
+                con.CreateTable<VendorTable>();
+            }
         }
     }
 }

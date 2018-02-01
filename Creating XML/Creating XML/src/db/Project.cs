@@ -12,15 +12,14 @@ namespace Creating_XML.src.db
         private static string FILE_NAME = "";
         private static string FILE_URI = "";
 
-        public void CreateNewProject(string file)
+        public static void CreateNewProject(string file)
         {
-            var db = new Database();
+            Database.Migration();
+        }
 
-            
-            foreach (var table in db.Tables)
-            {
-                table.Migration
-            }
+        public static string GetCurrentFileDB()
+        {
+            return FILE_URI;
         }
     }
 }

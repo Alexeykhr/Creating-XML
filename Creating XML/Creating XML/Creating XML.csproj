@@ -72,6 +72,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\db\Database.cs" />
+    <Compile Include="src\db\models\CategoryModel.cs" />
+    <Compile Include="src\db\models\IModel.cs" />
+    <Compile Include="src\db\models\Model.cs" />
+    <Compile Include="src\db\Project.cs" />
     <Compile Include="src\db\tables\Table.cs" />
     <Compile Include="src\db\tables\CategoryParametersTable.cs" />
     <Compile Include="src\db\tables\CategoryTable.cs" />
