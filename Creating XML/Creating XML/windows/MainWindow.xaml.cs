@@ -24,7 +24,13 @@ namespace Creating_XML.windows
         {
             InitializeComponent();
 
-            new SelectFileWindow().ShowDialog();
+            var fileWindow = new SelectFileWindow();
+            fileWindow.ShowDialog();
+
+            if (!fileWindow.IsOpened)
+                Close();
+            
+
         }
     }
 }

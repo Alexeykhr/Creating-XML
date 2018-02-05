@@ -19,9 +19,22 @@ namespace Creating_XML.windows
     /// </summary>
     public partial class SelectFileWindow : Window
     {
+        private bool _isOpened;
+        private string _openedFileUri;
+
         public SelectFileWindow()
         {
             InitializeComponent();
+        }
+
+        public bool IsOpened
+        {
+            get { return _isOpened; }
+        }
+
+        public string OpenedFileUri
+        {
+            get { return _openedFileUri; }
         }
     }
 }

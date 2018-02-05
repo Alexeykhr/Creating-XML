@@ -15,7 +15,27 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <Border BorderThickness="0,0,1,0" BorderBrush="#FFDEDEDE">
+            <Grid DockPanel.Dock="Left" Width="200" Background="#FFF1F1F1">
+                <ListBox x:Name="listBoxFiles">
+                    <TextBlock>Plain</TextBlock>
+                    <TextBlock>Old</TextBlock>
+                    <TextBlock>ListBox</TextBlock>
+                    <TextBlock>Full of junk</TextBlock>
+                </ListBox>
+            </Grid>
+        </Border>
+        <Grid DockPanel.Dock="Right">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="150">
+                <Button x:Name="btnOpen" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0,0,0,50">
+                    Открыть
+                </Button>
+                <Button x:Name="btnCreate" Style="{StaticResource MaterialDesignRaisedButton}" Background="#FFB05454"
+                        BorderBrush="#FFB05454">
+                    Создать
+                </Button>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>
