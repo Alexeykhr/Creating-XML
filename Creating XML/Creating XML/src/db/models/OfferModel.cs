@@ -11,14 +11,13 @@ namespace Creating_XML.src.db.models
             ListSortDirection sortDirection = ListSortDirection.Ascending
         ) {
             string query = "SELECT * FROM " + typeof(OfferTable).Name;
-            int art = 0;
             object find = search;
 
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query += " WHERE ";
 
-                if (!int.TryParse(search.ToString(), out art))
+                if (!int.TryParse(search.ToString(), out int art))
                 {
                     query += "Article = ?";
                     find = art;

@@ -11,6 +11,6 @@ namespace Creating_XML.src.db.tables
         public long ParentId { get; set; }
 
         [Unique, NotNull]
-        public string Rate { get; set; }
+        public string Name { get; set; }
     }
 }
