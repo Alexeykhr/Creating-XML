@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Creating_XML.src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace Creating_XML.windows
         public MainWindow()
         {
             InitializeComponent();
+
+            new SelectFileWindow().ShowDialog();
         }
     }
 }

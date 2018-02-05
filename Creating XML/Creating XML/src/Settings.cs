@@ -1,26 +1,48 @@
-﻿namespace Creating_XML.src
+﻿using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
+namespace Creating_XML.src
 {
     class Settings
     {
-        private static string _last_file_uri;
-
         private const string LAST_FILE_URI = "last_file_uri";
+        private const string LAST_FILES_URI = "last_files_uri";
 
-        public static string Domain
+        public static string File
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_last_file_uri))
-                    return _last_file_uri;
-
-                _last_file_uri = Get(LAST_FILE_URI).ToString();
-
-                return _last_file_uri;
+                return Get(LAST_FILE_URI).ToString();
             }
             set
             {
                 Set(LAST_FILE_URI, value);
-                _last_file_uri = value;
+            }
+        }
+
+        public static List<string> Files
+        {
+            get
+            {
+                try
+                {
+                    return GetStringCollection(LAST_FILES_URI).Cast<string>().ToList();
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                try
+                {
+                    var collection = new StringCollection();
+                    collection.AddRange(value.ToArray());
+                    Set(LAST_FILES_URI, collection);
+                }
+                catch { }
             }
         }
 
@@ -29,9 +51,25 @@
             return Properties.Settings.Default[name];
         }
 
+        private static StringCollection GetStringCollection(string name)
+        {
+            return Get(name) as StringCollection;
+        }
+
         private static void Set(string name, object value)
         {
             Properties.Settings.Default[name] = value;
+            Save();
+        }
+
+        private static void Set(string name, StringCollection collection)
+        {
+            Properties.Settings.Default[name] = collection;
+            Save();
+        }
+
+        private static void Save()
+        {
             Properties.Settings.Default.Save();
         }
     }

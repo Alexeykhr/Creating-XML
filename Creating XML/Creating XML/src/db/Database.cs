@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Collections.Generic;
 using Creating_XML.src.db.tables;
 
 namespace Creating_XML.src.db
