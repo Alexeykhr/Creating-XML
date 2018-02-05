@@ -9,17 +9,19 @@ namespace Creating_XML.src.db
 {
     class Project
     {
-        private static string FILE_NAME = "";
-        private static string FILE_URI = "";
+        private static string _file_uri = "";
 
         public static void CreateNewProject(string file)
         {
+            _file_uri = file;
+            Settings.InsertLastProject(file);
             Database.Migration();
         }
 
-        public static string GetCurrentFileDB()
+        public static string FileUri
         {
-            return FILE_URI;
+            get { return _file_uri; }
+            set { _file_uri = value; }
         }
     }
 }

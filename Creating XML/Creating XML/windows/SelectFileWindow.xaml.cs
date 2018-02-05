@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Creating_XML.src.db;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +17,9 @@ using System.Windows.Shapes;
 
 namespace Creating_XML.windows
 {
-    /// <summary>
-    /// Логика взаимодействия для SelectFileWindow.xaml
-    /// </summary>
     public partial class SelectFileWindow : Window
     {
         private bool _isOpened;
-        private string _openedFileUri;
 
         public SelectFileWindow()
         {
@@ -32,9 +31,42 @@ namespace Creating_XML.windows
             get { return _isOpened; }
         }
 
-        public string OpenedFileUri
+        private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            get { return _openedFileUri; }
+
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            var sfd = new SaveFileDialog
+            {
+                FileName = "File",
+                Filter = "(*.xmldb)|*.xmldb"
+            };
+
+            bool? result = sfd.ShowDialog();
+            
+            if (result == true)
+                SelectFile(sfd.FileName, true);
+        }
+
+        private void SelectFile(string file, bool isNewProject)
+        {
+            try
+            {
+                _isOpened = true;
+                Project.FileUri = file;
+                Database.Connection(file);
+
+                if (isNewProject)
+                    Database.Migration();
+
+                Close();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ошибка");
+            }
         }
     }
 }

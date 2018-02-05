@@ -6,20 +6,7 @@ namespace Creating_XML.src
 {
     class Settings
     {
-        private const string LAST_FILE_URI = "last_file_uri";
         private const string LAST_FILES_URI = "last_files_uri";
-
-        public static string File
-        {
-            get
-            {
-                return Get(LAST_FILE_URI).ToString();
-            }
-            set
-            {
-                Set(LAST_FILE_URI, value);
-            }
-        }
 
         public static List<string> Files
         {
@@ -44,6 +31,13 @@ namespace Creating_XML.src
                 }
                 catch { }
             }
+        }
+
+        public static void InsertLastProject(string fileUri)
+        {
+            var files = Files;
+            files.Insert(0, fileUri);
+            Files = files.GetRange(0, 10);
         }
 
         private static object Get(string name)

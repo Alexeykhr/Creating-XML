@@ -5,18 +5,18 @@ namespace Creating_XML.src.db.tables
     class OfferTable : Table
     {
         [AutoIncrement, PrimaryKey]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
-        public long Article { get; set; }
-
-        [Indexed]
-        public long CurrencyId { get; set; }
+        public int Article { get; set; }
 
         [Indexed]
-        public long CategoryId { get; set; }
+        public int CurrencyId { get; set; }
 
         [Indexed]
-        public long VendorId { get; set; }
+        public int CategoryId { get; set; }
+
+        [Indexed]
+        public int VendorId { get; set; }
 
         [Unique, NotNull]
         public string Name { get; set; }

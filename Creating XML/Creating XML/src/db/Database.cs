@@ -5,28 +5,36 @@ namespace Creating_XML.src.db
 {
     class Database
     {
-        protected static SQLiteConnection con;
+        private static SQLiteAsyncConnection conn;
 
-        public static void Migration()
+        /// <summary>
+        /// Set connection to DB.
+        /// </summary>
+        /// <param name="file"></param>
+        public static void Connection(string file)
         {
-            using (con = CreateConnection())
+            try
             {
-                con.CreateTable<CategoryParametersTable>();
-                con.CreateTable<CategoryTable>();
-                con.CreateTable<CurrencyTable>();
-                con.CreateTable<OfferImageTable>();
-                con.CreateTable<OfferParametersTable>();
-                con.CreateTable<OfferTable>();
-                con.CreateTable<VendorTable>();
+                conn = new SQLiteAsyncConnection(file);
+            }
+            catch (System.Exception e)
+            {
+                throw new System.Exception("Ошибка подключения к БД");
             }
         }
 
-        private static SQLiteConnection CreateConnection(string file = null)
+        /// <summary>
+        /// Migration tables to File.
+        /// </summary>
+        public static void Migration()
         {
-            if (file == null)
-                file = Project.GetCurrentFileDB();
-
-            return new SQLiteConnection(file);
+            conn.CreateTableAsync<CategoryParametersTable>();
+            conn.CreateTableAsync<CategoryTable>();
+            conn.CreateTableAsync<CurrencyTable>();
+            conn.CreateTableAsync<OfferImageTable>();
+            conn.CreateTableAsync<OfferParametersTable>();
+            conn.CreateTableAsync<OfferTable>();
+            conn.CreateTableAsync<VendorTable>();
         }
     }
 }

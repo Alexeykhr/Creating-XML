@@ -5,10 +5,10 @@ namespace Creating_XML.src.db.tables
     class OfferParametersTable : Table
     {
         [AutoIncrement, PrimaryKey]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Indexed, NotNull]
-        public long OfferId { get; set; }
+        public int OfferId { get; set; }
 
         [NotNull]
         public string Name { get; set; }

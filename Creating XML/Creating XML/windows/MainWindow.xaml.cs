@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Creating_XML.windows
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
