@@ -10,7 +10,7 @@ namespace Creating_XML.src.db
 
         public static void Migration()
         {
-            using (con = new SQLiteConnection(Project.GetCurrentFileDB()))
+            using (con = CreateConnection())
             {
                 con.CreateTable<CategoryParametersTable>();
                 con.CreateTable<CategoryTable>();
@@ -20,6 +20,14 @@ namespace Creating_XML.src.db
                 con.CreateTable<OfferTable>();
                 con.CreateTable<VendorTable>();
             }
+        }
+
+        private static SQLiteConnection CreateConnection(string file = null)
+        {
+            if (file == null)
+                file = Project.GetCurrentFileDB();
+
+            return new SQLiteConnection(file);
         }
     }
 }
