@@ -25,9 +25,9 @@ namespace Creating_XML.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection last_files_uri {
+        public global::System.Collections.Generic.List<Creating_XML.src.objects.FileObject> last_files_uri {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["last_files_uri"]));
+                return ((global::System.Collections.Generic.List<Creating_XML.src.objects.FileObject>)(this["last_files_uri"]));
             }
             set {
                 this["last_files_uri"] = value;

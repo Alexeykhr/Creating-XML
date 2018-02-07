@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using Creating_XML.src;
 using Creating_XML.src.db;
 
 namespace Creating_XML.windows
@@ -18,6 +19,7 @@ namespace Creating_XML.windows
         public SelectFileWindow()
         {
             InitializeComponent();
+            DisplayRecentFiles();
         }
 
         /// <summary>
@@ -26,6 +28,15 @@ namespace Creating_XML.windows
         public bool IsOpened
         {
             get { return _isOpened; }
+        }
+
+        /// <summary>
+        /// Fill ListView from Settings.
+        /// </summary>
+        public void DisplayRecentFiles()
+        {
+            var list = Settings.LastFilesUri;
+            
         }
 
         /// <summary>
