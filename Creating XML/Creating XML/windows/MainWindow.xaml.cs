@@ -29,15 +29,6 @@ namespace Creating_XML.windows
 
             if (!fileWindow.IsOpened)
                 Close();
-
-            var offer = new OfferTable()
-            {
-                Name = "Asd",
-                IsAvailable = true
-            };
-
-            Database.Insert(offer);
-            var list = Database.List<OfferTable>();
         }
     }
 }

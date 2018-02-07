@@ -17,7 +17,8 @@ namespace Creating_XML.src.db
         {
             try
             {
-                conn = new SQLiteConnection(file);
+                if (conn == null)
+                    conn = new SQLiteConnection(file);
             }
             catch (System.Exception e)
             {
@@ -25,12 +26,20 @@ namespace Creating_XML.src.db
             }
         }
 
+        /// <summary>
+        /// Close Connection to DB.
+        /// </summary>
         public static void CloseConnection()
         {
             conn.Dispose();
         }
 
-        public static List<T> List<T>() where T : new()
+        /// <summary>
+        /// Get a list of data from the table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<T> List<T>() where T : new()
         {
             try
             {
@@ -42,6 +51,12 @@ namespace Creating_XML.src.db
             }
         }
 
+        /// <summary>
+        /// Add new record.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
         public static int Insert<T>(T table)
         {
             return conn.Insert(table);

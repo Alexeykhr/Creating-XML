@@ -1,47 +1,62 @@
-﻿using Creating_XML.src.db;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.Win32;
+using Creating_XML.src.db;
 
 namespace Creating_XML.windows
 {
     public partial class SelectFileWindow : Window
     {
+        private const string FILTER_EXT = "(*.xmldb)|*.xmldb";
+
         private bool _isOpened;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public SelectFileWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Get property. Used in other classes.
+        /// </summary>
         public bool IsOpened
         {
             get { return _isOpened; }
         }
 
+        /// <summary>
+        /// Сlick event to open file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
+            var ofd = new OpenFileDialog
+            {
+                Filter = FILTER_EXT
+            };
 
+            bool? result = ofd.ShowDialog();
+
+            if (result == true)
+                SelectFile(ofd.FileName);
         }
 
+        /// <summary>
+        /// Сlick event to create file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             var sfd = new SaveFileDialog
             {
                 FileName = "File",
-                Filter = "(*.xmldb)|*.xmldb"
+                Filter = FILTER_EXT
             };
 
             bool? result = sfd.ShowDialog();
@@ -50,29 +65,33 @@ namespace Creating_XML.windows
                 SelectFile(sfd.FileName, true);
         }
 
-        private void SelectFile(string file, bool isNewProject)
+        /// <summary>
+        /// Connect to the file and close Window.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="isNewProject"></param>
+        private void SelectFile(string file, bool isNewProject = false)
         {
             try
             {
                 _isOpened = true;
                 Project.FileUri = file;
-                Database.Connection(file);
 
                 if (isNewProject)
                 {
+                    // If the file exists, delete it.
                     if (File.Exists(file))
-                    {
-                        Database.CloseConnection();
                         File.Delete(file);
-                        Database.Connection(file);
-                    }
 
+                    Database.Connection(file);
                     Database.Migration();
                 }
+                else
+                    Database.Connection(file);
 
                 Close();
             }
-            catch (Exception e)
+            catch
             {
                 throw new Exception("Ошибка при работе с файлами");
             }
