@@ -17,8 +17,22 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
     <DockPanel>
         <Border BorderThickness="0,0,1,0" BorderBrush="#FFDEDEDE">
-            <Grid DockPanel.Dock="Left" Width="200" Background="#FFF1F1F1">
-                <ListBox x:Name="listBoxFiles" />
+            <Grid DockPanel.Dock="Left" Width="220" Background="#FFF1F1F1">
+                <ListView Name="listView" ItemsSource="{Binding FileObject}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Uri}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding OpenedAt}" FontStyle="Italic" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </Border>
         <Grid DockPanel.Dock="Right">

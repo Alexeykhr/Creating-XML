@@ -80,7 +80,7 @@
     </ApplicationDefinition>
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
-    <Compile Include="src\db\tables\FilesTable.cs" />
+    <Compile Include="src\objects\FileObject.cs" />
     <Compile Include="src\Settings.cs" />
     <Compile Include="windows\SelectFileWindow.xaml.cs">
       <DependentUpon>SelectFileWindow.xaml</DependentUpon>

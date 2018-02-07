@@ -4,6 +4,8 @@ using System.Windows;
 using Microsoft.Win32;
 using Creating_XML.src;
 using Creating_XML.src.db;
+using System.Collections.Generic;
+using Creating_XML.src.objects;
 
 namespace Creating_XML.windows
 {
@@ -35,8 +37,7 @@ namespace Creating_XML.windows
         /// </summary>
         public void DisplayRecentFiles()
         {
-            var list = Settings.LastFilesUri;
-            
+            listView.ItemsSource = Settings.LastFilesUri;
         }
 
         /// <summary>
@@ -100,9 +101,11 @@ namespace Creating_XML.windows
                 else
                     Database.Connection(file);
 
+                Settings.InsertLastFile(file);
+
                 Close();
             }
-            catch
+            catch (Exception e)
             {
                 throw new Exception("Ошибка при работе с файлами");
             }

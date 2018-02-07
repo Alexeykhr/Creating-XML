@@ -29,6 +29,8 @@ namespace Creating_XML.windows
 
             if (!fileWindow.IsOpened)
                 Close();
+
+            var list = Settings.LastFilesUri;
         }
     }
 }

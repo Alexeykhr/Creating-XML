@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Creating_XML.src.objects;
 
 namespace Creating_XML.src
 {
     class Settings
     {
-        private const string LAST_FILES_URI = "last_files_uri";
+        private const byte MAX_COUNT_FILES = 10;
 
         /// <summary>
         /// Display the last opened files.
@@ -15,13 +18,37 @@ namespace Creating_XML.src
         {
             get
             {
-                return Properties.Settings.Default.last_files_uri;
+                var list = Properties.Settings.Default.last_files_uri as List<FileObject>;
+
+                if (list == null)
+                    list = new List<FileObject>();
+
+                return list;
             }
-            set
+        }
+
+        /// <summary>
+        /// Save new list.
+        /// </summary>
+        /// <param name="uri"></param>
+        public static void InsertLastFile(string uri)
+        {
+            List<FileObject> list = LastFilesUri;
+            int searchIndex = list.FindIndex(x => x.Uri.Equals(uri));
+
+            list.Insert(searchIndex > -1 ? searchIndex : 0, new FileObject
             {
-                Properties.Settings.Default.last_files_uri = value;
-                Properties.Settings.Default.Save();
-            }
+                Uri = uri,
+                OpenedAt = DateTime.Now
+            });
+
+            if (list.Count > MAX_COUNT_FILES)
+                list.RemoveRange(MAX_COUNT_FILES, list.Count - MAX_COUNT_FILES);
+
+            Properties.Settings.Default.last_files_uri = list;
+            Properties.Settings.Default.Save();
+
+            var newList = Properties.Settings.Default.last_files_uri;
         }
     }
 }
