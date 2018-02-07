@@ -59,13 +59,22 @@ namespace Creating_XML.windows
                 Database.Connection(file);
 
                 if (isNewProject)
+                {
+                    if (File.Exists(file))
+                    {
+                        Database.CloseConnection();
+                        File.Delete(file);
+                        Database.Connection(file);
+                    }
+
                     Database.Migration();
+                }
 
                 Close();
             }
             catch (Exception e)
             {
-                throw new Exception("Ошибка");
+                throw new Exception("Ошибка при работе с файлами");
             }
         }
     }

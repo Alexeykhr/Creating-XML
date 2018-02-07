@@ -1,4 +1,7 @@
 ﻿using Creating_XML.src;
+using Creating_XML.src.db;
+using Creating_XML.src.db.models;
+using Creating_XML.src.db.tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +29,15 @@ namespace Creating_XML.windows
 
             if (!fileWindow.IsOpened)
                 Close();
-            
 
+            var offer = new OfferTable()
+            {
+                Name = "Asd",
+                IsAvailable = true
+            };
+
+            Database.Insert(offer);
+            var list = Database.List<OfferTable>();
         }
     }
 }
