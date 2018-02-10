@@ -21,8 +21,7 @@ namespace Creating_XML.windows
 {
     public partial class MainWindow : Window
     {
-        private int page = 1;
-        private int count = 20;
+        private int lastNumber;
 
         /// <summary>
         /// Select file before work (open window).
@@ -61,9 +60,6 @@ namespace Creating_XML.windows
         /// </summary>
         private void UI()
         {
-            fMaxItemsOnPage.Text = count.ToString();
-            fCurrentPage.Text = page.ToString();
-
             var list = Database.List<OfferTable>();
             // TODO
         }
@@ -75,6 +71,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void fCurrentPage_GotFocus(object sender, RoutedEventArgs e)
         {
+            lastNumber = int.Parse(fCurrentPage.Text);
             fCurrentPage.Text = string.Empty;
         }
 
@@ -85,13 +82,8 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void fCurrentPage_LostFocus(object sender, RoutedEventArgs e)
         {
-            bool isCorrect = int.TryParse(fCurrentPage.Text, out int page);
-
-            if (!isCorrect || page < 1)
-                page = this.page;
-
-            fCurrentPage.Text = page.ToString();
-            this.page = page;
+            if (!int.TryParse(fCurrentPage.Text, out int result) || result < 1)
+                fCurrentPage.Text = lastNumber.ToString();
         }
 
         /// <summary>
@@ -101,8 +93,39 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void fCurrentPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
+        }
+
+        /// <summary>
+        /// After got focus = clear the text.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_GotFocus(object sender, RoutedEventArgs e)
+        {
+            lastNumber = int.Parse(fMaxItemsOnPage.Text);
+            fMaxItemsOnPage.Text = string.Empty;
+        }
+
+        /// <summary>
+        /// Check Input.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!int.TryParse(fMaxItemsOnPage.Text, out int result) || result < 1)
+                fMaxItemsOnPage.Text = lastNumber.ToString();
+        }
+
+        /// <summary>
+        /// Only accept numbers.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
         }
 
         /*

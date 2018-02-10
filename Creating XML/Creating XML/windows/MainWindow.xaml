@@ -105,7 +105,8 @@
                          Margin="0,0,50,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                 <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right"
-                         HorizontalContentAlignment="Center" />
+                         HorizontalContentAlignment="Center" GotFocus="fMaxItemsOnPage_GotFocus"
+                         LostFocus="fMaxItemsOnPage_LostFocus" PreviewTextInput="fMaxItemsOnPage_PreviewTextInput" Text="20" />
             </Grid>
             <ListView DockPanel.Dock="Top" ItemsSource="{Binding Items1}">
                 <ListView.View>
@@ -129,7 +130,7 @@
                 </Button>
                 <TextBox x:Name="fCurrentPage" materialDesign:HintAssist.Hint="Стр." Width="45" PreviewTextInput="fCurrentPage_PreviewTextInput"
                          Margin="25,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus" GotFocus="fCurrentPage_GotFocus" />
+                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus" GotFocus="fCurrentPage_GotFocus" Text="1" />
                 <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100">
                     <materialDesign:PackIcon Kind="ArrowRightBold" />
                 </Button>
