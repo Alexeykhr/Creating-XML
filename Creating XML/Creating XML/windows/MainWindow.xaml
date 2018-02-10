@@ -13,27 +13,16 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Menu IsMainMenu="True" VerticalAlignment="Top" Background="Gainsboro" DockPanel.Dock="Top">
             <MenuItem Header="Файл">
-                <MenuItem Header="Создать">
+                <MenuItem x:Name="menuItemOpenFile" Header="Выбор файла" Click="menuItemOpenFile_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="FileOutline" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Сохранить">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ContentSave" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Сохранить как.." />
-                <MenuItem Header="Загрузить">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Download" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Выход">
+                <MenuItem x:Name="menuItemClose" Header="Выход" Click="menuItemClose_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="ExitToApp" />
                     </MenuItem.Icon>

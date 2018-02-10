@@ -35,6 +35,15 @@ namespace Creating_XML.src.db
         }
 
         /// <summary>
+        /// Connection to the database is established.
+        /// </summary>
+        /// <returns></returns>
+        public static bool HasConnection()
+        {
+            return conn != null;
+        }
+
+        /// <summary>
         /// Get a list of data from the table.
         /// </summary>
         /// <typeparam name="T"></typeparam>

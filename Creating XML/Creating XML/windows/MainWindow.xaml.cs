@@ -20,17 +20,65 @@ namespace Creating_XML.windows
 {
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Select file before work (open window).
+        /// </summary>
+        /// <see cref="OpenFileWindow()"/>
         public MainWindow()
         {
             InitializeComponent();
+            OpenFileWindow();
+        }
+
+        /// <summary>
+        /// OpenFileWindow for select a file and connect to the Database.
+        /// </summary>
+        /// <see cref="SelectFileWindow"/>
+        private void OpenFileWindow()
+        {
+            if (Database.HasConnection())
+                Database.CloseConnection();
+            
+            Hide();
 
             var fileWindow = new SelectFileWindow();
             fileWindow.ShowDialog();
 
+            // If the file is not selected (the window is closed) - close the program.
             if (!fileWindow.IsOpened)
                 Close();
 
             var list = Settings.LastFilesUri;
+
+            Show();
+        }
+
+        /*
+         * |-------------------------------------------
+         * | Menu items.
+         * |-------------------------------------------
+         * |
+         */
+
+        /// <summary>
+        /// Open window for select file.
+        /// </summary>
+        /// <see cref="OpenFileWindow()"/>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItemOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileWindow();
+        }
+
+        /// <summary>
+        /// Close the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItemClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

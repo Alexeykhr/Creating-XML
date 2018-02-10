@@ -4,8 +4,6 @@ using System.Windows;
 using Microsoft.Win32;
 using Creating_XML.src;
 using Creating_XML.src.db;
-using System.Collections.Generic;
-using Creating_XML.src.objects;
 
 namespace Creating_XML.windows
 {
