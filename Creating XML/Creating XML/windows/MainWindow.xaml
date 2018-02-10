@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML"
         mc:Ignorable="d"
-        Title="MainWindow" Width="600" Height="400" MinWidth="600" MinHeight="300"
+        Title="MainWindow" Width="1005" Height="754" MinWidth="600" MinHeight="300"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -13,7 +13,7 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}" WindowStartupLocation="CenterScreen">
+        FontFamily="{DynamicResource MaterialDesignFont}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <DockPanel>
         <Menu IsMainMenu="True" VerticalAlignment="Top" Background="Gainsboro" DockPanel.Dock="Top">
             <MenuItem Header="Файл">
@@ -99,15 +99,15 @@
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>
-        <StackPanel>
-            <Grid Margin="5">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top" Margin="5">
                 <TextBox x:Name="fSearch" materialDesign:HintAssist.Hint="Поиск по названию, артикулу"
-                     Margin="0,0,30,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <Button Width="25" Height="25" HorizontalAlignment="Right" Padding="0">
-                    <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center" />
-                </Button>
+                         Margin="0,0,50,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right"
+                         HorizontalContentAlignment="Center" />
             </Grid>
-            <ListView ItemsSource="{Binding Items1}" DockPanel.Dock="Left">
+            <ListView DockPanel.Dock="Top" ItemsSource="{Binding Items1}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding art}" Header="Артикуль" />
@@ -120,7 +120,20 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <!-- Paginate -->
-        </StackPanel>
+            <Button x:Name="btnAddOffer" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                Добавить товар
+            </Button>
+            <StackPanel DockPanel.Dock="Bottom" Margin="0,5" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100">
+                    <materialDesign:PackIcon Kind="ArrowLeftBold" />
+                </Button>
+                <TextBox x:Name="fCurrentPage" materialDesign:HintAssist.Hint="Стр." Width="45" PreviewTextInput="fCurrentPage_PreviewTextInput"
+                         Margin="25,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus" GotFocus="fCurrentPage_GotFocus" />
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100">
+                    <materialDesign:PackIcon Kind="ArrowRightBold" />
+                </Button>
+            </StackPanel>
+        </DockPanel>
     </DockPanel>
 </Window>
