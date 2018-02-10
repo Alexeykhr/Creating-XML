@@ -20,7 +20,7 @@ namespace Creating_XML.src.db
                 if (conn == null)
                     conn = new SQLiteConnection(file);
             }
-            catch (System.Exception e)
+            catch
             {
                 throw new System.Exception("Ошибка подключения к БД");
             }

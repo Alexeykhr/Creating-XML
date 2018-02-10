@@ -2,6 +2,7 @@
 
 namespace Creating_XML.src.objects
 {
+    [Serializable()]
     class FileObject
     {
         public string Uri { get; set; }

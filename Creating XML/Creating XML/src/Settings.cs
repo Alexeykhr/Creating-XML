@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Creating_XML.src.objects;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Creating_XML.src
 {
@@ -18,17 +18,23 @@ namespace Creating_XML.src
         {
             get
             {
-                var list = Properties.Settings.Default.last_files_uri as List<FileObject>;
-
-                if (list == null)
-                    list = new List<FileObject>();
-
-                return list;
+                using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(Properties.Settings.Default.last_files_uri)))
+                {
+                    try
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        return bf.Deserialize(ms) as List<FileObject>;
+                    }
+                    catch
+                    {
+                        return new List<FileObject>();
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// Save new list.
+        /// Add or update uri to the first place.
         /// </summary>
         /// <param name="uri"></param>
         public static void InsertLastFile(string uri)
@@ -36,7 +42,10 @@ namespace Creating_XML.src
             List<FileObject> list = LastFilesUri;
             int searchIndex = list.FindIndex(x => x.Uri.Equals(uri));
 
-            list.Insert(searchIndex > -1 ? searchIndex : 0, new FileObject
+            if (searchIndex > -1)
+                list.RemoveAt(searchIndex);
+
+            list.Insert(0, new FileObject
             {
                 Uri = uri,
                 OpenedAt = DateTime.Now
@@ -45,10 +54,25 @@ namespace Creating_XML.src
             if (list.Count > MAX_COUNT_FILES)
                 list.RemoveRange(MAX_COUNT_FILES, list.Count - MAX_COUNT_FILES);
 
-            Properties.Settings.Default.last_files_uri = list;
-            Properties.Settings.Default.Save();
+            SaveLastFilesUri(list);
+        }
 
-            var newList = Properties.Settings.Default.last_files_uri;
+        /// <summary>
+        /// Save new list of FileObject.
+        /// </summary>
+        /// <param name="list"></param>
+        private static void SaveLastFilesUri(List<FileObject> list)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(ms, list);
+                ms.Position = 0;
+                byte[] buffer = new byte[(int)ms.Length];
+                ms.Read(buffer, 0, buffer.Length);
+                Properties.Settings.Default.last_files_uri = Convert.ToBase64String(buffer);
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

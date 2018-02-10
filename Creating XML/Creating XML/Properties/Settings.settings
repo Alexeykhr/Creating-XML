@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Creating_XML.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="last_files_uri" Type="System.Collections.Generic.List&lt;Creating_XML.src.objects.FileObject&gt;" Scope="User">
+    <Setting Name="last_files_uri" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

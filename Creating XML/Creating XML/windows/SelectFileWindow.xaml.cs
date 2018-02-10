@@ -65,7 +65,6 @@ namespace Creating_XML.windows
         {
             var sfd = new SaveFileDialog
             {
-                FileName = "File",
                 Filter = FILTER_EXT
             };
 
@@ -103,7 +102,7 @@ namespace Creating_XML.windows
 
                 Close();
             }
-            catch (Exception e)
+            catch
             {
                 throw new Exception("Ошибка при работе с файлами");
             }

@@ -47,10 +47,8 @@ namespace Creating_XML.windows
             // If the file is not selected (the window is closed) - close the program.
             if (!fileWindow.IsOpened)
                 Close();
-
-            var list = Settings.LastFilesUri;
-
-            Show();
+            else
+                Show();
         }
 
         /*
