@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows"
         mc:Ignorable="d"
-        Title="SelectFileWindow" Height="300" Width="500"
+        Title="XML - Выбор файла" Height="300" Width="500"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -18,7 +18,7 @@
     <DockPanel>
         <Border BorderThickness="0,0,1,0" BorderBrush="#FFDEDEDE">
             <Grid DockPanel.Dock="Left" Width="220" Background="#FFF1F1F1">
-                <ListView Name="listView" ItemsSource="{Binding FileObject}">
+                <ListView Name="listView" ItemsSource="{Binding FileObject}" PreviewMouseLeftButtonUp="listView_PreviewMouseLeftButtonUp">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>

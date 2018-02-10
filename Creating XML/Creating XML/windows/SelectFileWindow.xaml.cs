@@ -4,6 +4,8 @@ using System.Windows;
 using Microsoft.Win32;
 using Creating_XML.src;
 using Creating_XML.src.db;
+using System.Windows.Controls;
+using Creating_XML.src.objects;
 
 namespace Creating_XML.windows
 {
@@ -72,6 +74,21 @@ namespace Creating_XML.windows
             
             if (result == true)
                 SelectFile(sfd.FileName, true);
+        }
+
+        /// <summary>
+        /// Open the previous file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listView_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var item = (sender as ListView).SelectedItem;
+
+            if (item == null)
+                return;
+
+            SelectFile((item as FileObject).Uri);
         }
 
         /// <summary>
