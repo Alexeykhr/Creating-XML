@@ -84,7 +84,7 @@
                     <TextBox x:Name="fSelectVendor" materialDesign:HintAssist.Hint="Продавец" IsReadOnly="True"
                                  Margin="5,0,5,20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <TextBox x:Name="fSelectDescription" Style="{StaticResource MaterialDesignTextAreaTextBox}" Margin="5,0,5,0"
-                                 VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True"
+                                 VerticalAlignment="Top" Height="150" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True"
                                  materialDesign:HintAssist.Hint="Описание" VerticalScrollBarVisibility="Auto" />
                     <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
                         <Button x:Name="btnUrlImage" Style="{StaticResource MaterialDesignToolButton}" Width="30"
@@ -106,9 +106,9 @@
                 <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right"
                          HorizontalContentAlignment="Center" GotFocus="fMaxItemsOnPage_GotFocus"
-                         LostFocus="fMaxItemsOnPage_LostFocus" PreviewTextInput="fMaxItemsOnPage_PreviewTextInput" Text="20" />
+                         LostFocus="fMaxItemsOnPage_LostFocus" PreviewTextInput="fMaxItemsOnPage_PreviewTextInput" Text="20" TextChanged="fMaxItemsOnPage_TextChanged" />
             </Grid>
-            <ListView DockPanel.Dock="Top" ItemsSource="{Binding Items1}">
+            <ListView x:Name="listView" DockPanel.Dock="Top">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding art}" Header="Артикуль" />
@@ -130,7 +130,7 @@
                 </Button>
                 <TextBox x:Name="fCurrentPage" materialDesign:HintAssist.Hint="Стр." Width="45" PreviewTextInput="fCurrentPage_PreviewTextInput"
                          Margin="25,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus" GotFocus="fCurrentPage_GotFocus" Text="1" />
+                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus" GotFocus="fCurrentPage_GotFocus" Text="1" TextChanged="fCurrentPage_TextChanged" />
                 <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100">
                     <materialDesign:PackIcon Kind="ArrowRightBold" />
                 </Button>

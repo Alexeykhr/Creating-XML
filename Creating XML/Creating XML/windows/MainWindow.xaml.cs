@@ -4,9 +4,11 @@ using Creating_XML.src.db.models;
 using Creating_XML.src.db.tables;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,6 +25,10 @@ namespace Creating_XML.windows
     {
         private int lastNumber;
 
+        private int maxItemsOnPage = 20;
+
+        private int currentPage = 1;
+
         /// <summary>
         /// Select file before work (open window).
         /// </summary>
@@ -31,7 +37,7 @@ namespace Creating_XML.windows
         {
             InitializeComponent();
             OpenFileWindow();
-            UI();
+            GUI();
         }
 
         /// <summary>
@@ -56,12 +62,32 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Update UI (Fill data).
+        /// Update GUI (Fill data).
         /// </summary>
-        private void UI()
+        private void GUI()
         {
-            var list = Database.List<OfferTable>();
-            // TODO
+            UpdateListView(fSearch.Text, maxItemsOnPage, currentPage);
+        }
+
+        /// <summary>
+        /// Query to Database and update ListView.
+        /// </summary>
+        private async void UpdateListView(string search, int take, int page)
+        {
+            if (!Database.HasConnection())
+                return;
+
+            var collection = await Task.Run(() =>
+            {
+                return Database.List<OfferTable>()
+                    .Where(s => s.Name.Contains(search))
+                    .Take(take)
+                    .Skip(take * page)
+                    .ToList();
+            });
+
+            listView.ItemsSource = collection;
+            listView.Items.Refresh();
         }
 
         /// <summary>
@@ -97,6 +123,20 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
+        /// Change text => Update GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fCurrentPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
+            {
+                maxItemsOnPage = result;
+                GUI();
+            }
+        }
+
+        /// <summary>
         /// After got focus = clear the text.
         /// </summary>
         /// <param name="sender"></param>
@@ -126,6 +166,20 @@ namespace Creating_XML.windows
         private void fMaxItemsOnPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
+        }
+
+        /// <summary>
+        /// Change text => Update GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
+            {
+                maxItemsOnPage = result;
+                GUI();
+            }
         }
 
         /*
