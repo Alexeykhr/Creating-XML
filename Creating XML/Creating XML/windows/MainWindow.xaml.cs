@@ -219,5 +219,16 @@ namespace Creating_XML.windows
         {
             Close();
         }
+
+        private void btnAddOffer_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+
+            OfferWindow window = new OfferWindow();
+
+            window.ShowDialog();
+
+            Show();
+        }
     }
 }

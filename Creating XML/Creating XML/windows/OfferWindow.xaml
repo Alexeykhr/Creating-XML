@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows"
         mc:Ignorable="d"
-        Title="OfferWindow" Height="336" Width="544.5"
+        Title="XML - Карточка товара" Height="487" Width="555.5"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -13,25 +13,61 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <StackPanel Width="250">
-                <TextBox x:Name="fName" materialDesign:HintAssist.Hint="Название"
+        <DockPanel Margin="10">
+            <Grid DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                <Button x:Name="btnDeleteOffer" HorizontalAlignment="Left" Background="#FFB05454" BorderBrush="#FFB05454">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+                <Button x:Name="btnAddOffer" HorizontalAlignment="Right">
+                    Добавить товар
+                </Button>
+            </Grid>
+            <Border BorderThickness="0,0,1,0" DockPanel.Dock="Left" BorderBrush="#FFD8D8D8" Padding="0,0,5,0" Margin="0,0,5,0">
+                <StackPanel Width="250">
+                    <TextBox x:Name="fName" materialDesign:HintAssist.Hint="Название" Margin="0,0,0,10"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fArticle" materialDesign:HintAssist.Hint="Артикул"
+                    <TextBox x:Name="fArticle" materialDesign:HintAssist.Hint="Артикул" Margin="0,0,0,10"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fPrice" materialDesign:HintAssist.Hint="Цена"
+                    <TextBox x:Name="fPrice" materialDesign:HintAssist.Hint="Цена" Margin="0,0,0,10"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fUrl" materialDesign:HintAssist.Hint="Url"
+                    <TextBox x:Name="fUrl" materialDesign:HintAssist.Hint="Url" Margin="0,0,0,10"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fCurrency" materialDesign:HintAssist.Hint="Валюта"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <ComboBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" Margin="0,0,0,10"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <ComboBox x:Name="fCurrency" materialDesign:HintAssist.Hint="Валюта" Margin="0,0,0,10"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <ComboBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="0,0,0,20"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <CheckBox x:Name="fIsAvailable" Style="{StaticResource MaterialDesignCheckBox}">
+                        Доступен
+                    </CheckBox>
+                </StackPanel>
+            </Border>
+            <StackPanel DockPanel.Dock="Right">
+                <Grid Background="#FFF0F0F0">
+                    <Image x:Name="fImage" Height="100" />
+                </Grid>
+                <ListBox IsEnabled="{Binding IsChecked, ElementName=EnableListBox}" Height="95" Margin="0,5">
+                    <TextBlock>https://example.com/img/1.png</TextBlock>
+                    <TextBlock>https://example.com/img/2.png</TextBlock>
+                    <TextBlock>https://example.com/img/3.png</TextBlock>
+                    <TextBlock>https://example.com/img/4.png</TextBlock>
+                    <TextBlock>https://example.com/img/5.png</TextBlock>
+                </ListBox>
+                <Border BorderThickness="0,1" BorderBrush="#FFD8D8D8">
+                    <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
+                        <TextBox x:Name="fImageUrl" materialDesign:HintAssist.Hint="URL изображения" Margin="10" Width="190"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <Button x:Name="btnImageAdd" HorizontalAlignment="Right" Margin="0,0,5,0"
+                                Style="{StaticResource MaterialDesignFlatButton}">
+                            <materialDesign:PackIcon Kind="Plus" />
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <!-- TODO: Parameters -->
             </StackPanel>
-        </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>
