@@ -37,7 +37,6 @@ namespace Creating_XML.windows
         {
             InitializeComponent();
             OpenFileWindow();
-            GUI();
         }
 
         /// <summary>
@@ -46,19 +45,18 @@ namespace Creating_XML.windows
         /// <see cref="SelectFileWindow"/>
         private void OpenFileWindow()
         {
-            if (Database.HasConnection())
-                Database.CloseConnection();
-            
             Hide();
 
             var fileWindow = new SelectFileWindow();
             fileWindow.ShowDialog();
 
-            // If the file is not selected (the window is closed) - close the program.
-            if (!fileWindow.IsOpened)
-                Close();
-            else
+            if (fileWindow.IsOpened)
+            {
                 Show();
+                GUI();
+            }
+            else
+                Close();
         }
 
         /// <summary>
@@ -76,15 +74,27 @@ namespace Creating_XML.windows
         {
             if (!Database.HasConnection())
                 return;
-
+            
             var collection = await Task.Run(() =>
             {
-                return Database.List<OfferTable>()
-                    .Where(s => s.Name.Contains(search))
-                    .Take(take)
-                    .Skip(take * page)
-                    .ToList();
+                try
+                {
+                    return Database.List<OfferTable>()
+                        .Where(s => s.Name.Contains(search))
+                        .Take(take)
+                        .Skip(take * page)
+                        .ToList();
+                }
+                catch { return null; }
             });
+
+            if (collection == null)
+            {
+                MessageBox.Show("Файл повреждён");
+                Settings.DeleteFileUri(Project.FileUri);
+                OpenFileWindow();
+                return;
+            }
 
             listView.ItemsSource = collection;
             listView.Items.Refresh();

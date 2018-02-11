@@ -58,6 +58,22 @@ namespace Creating_XML.src
         }
 
         /// <summary>
+        /// Delete the URI file from the settings via the name.
+        /// </summary>
+        /// <param name="uri"></param>
+        public static void DeleteFileUri(string uri)
+        {
+            List<FileObject> list = LastFilesUri;
+            int searchIndex = list.FindIndex(x => x.Uri.Equals(uri));
+
+            if (searchIndex == -1)
+                return;
+
+            list.RemoveAt(searchIndex);
+            SaveLastFilesUri(list);
+        }
+
+        /// <summary>
         /// Save new list of FileObject.
         /// </summary>
         /// <param name="list"></param>

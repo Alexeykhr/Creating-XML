@@ -83,6 +83,9 @@
     <Compile Include="src\objects\FileObject.cs" />
     <Compile Include="src\RegexHelper.cs" />
     <Compile Include="src\Settings.cs" />
+    <Compile Include="windows\OfferWindow.xaml.cs">
+      <DependentUpon>OfferWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\SelectFileWindow.xaml.cs">
       <DependentUpon>SelectFileWindow.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="windows\OfferWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="windows\SelectFileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

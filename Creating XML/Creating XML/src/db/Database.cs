@@ -32,6 +32,7 @@ namespace Creating_XML.src.db
         public static void CloseConnection()
         {
             conn.Dispose();
+            conn = null;
         }
 
         /// <summary>

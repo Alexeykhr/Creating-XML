@@ -22,6 +22,9 @@ namespace Creating_XML.windows
         {
             InitializeComponent();
             DisplayRecentFiles();
+
+            if (Database.HasConnection())
+                Database.CloseConnection();
         }
 
         /// <summary>
@@ -100,12 +103,8 @@ namespace Creating_XML.windows
         {
             try
             {
-                _isOpened = true;
-                Project.FileUri = file;
-
                 if (isNewProject)
                 {
-                    // If the file exists, delete it.
                     if (File.Exists(file))
                         File.Delete(file);
 
@@ -113,15 +112,27 @@ namespace Creating_XML.windows
                     Database.Migration();
                 }
                 else
-                    Database.Connection(file);
+                {
+                    if (!File.Exists(file))
+                    {
+                        MessageBox.Show("Файл не существует, ссылка удалена");
+                        Settings.DeleteFileUri(file);
+                        DisplayRecentFiles();
+                        return;
+                    }
 
+                    Database.Connection(file);
+                }
+
+                _isOpened = true;
+                Project.FileUri = file;
                 Settings.InsertLastFile(file);
 
                 Close();
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception("Ошибка при работе с файлами");
+                throw new Exception("Ошибка при работе с файлом");
             }
         }
     }
