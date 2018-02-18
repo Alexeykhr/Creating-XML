@@ -45,7 +45,7 @@
                         <materialDesign:PackIcon Kind="CurrencyUsd" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Продавцы">
+                <MenuItem x:Name="menuItemVendor" Header="Продавцы" Click="menuItemVendor_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="FaceProfile" />
                     </MenuItem.Icon>

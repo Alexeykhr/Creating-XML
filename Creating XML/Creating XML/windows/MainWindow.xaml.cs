@@ -37,6 +37,7 @@ namespace Creating_XML.windows
         {
             InitializeComponent();
             OpenFileWindow();
+            // TODO Get all info (currencies, categories, etc)
         }
 
         /// <summary>
@@ -220,15 +221,44 @@ namespace Creating_XML.windows
             Close();
         }
 
-        private void btnAddOffer_Click(object sender, RoutedEventArgs e)
+        /*
+         * |-------------------------------------------
+         * | Open Windows.
+         * |-------------------------------------------
+         * |
+         */
+
+        /// <summary>
+        /// ShowDialog for Window.
+        /// </summary>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        private Window ShowDialogWindow(Window window)
         {
             Hide();
-
-            OfferWindow window = new OfferWindow();
-
             window.ShowDialog();
-
             Show();
+            return window;
+        }
+
+        /// <summary>
+        /// Open OfferWindow for add a new offer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAddOffer_Click(object sender, RoutedEventArgs e)
+        {
+            ShowDialogWindow(new OfferWindow());
+        }
+
+        /// <summary>
+        /// Open VendorWidnow for add a new vendor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItemVendor_Click(object sender, RoutedEventArgs e)
+        {
+            ShowDialogWindow(new VendorWindow());
         }
     }
 }

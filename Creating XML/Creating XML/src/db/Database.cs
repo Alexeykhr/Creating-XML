@@ -62,14 +62,32 @@ namespace Creating_XML.src.db
         }
 
         /// <summary>
+        /// Find and return record if exists by Primary Key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pk">Primary Key</param>
+        /// <returns></returns>
+        public static T Find<T>(object pk) where T : new()
+        {
+            return conn.Find<T>(pk);
+        }
+
+        /// <summary>
         /// Add new record.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="table"></param>
-        /// <returns></returns>
+        /// <returns>1 | 0</returns>
         public static int Insert<T>(T table)
         {
-            return conn.Insert(table);
+            try
+            {
+                return conn.Insert(table);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
