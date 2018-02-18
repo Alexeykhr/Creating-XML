@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows"
         mc:Ignorable="d"
-        Title="XML - Карточка товара" Height="487" Width="555.5"
+        Title="XML - Карточка товара" Height="600" Width="580"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -25,48 +25,56 @@
                 </Button>
             </Grid>
             <Border BorderThickness="0,0,1,0" DockPanel.Dock="Left" BorderBrush="#FFD8D8D8" Padding="0,0,5,0" Margin="0,0,5,0">
-                <StackPanel Width="250">
+                <StackPanel Width="270">
                     <TextBox x:Name="fName" materialDesign:HintAssist.Hint="Название" Margin="0,0,0,10"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox x:Name="fArticle" materialDesign:HintAssist.Hint="Артикул" Margin="0,0,0,10"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox x:Name="fPrice" materialDesign:HintAssist.Hint="Цена" Margin="0,0,0,10"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <Grid Margin="0,0,0,10">
+                        <TextBox x:Name="fArticle" materialDesign:HintAssist.Hint="Артикул" HorizontalAlignment="Left"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="130" />
+                        <TextBox x:Name="fPrice" materialDesign:HintAssist.Hint="Цена" HorizontalAlignment="Right"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="130" />
+                    </Grid>
                     <TextBox x:Name="fUrl" materialDesign:HintAssist.Hint="Url" Margin="0,0,0,10"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <ComboBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" Margin="0,0,0,10"
-                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                     <ComboBox x:Name="fCurrency" materialDesign:HintAssist.Hint="Валюта" Margin="0,0,0,10"
-                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                     <ComboBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="0,0,0,20"
-                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                    <CheckBox x:Name="fIsAvailable" Style="{StaticResource MaterialDesignCheckBox}">
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <CheckBox x:Name="fIsAvailable" Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,20">
                         Доступен
                     </CheckBox>
+                    <TextBox x:Name="fSelectDescription" Style="{StaticResource MaterialDesignTextAreaTextBox}"
+                                 VerticalAlignment="Top" Height="150" AcceptsReturn="True" TextWrapping="Wrap"
+                                 materialDesign:HintAssist.Hint="Описание" VerticalScrollBarVisibility="Auto" />
                 </StackPanel>
             </Border>
             <StackPanel DockPanel.Dock="Right">
                 <Grid Background="#FFF0F0F0">
                     <Image x:Name="fImage" Height="100" />
                 </Grid>
-                <ListBox IsEnabled="{Binding IsChecked, ElementName=EnableListBox}" Height="95" Margin="0,5">
-                    <TextBlock>https://example.com/img/1.png</TextBlock>
-                    <TextBlock>https://example.com/img/2.png</TextBlock>
-                    <TextBlock>https://example.com/img/3.png</TextBlock>
-                    <TextBlock>https://example.com/img/4.png</TextBlock>
-                    <TextBlock>https://example.com/img/5.png</TextBlock>
-                </ListBox>
+                <ListBox x:Name="listBoxImages" Height="130" Margin="0,5" />
                 <Border BorderThickness="0,1" BorderBrush="#FFD8D8D8">
                     <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
                         <TextBox x:Name="fImageUrl" materialDesign:HintAssist.Hint="URL изображения" Margin="10" Width="190"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                         <Button x:Name="btnImageAdd" HorizontalAlignment="Right" Margin="0,0,5,0"
-                                Style="{StaticResource MaterialDesignFlatButton}">
+                                Style="{StaticResource MaterialDesignFlatButton}" Click="btnImageAdd_Click">
                             <materialDesign:PackIcon Kind="Plus" />
                         </Button>
                     </StackPanel>
                 </Border>
-                <!-- TODO: Parameters -->
+                <DataGrid x:Name="dataGridParams" Margin="0,5" CanUserSortColumns="False" AutoGenerateColumns="False"
+                          materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+                          SelectionMode="Single" CanUserResizeRows="False" HeadersVisibility="All" VerticalScrollBarVisibility="Visible" Height="190">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Name}" Header="Название"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                        <DataGridTextColumn Binding="{Binding Value}" Header="Значение"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </DockPanel>
     </Grid>

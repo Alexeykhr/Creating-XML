@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Creating_XML.src;
+using Creating_XML.src.db.tables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,21 @@ namespace Creating_XML.windows
         public OfferWindow()
         {
             InitializeComponent();
+            dataGridParams.ItemsSource = new List<OfferParametersTable>();
+        }
+
+        private void btnImageAdd_Click(object sender, RoutedEventArgs e)
+        {
+            bool isUrl = Web.IsCorrectURL(fImageUrl.Text);
+
+            if (isUrl)
+            {
+                // TODO: For Tests
+                fImage.Source = new BitmapImage(new Uri(fImageUrl.Text));
+                listBoxImages.Items.Add(fImageUrl.Text);
+                listBoxImages.Items.MoveCurrentToLast();
+                fImageUrl.Text = string.Empty;
+            }
         }
     }
 }

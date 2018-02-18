@@ -61,6 +61,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -83,6 +87,7 @@
     <Compile Include="src\objects\FileObject.cs" />
     <Compile Include="src\RegexHelper.cs" />
     <Compile Include="src\Settings.cs" />
+    <Compile Include="src\Web.cs" />
     <Compile Include="windows\OfferWindow.xaml.cs">
       <DependentUpon>OfferWindow.xaml</DependentUpon>
     </Compile>
