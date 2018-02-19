@@ -1,5 +1,6 @@
 ﻿using Creating_XML.src;
 using Creating_XML.src.db.tables;
+using Creating_XML.src.store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Creating_XML.windows
         {
             InitializeComponent();
             dataGridParams.ItemsSource = new List<OfferParametersTable>();
+            fVendor.ItemsSource = VendorStore.List;
         }
 
         private void btnImageAdd_Click(object sender, RoutedEventArgs e)

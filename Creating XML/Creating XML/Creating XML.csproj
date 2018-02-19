@@ -87,6 +87,7 @@
     <Compile Include="src\objects\FileObject.cs" />
     <Compile Include="src\RegexHelper.cs" />
     <Compile Include="src\Settings.cs" />
+    <Compile Include="src\store\VendorStore.cs" />
     <Compile Include="src\Web.cs" />
     <Compile Include="windows\OfferWindow.xaml.cs">
       <DependentUpon>OfferWindow.xaml</DependentUpon>

@@ -14,34 +14,18 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-    <materialDesign:Flipper x:Name="flipper" Style="{StaticResource MaterialDesignCardFlipper}"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFF0F0F0">
-        <materialDesign:Flipper.FrontContent>
-            <DockPanel>
-                <ListBox DockPanel.Dock="Top" DisplayMemberPath="Name" x:Name="listBoxVendors" Height="200" SelectionChanged="listBoxVendors_SelectionChanged" />
-                <Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="#FFD8D8D8">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="60" Background="#FFF0F0F0">
-                        <TextBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="10" Width="200"
+    <DockPanel Margin="5">
+        <ListBox DockPanel.Dock="Top" DisplayMemberPath="Name" x:Name="listBoxVendors" Height="200" SelectionChanged="listBoxVendors_SelectionChanged" />
+        <Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="#FFD8D8D8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="60" Background="#FFF0F0F0">
+                <TextBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="10" Width="200"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                        <Button x:Name="btnAddVendor" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
-                            Click="btnAddVendor_Click">
-                            <materialDesign:PackIcon Kind="Plus" />
-                        </Button>
-                    </StackPanel>
-                </Border>
-            </DockPanel>
-        </materialDesign:Flipper.FrontContent>
-        <materialDesign:Flipper.BackContent>
-            <Grid>
-                
-            </Grid>
-        </materialDesign:Flipper.BackContent>
-    </materialDesign:Flipper>
+                <Button x:Name="btnAddVendor" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="btnAddVendor_Click" Margin="0,5,0,0">
+                    <materialDesign:PackIcon Kind="Plus" />
+                </Button>
+            </StackPanel>
+        </Border>
+        <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}" MinHeight="200" />
+    </DockPanel>
 </Window>

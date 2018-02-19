@@ -1,24 +1,11 @@
-﻿using Creating_XML.src.db;
-using Creating_XML.src.db.tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Creating_XML.src.db;
+using Creating_XML.src.store;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Creating_XML.src.db.tables;
 
 namespace Creating_XML.windows
 {
-    /// <summary>
-    /// Логика взаимодействия для VendorWindow.xaml
-    /// </summary>
     public partial class VendorWindow : Window
     {
         private VendorTable selectedItem;
@@ -37,11 +24,8 @@ namespace Creating_XML.windows
         /// </summary>
         private void GUI()
         {
-            // Save in store
-            var items = Database.List<VendorTable>().OrderBy(v => v.Name);
-
             listBoxVendors.ItemsSource = null;
-            listBoxVendors.ItemsSource = items;
+            listBoxVendors.ItemsSource = VendorStore.FetchNewList();
         }
 
         /// <summary>
@@ -61,14 +45,13 @@ namespace Creating_XML.windows
 
             if (result == 1)
             {
-                GUI();
+                // TODO Snackbar
+                snackbar.MessageQueue.Enqueue("Продавец добавлен");
                 fVendor.Text = string.Empty;
+                GUI();
             }
             else
-            {
-                // TODO Show
-                MessageBox.Show("Запись существует");
-            }
+                snackbar.MessageQueue.Enqueue("Продавец существует");
         }
 
         /// <summary>
@@ -79,7 +62,7 @@ namespace Creating_XML.windows
         private void listBoxVendors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedItem = listBoxVendors.SelectedItem as VendorTable;
-            flipper.IsFlipped = true;
+            // TODO Create new window for edit - OneEditWindow
         }
     }
 }

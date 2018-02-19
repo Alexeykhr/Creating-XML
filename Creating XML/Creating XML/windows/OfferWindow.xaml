@@ -40,7 +40,7 @@
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                     <ComboBox x:Name="fCurrency" materialDesign:HintAssist.Hint="Валюта" Margin="0,0,0,10"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                    <ComboBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="0,0,0,20"
+                    <ComboBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="0,0,0,20" DisplayMemberPath="Name"
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                     <CheckBox x:Name="fIsAvailable" Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,20">
                         Доступен
