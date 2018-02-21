@@ -35,27 +35,25 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void btnAddVendor_Click(object sender, RoutedEventArgs e)
         {
-            var text = fVendor.Text;
+            var vendor = fVendor.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(vendor))
                 return;
 
-            var table = new VendorTable { Name = fVendor.Text };
+            var table = new VendorTable { Name = vendor };
             int result = Database.Insert(table);
 
             if (result == 1)
             {
-                // TODO Snackbar
-                snackbar.MessageQueue.Enqueue("Продавец добавлен");
                 fVendor.Text = string.Empty;
                 GUI();
             }
             else
-                snackbar.MessageQueue.Enqueue("Продавец существует");
+                MessageBox.Show("Продавец существует");
         }
 
         /// <summary>
-        /// Set selectedItem and Flip content.
+        /// Set selectedItem.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

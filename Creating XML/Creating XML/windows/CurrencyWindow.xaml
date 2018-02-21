@@ -15,7 +15,26 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
-    </Grid>
+    <DockPanel Margin="5">
+        <ListView x:Name="listViewCurrencies" DockPanel.Dock="Top" Height="300" SelectionChanged="listViewCurrencies_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Валюта" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Rate}" Header="Значение" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="#FFD8D8D8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="60" Background="#FFF0F0F0">
+                <TextBox x:Name="fName" materialDesign:HintAssist.Hint="Валюта" Margin="10" Width="140"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <TextBox x:Name="fRate" materialDesign:HintAssist.Hint="Значение" Margin="10" Width="140"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <Button x:Name="btnAddCurrency" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="0,5,0,0" Click="btnAddCurrency_Click">
+                    <materialDesign:PackIcon Kind="Plus" />
+                </Button>
+            </StackPanel>
+        </Border>
+    </DockPanel>
 </Window>

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace Creating_XML.src.store
 {
-    class VendorStore
+    class CurrencyStore
     {
-        private static IEnumerable<VendorTable> _list;
+        private static IEnumerable<CurrencyTable> _list;
 
         /// <summary>
         /// Set and get List of VendorTable.
         /// </summary>
-        public static IEnumerable<VendorTable> List
+        public static IEnumerable<CurrencyTable> List
         {
             get
             {
@@ -27,9 +27,9 @@ namespace Creating_XML.src.store
         /// <summary>
         /// Send query for new list.
         /// </summary>
-        public static IEnumerable<VendorTable> FetchNewList()
+        public static IEnumerable<CurrencyTable> FetchNewList()
         {
-            _list = Database.List<VendorTable>().OrderBy(v => v.Name);
+            _list = Database.List<CurrencyTable>().OrderBy(v => v.Name);
 
             return _list;
         }

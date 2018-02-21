@@ -26,6 +26,5 @@
                 </Button>
             </StackPanel>
         </Border>
-        <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}" MinHeight="200" />
     </DockPanel>
 </Window>

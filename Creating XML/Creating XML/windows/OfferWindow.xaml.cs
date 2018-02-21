@@ -27,6 +27,7 @@ namespace Creating_XML.windows
             InitializeComponent();
             dataGridParams.ItemsSource = new List<OfferParametersTable>();
             fVendor.ItemsSource = VendorStore.List;
+            fCurrency.ItemsSource = CurrencyStore.List;
         }
 
         private void btnImageAdd_Click(object sender, RoutedEventArgs e)
