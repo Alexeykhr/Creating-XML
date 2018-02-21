@@ -263,5 +263,15 @@ namespace Creating_XML.windows
         {
             ShowDialogWindow(new CurrencyWindow());
         }
+
+        /// <summary>
+        /// Open ShowWindow for config info about shop.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItemShop_Click(object sender, RoutedEventArgs e)
+        {
+            ShowDialogWindow(new ShopWindow());
+        }
     }
 }

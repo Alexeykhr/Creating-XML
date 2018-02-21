@@ -15,7 +15,15 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
-    </Grid>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="220">
+        <TextBox x:Name="fName" materialDesign:HintAssist.Hint="Название" Margin="0,0,0,20"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <TextBox x:Name="fCompany" materialDesign:HintAssist.Hint="Компания" Margin="0,0,0,20"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <TextBox x:Name="fUrl" materialDesign:HintAssist.Hint="Url" Margin="0,0,0,20"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <Button x:Name="btnSave" Style="{StaticResource MaterialDesignRaisedButton}" Click="btnSave_Click">
+            Сохранить
+        </Button>
+    </StackPanel>
 </Window>

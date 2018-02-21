@@ -30,7 +30,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Данные">
-                <MenuItem Header="Магазин">
+                <MenuItem x:Name="menuItemShop" Header="Магазин" Click="menuItemShop_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Shopping" />
                     </MenuItem.Icon>

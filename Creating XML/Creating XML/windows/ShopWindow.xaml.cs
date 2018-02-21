@@ -1,27 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Creating_XML.src;
 
 namespace Creating_XML.windows
 {
-    /// <summary>
-    /// Логика взаимодействия для ShopWindow.xaml
-    /// </summary>
     public partial class ShopWindow : Window
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ShopWindow()
         {
             InitializeComponent();
+            GUI();
+        }
+        
+        /// <summary>
+        /// Update GUI (Fill data).
+        /// </summary>
+        private void GUI()
+        {
+            fName.Text = Settings.ShopName;
+            fCompany.Text = Settings.ShopCompany;
+            fUrl.Text = Settings.ShopUrl;
+        }
+
+        /// <summary>
+        /// Sava data in Settings.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            string name = fName.Text.Trim(),
+                company = fCompany.Text.Trim(),
+                url = fUrl.Text.Trim();
+            
+            Settings.ShopName = name;
+            Settings.ShopCompany = company;
+
+            if (string.IsNullOrWhiteSpace(url) || Web.IsCorrectURL(url))
+                Settings.ShopUrl = url;
+
+            MessageBox.Show("Сохранено");
+            GUI();
         }
     }
 }

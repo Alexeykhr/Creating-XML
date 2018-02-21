@@ -99,6 +99,9 @@
     <Compile Include="windows\SelectFileWindow.xaml.cs">
       <DependentUpon>SelectFileWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="windows\ShopWindow.xaml.cs">
+      <DependentUpon>ShopWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\VendorWindow.xaml.cs">
       <DependentUpon>VendorWindow.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="windows\SelectFileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\ShopWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
