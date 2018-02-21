@@ -11,7 +11,55 @@ namespace Creating_XML.src
         private const byte MAX_COUNT_FILES = 10;
 
         /// <summary>
-        /// Display the last opened files.
+        /// Get or set ShopName.
+        /// </summary>
+        public static string ShopName
+        {
+            get
+            {
+                return Properties.Settings.Default.shop_name;
+            }
+            set
+            {
+                Properties.Settings.Default.shop_name = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        /// <summary>
+        /// Get or set ShopCompany.
+        /// </summary>
+        public static string ShopCompany
+        {
+            get
+            {
+                return Properties.Settings.Default.shop_company;
+            }
+            set
+            {
+                Properties.Settings.Default.shop_company = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        /// <summary>
+        /// Get or set ShopUrl.
+        /// </summary>
+        public static string ShopUrl
+        {
+            get
+            {
+                return Properties.Settings.Default.shop_url;
+            }
+            set
+            {
+                Properties.Settings.Default.shop_url = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        /// <summary>
+        /// Get the last opened files.
         /// </summary>
         /// <see cref="windows.SelectFileWindow"/>
         public static List<FileObject> LastFilesUri

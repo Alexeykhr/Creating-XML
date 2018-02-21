@@ -6,9 +6,6 @@ using Creating_XML.src.db.tables;
 
 namespace Creating_XML.windows
 {
-    /// <summary>
-    /// Логика взаимодействия для CurrencyWindow.xaml
-    /// </summary>
     public partial class CurrencyWindow : Window
     {
         private CurrencyTable selectedItem;

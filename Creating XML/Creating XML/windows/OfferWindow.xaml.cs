@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Creating_XML.windows
 {
-    /// <summary>
-    /// Логика взаимодействия для OfferWindow.xaml
-    /// </summary>
     public partial class OfferWindow : Window
     {
         public OfferWindow()
