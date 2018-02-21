@@ -193,6 +193,29 @@ namespace Creating_XML.windows
             }
         }
 
+        /// <summary>
+        /// Open OfferWindow for add a new offer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAddOffer_Click(object sender, RoutedEventArgs e)
+        {
+            ShowDialogWindow(new OfferWindow());
+        }
+
+        /// <summary>
+        /// ShowDialog for Window.
+        /// </summary>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        private Window ShowDialogWindow(Window window)
+        {
+            Hide();
+            window.ShowDialog();
+            Show();
+            return window;
+        }
+
         /*
          * |-------------------------------------------
          * | Menu items.
@@ -221,36 +244,6 @@ namespace Creating_XML.windows
             Close();
         }
 
-        /*
-         * |-------------------------------------------
-         * | Open Windows.
-         * |-------------------------------------------
-         * |
-         */
-
-        /// <summary>
-        /// ShowDialog for Window.
-        /// </summary>
-        /// <param name="window"></param>
-        /// <returns></returns>
-        private Window ShowDialogWindow(Window window)
-        {
-            Hide();
-            window.ShowDialog();
-            Show();
-            return window;
-        }
-
-        /// <summary>
-        /// Open OfferWindow for add a new offer.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnAddOffer_Click(object sender, RoutedEventArgs e)
-        {
-            ShowDialogWindow(new OfferWindow());
-        }
-
         /// <summary>
         /// Open VendorWidnow for add a new vendor.
         /// </summary>
@@ -259,6 +252,16 @@ namespace Creating_XML.windows
         private void menuItemVendor_Click(object sender, RoutedEventArgs e)
         {
             ShowDialogWindow(new VendorWindow());
+        }
+
+        /// <summary>
+        /// Open OfferWindow for add a new currency.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItemCurrency_Click(object sender, RoutedEventArgs e)
+        {
+            ShowDialogWindow(new CurrencyWindow());
         }
     }
 }
