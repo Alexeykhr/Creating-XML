@@ -90,6 +90,9 @@
     <Compile Include="src\store\CurrencyStore.cs" />
     <Compile Include="src\store\VendorStore.cs" />
     <Compile Include="src\Web.cs" />
+    <Compile Include="windows\CategoryWindow.xaml.cs">
+      <DependentUpon>CategoryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\CurrencyWindow.xaml.cs">
       <DependentUpon>CurrencyWindow.xaml</DependentUpon>
     </Compile>
@@ -105,6 +108,10 @@
     <Compile Include="windows\VendorWindow.xaml.cs">
       <DependentUpon>VendorWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="windows\CategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="windows\CurrencyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

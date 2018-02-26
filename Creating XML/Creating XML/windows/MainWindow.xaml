@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Creating_XML"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" WindowState="Maximized"
-        Title="MainWindow" Width="1005" Height="754" MinWidth="600" MinHeight="300"
+        Title="XML" Width="1005" Height="754" MinWidth="600" MinHeight="300"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -35,7 +35,7 @@
                         <materialDesign:PackIcon Kind="Shopping" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Категории">
+                <MenuItem x:Name="menuItemCategory" Header="Категории" Click="menuItemCategory_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Database" />
                     </MenuItem.Icon>

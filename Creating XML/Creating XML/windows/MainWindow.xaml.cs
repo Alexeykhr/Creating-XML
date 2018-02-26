@@ -255,7 +255,7 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Open OfferWindow for add a new currency.
+        /// Open CategoryWindow for add a new currency.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -272,6 +272,16 @@ namespace Creating_XML.windows
         private void menuItemShop_Click(object sender, RoutedEventArgs e)
         {
             ShowDialogWindow(new ShopWindow());
+        }
+
+        /// <summary>
+        /// Open CategoryWindow for add a new category.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuItemCategory_Click(object sender, RoutedEventArgs e)
+        {
+            ShowDialogWindow(new CategoryWindow());
         }
     }
 }
