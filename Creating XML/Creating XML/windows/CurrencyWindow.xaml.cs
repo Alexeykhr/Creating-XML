@@ -9,10 +9,7 @@ namespace Creating_XML.windows
     public partial class CurrencyWindow : Window
     {
         private CurrencyTable selectedItem;
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        
         public CurrencyWindow()
         {
             InitializeComponent();

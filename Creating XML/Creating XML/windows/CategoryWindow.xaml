@@ -16,7 +16,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <DockPanel Margin="5">
-        <TreeView DockPanel.Dock="Bottom" MinWidth="220">
+        <TreeView x:Name="treeView" DockPanel.Dock="Top" Height="300">
             <TreeViewItem Header="Fruit">
                 <TreeViewItem>
                     <TreeViewItem.Header>
@@ -84,5 +84,17 @@
             </TreeViewItem>
             <TreeViewItem Header="Empty" />
         </TreeView>
+        <Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="#FFD8D8D8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="60" Background="#FFF0F0F0">
+                <TextBox x:Name="fParentCategory" materialDesign:HintAssist.Hint="Родитель" Margin="10" Width="140" IsReadOnly="True"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewMouseDown="fParentCategory_PreviewMouseDown" Cursor="Hand" />
+                <TextBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" Margin="10" Width="140"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <Button x:Name="btnAddCategory" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="0,5,0,0" Click="btnAddCategory_Click">
+                    <materialDesign:PackIcon Kind="Plus" />
+                </Button>
+            </StackPanel>
+        </Border>
     </DockPanel>
 </Window>
