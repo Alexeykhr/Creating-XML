@@ -200,20 +200,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void btnAddOffer_Click(object sender, RoutedEventArgs e)
         {
-            ShowDialogWindow(new OfferWindow());
-        }
-
-        /// <summary>
-        /// ShowDialog for Window.
-        /// </summary>
-        /// <param name="window"></param>
-        /// <returns></returns>
-        private Window ShowDialogWindow(Window window)
-        {
-            Hide();
-            window.ShowDialog();
-            Show();
-            return window;
+            new OfferWindow().ShowDialog();
         }
 
         /*
@@ -251,7 +238,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemVendor_Click(object sender, RoutedEventArgs e)
         {
-            ShowDialogWindow(new VendorWindow());
+            new VendorWindow().ShowDialog();
         }
 
         /// <summary>
@@ -261,7 +248,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemCurrency_Click(object sender, RoutedEventArgs e)
         {
-            ShowDialogWindow(new CurrencyWindow());
+            new CurrencyWindow().ShowDialog();
         }
 
         /// <summary>
@@ -271,7 +258,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemShop_Click(object sender, RoutedEventArgs e)
         {
-            ShowDialogWindow(new ShopWindow());
+            new ShopWindow().ShowDialog();
         }
 
         /// <summary>
@@ -281,7 +268,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemCategory_Click(object sender, RoutedEventArgs e)
         {
-            ShowDialogWindow(new CategoryWindow());
+            new CategoryWindow().ShowDialog();
         }
     }
 }
