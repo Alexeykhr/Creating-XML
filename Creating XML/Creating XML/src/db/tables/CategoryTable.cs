@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System.Collections.Generic;
 
 namespace Creating_XML.src.db.tables
 {
@@ -12,5 +13,8 @@ namespace Creating_XML.src.db.tables
 
         [Unique, NotNull]
         public string Name { get; set; }
+
+        [Ignore]
+        public List<CategoryTable> Childrens { get; set; }
     }
 }

@@ -20,6 +20,8 @@ namespace Creating_XML.windows
 {
     public partial class CategoryWindow : Window
     {
+        private CategoryTable selectedItem;
+
         public CategoryWindow()
         {
             InitializeComponent();
@@ -37,30 +39,42 @@ namespace Creating_XML.windows
 
         private void btnAddCategory_Click(object sender, RoutedEventArgs e)
         {
-            // TODO fParentCategory
-
             string category = RegexHelper.RemoveExtraSpace(fCategory.Text);
 
             if (string.IsNullOrEmpty(category))
                 return;
-
-            // TODO ParentId
+            
             var table = new CategoryTable { Name = category };
+
+            if (selectedItem != null)
+                table.ParentId = selectedItem.Id;
+
             int result = Database.Insert(table);
 
             if (result == 1)
             {
                 fCategory.Text = string.Empty;
                 fParentCategory.Text = string.Empty;
+                selectedItem = null;
                 GUI();
             }
             else
                 MessageBox.Show("Ошибка при добавлении. Проверьте уникальность категории.");
         }
 
-        private void fParentCategory_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void fParentCategory_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // TODO Open dialog for edit parent Category
+            MessageBox.Show("Open dialog");
+        }
+
+        private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (e.NewValue == null)
+                return;
+            
+            selectedItem = e.NewValue as CategoryTable;
+            fParentCategory.Text = selectedItem.Name;
         }
     }
 }

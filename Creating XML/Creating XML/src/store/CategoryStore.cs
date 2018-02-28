@@ -30,8 +30,16 @@ namespace Creating_XML.src.store
         public static IEnumerable<CategoryTable> FetchNewList()
         {
             _list = Database.List<CategoryTable>().OrderBy(v => v.Name);
+            _list = BuildTree(_list.ToList());
 
             return _list;
+        }
+
+        public static List<CategoryTable> BuildTree(List<CategoryTable> items)
+        {
+            items.ForEach(i => i.Childrens = items.Where(ch => ch.ParentId == i.Id).ToList());
+
+            return items.Where(i => i.ParentId == 0).ToList();
         }
     }
 }
