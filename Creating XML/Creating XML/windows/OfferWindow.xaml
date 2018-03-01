@@ -21,7 +21,7 @@
                 <Button x:Name="btnDeleteOffer" HorizontalAlignment="Left" Background="#FFB05454" BorderBrush="#FFB05454">
                     <materialDesign:PackIcon Kind="Delete" />
                 </Button>
-                <Button x:Name="btnAddOffer" HorizontalAlignment="Right">
+                <Button x:Name="btnAddOffer" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnAddOffer_Click">
                     Добавить товар
                 </Button>
             </Grid>
@@ -37,16 +37,16 @@
                     </Grid>
                     <TextBox x:Name="fUrl" materialDesign:HintAssist.Hint="Url" Margin="0,0,0,10"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <ComboBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" Margin="0,0,0,10"
-                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <ComboBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" Margin="0,0,0,10" DisplayMemberPath="Name"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" SelectionChanged="fCategory_SelectionChanged" />
                     <ComboBox x:Name="fCurrency" materialDesign:HintAssist.Hint="Валюта" Margin="0,0,0,10" DisplayMemberPath="Name"
-                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" SelectionChanged="fCurrency_SelectionChanged" />
                     <ComboBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="0,0,0,20" DisplayMemberPath="Name"
-                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" SelectionChanged="fVendor_SelectionChanged" />
                     <CheckBox x:Name="fIsAvailable" Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,20">
                         Доступен
                     </CheckBox>
-                    <TextBox x:Name="fSelectDescription" Style="{StaticResource MaterialDesignTextAreaTextBox}"
+                    <TextBox x:Name="fDescription" Style="{StaticResource MaterialDesignTextAreaTextBox}"
                                  VerticalAlignment="Top" Height="150" AcceptsReturn="True" TextWrapping="Wrap"
                                  materialDesign:HintAssist.Hint="Описание" VerticalScrollBarVisibility="Auto" />
                 </StackPanel>

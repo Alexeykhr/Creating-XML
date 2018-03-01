@@ -18,7 +18,7 @@ namespace Creating_XML.src.store
             get
             {
                 if (_list == null)
-                    return FetchNewList();
+                    return FetchNewList(false);
 
                 return _list;
             }

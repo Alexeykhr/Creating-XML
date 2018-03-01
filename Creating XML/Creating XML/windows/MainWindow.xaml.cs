@@ -124,7 +124,7 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Only accept numbers.
+        /// Accept only numbers.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -170,7 +170,7 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Only accept numbers.
+        /// Accept only numbers.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

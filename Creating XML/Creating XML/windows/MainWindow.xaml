@@ -107,7 +107,8 @@
                 <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right"
                          HorizontalContentAlignment="Center" GotFocus="fMaxItemsOnPage_GotFocus"
-                         LostFocus="fMaxItemsOnPage_LostFocus" PreviewTextInput="fMaxItemsOnPage_PreviewTextInput" Text="20" TextChanged="fMaxItemsOnPage_TextChanged" />
+                         LostFocus="fMaxItemsOnPage_LostFocus" PreviewTextInput="fMaxItemsOnPage_PreviewTextInput"
+                         Text="20" TextChanged="fMaxItemsOnPage_TextChanged" />
             </Grid>
             <ListView x:Name="listView" DockPanel.Dock="Top">
                 <ListView.View>
