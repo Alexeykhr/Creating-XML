@@ -20,6 +20,9 @@ namespace Creating_XML.windows
 {
     public partial class OfferWindow : Window
     {
+        private List<OfferImageTable> listImages = new List<OfferImageTable>();
+        private List<OfferParameterTable> listParameters = new List<OfferParameterTable>();
+
         private CategoryTable selectedCategory;
         private CurrencyTable selectedCurrency;
         private VendorTable selectedVendor;
@@ -27,10 +30,22 @@ namespace Creating_XML.windows
         public OfferWindow()
         {
             InitializeComponent();
-            dataGridParams.ItemsSource = new List<OfferParametersTable>();
             fVendor.ItemsSource = VendorStore.List;
             fCurrency.ItemsSource = CurrencyStore.List;
             fCategory.ItemsSource = CategoryStore.List;
+            GUI();
+        }
+
+        /// <summary>
+        /// Update GUI (Fill data).
+        /// </summary>
+        private void GUI()
+        {
+            listBoxImages.ItemsSource = null;
+            listBoxImages.ItemsSource = listImages;
+
+            dataGridParams.ItemsSource = null;
+            dataGridParams.ItemsSource = listParameters;
         }
 
         private void btnImageAdd_Click(object sender, RoutedEventArgs e)
@@ -41,7 +56,13 @@ namespace Creating_XML.windows
             {
                 // TODO: Test
                 fImage.Source = new BitmapImage(new Uri(fImageUrl.Text));
-                listBoxImages.Items.Add(fImageUrl.Text);
+
+                listImages.Add(new OfferImageTable {
+                    Url = fImageUrl.Text
+                });
+
+                GUI();
+
                 listBoxImages.Items.MoveCurrentToLast();
                 fImageUrl.Text = string.Empty;
             }
@@ -74,7 +95,22 @@ namespace Creating_XML.windows
             int result = Database.Insert(table);
 
             if (result == 1)
+            {
+                // TODO Test
+                var images = listBoxImages.Items;
+                foreach (var image in images)
+                {
+                    var tableImage = new OfferImageTable
+                    {
+                        OfferId = 1,
+                        Url = (image as OfferImageTable).Url
+                    };
+                    Database.InsertOrReplace(table);
+                }
+                // END TEST
+
                 MessageBox.Show("Товар добавлен");
+            }
             else
                 MessageBox.Show("Ошибка при добавлении");
         }

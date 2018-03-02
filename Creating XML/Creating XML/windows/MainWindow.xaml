@@ -116,9 +116,9 @@
                         <GridViewColumn DisplayMemberBinding="{Binding Article}" Header="Артикуль" />
                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название" />
                         <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Цена" />
-                        <GridViewColumn DisplayMemberBinding="{Binding category}" Header="Категория" />
-                        <GridViewColumn DisplayMemberBinding="{Binding currency}" Header="Валюта" />
-                        <GridViewColumn DisplayMemberBinding="{Binding vendor}" Header="Продавец" />
+                        <GridViewColumn DisplayMemberBinding="{Binding CategoryName}" Header="Категория" />
+                        <GridViewColumn DisplayMemberBinding="{Binding CurrencyName}" Header="Валюта" />
+                        <GridViewColumn DisplayMemberBinding="{Binding VendorName}" Header="Продавец" />
                         <GridViewColumn DisplayMemberBinding="{Binding Url}" Header="Ссылка" />
                     </GridView>
                 </ListView.View>

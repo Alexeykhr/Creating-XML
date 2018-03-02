@@ -89,12 +89,12 @@ namespace Creating_XML.windows
                     //return list.Take(take).Skip(take * (page - 1)).ToList();
 
                     var q = Database.Query<OfferObject>(
-                          "SELECT OT.*, CatT.Name as CategoryName, CurT.Name as CurrencyName," +
-                          " CurT.Rate as CurrencyRate, VenT.Name as VendorName"
-                        + " FROM OfferTable OT "
-                        + " INNER JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
-                        + " INNER JOIN CurrencyTable CurT ON OT.CurrencyId = CurT.Id"
-                        + " INNER JOIN VendorTable VenT ON OT.VendorId = VenT.Id"
+                          "SELECT OT.*, CatT.Name as CategoryName, CurT.Name as CurrencyName,"
+                            + " CurT.Rate as CurrencyRate, VenT.Name as VendorName"
+                        + " FROM OfferTable OT"
+                        + " LEFT JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
+                        + " LEFT JOIN CurrencyTable CurT ON OT.CurrencyId = CurT.Id"
+                        + " LEFT JOIN VendorTable VenT ON OT.VendorId = VenT.Id"
                     ).ToList();
 
                     return q;

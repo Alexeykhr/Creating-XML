@@ -2,15 +2,18 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class CategoryParametersTable : Table
+    class OfferParameterTable : Table
     {
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }
 
         [Indexed, NotNull]
-        public int CategoryId { get; set; }
-        
+        public int OfferId { get; set; }
+
         [NotNull]
         public string Name { get; set; }
+
+        [NotNull]
+        public string Value { get; set; }
     }
 }

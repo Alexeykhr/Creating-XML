@@ -55,7 +55,7 @@
                 <Grid Background="#FFF0F0F0">
                     <Image x:Name="fImage" Height="100" />
                 </Grid>
-                <ListBox x:Name="listBoxImages" Height="130" Margin="0,5" />
+                <ListBox x:Name="listBoxImages" Height="130" Margin="0,5" DisplayMemberPath="Url" />
                 <Border BorderThickness="0,1" BorderBrush="#FFD8D8D8">
                     <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
                         <TextBox x:Name="fImageUrl" materialDesign:HintAssist.Hint="URL изображения" Margin="10" Width="190"

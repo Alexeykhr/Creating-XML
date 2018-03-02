@@ -132,11 +132,11 @@
     <Compile Include="src\db\models\Model.cs" />
     <Compile Include="src\db\Project.cs" />
     <Compile Include="src\db\tables\Table.cs" />
-    <Compile Include="src\db\tables\CategoryParametersTable.cs" />
+    <Compile Include="src\db\tables\CategoryParameterTable.cs" />
     <Compile Include="src\db\tables\CategoryTable.cs" />
     <Compile Include="src\db\tables\CurrencyTable.cs" />
     <Compile Include="src\db\tables\OfferImageTable.cs" />
-    <Compile Include="src\db\tables\OfferParametersTable.cs" />
+    <Compile Include="src\db\tables\OfferParameterTable.cs" />
     <Compile Include="src\db\tables\OfferTable.cs" />
     <Compile Include="src\db\tables\VendorTable.cs" />
     <Compile Include="windows\MainWindow.xaml.cs">

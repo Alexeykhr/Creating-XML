@@ -73,7 +73,7 @@ namespace Creating_XML.src.db
         }
 
         /// <summary>
-        /// Add new record.
+        /// Add a new record.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="table"></param>
@@ -90,11 +90,41 @@ namespace Creating_XML.src.db
             }
         }
 
+        /// <summary>
+        /// Add or replace a record.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static int InsertOrReplace<T>(T table)
+        {
+            try
+            {
+                return conn.InsertOrReplace(table);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Return table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static TableQuery<T> Table<T>() where T : new()
         {
             return conn.Table<T>();
         }
 
+        /// <summary>
+        /// Create Query to the DB.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IEnumerable<T> Query<T>(string query, object args = null) where T : new()
         {
             try
@@ -112,11 +142,11 @@ namespace Creating_XML.src.db
         /// </summary>
         public static void Migration()
         {
-            conn.CreateTable<CategoryParametersTable>();
+            conn.CreateTable<CategoryParameterTable>();
             conn.CreateTable<CategoryTable>();
             conn.CreateTable<CurrencyTable>();
             conn.CreateTable<OfferImageTable>();
-            conn.CreateTable<OfferParametersTable>();
+            conn.CreateTable<OfferParameterTable>();
             conn.CreateTable<OfferTable>();
             conn.CreateTable<VendorTable>();
         }
