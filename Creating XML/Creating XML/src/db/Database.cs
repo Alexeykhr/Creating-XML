@@ -90,6 +90,23 @@ namespace Creating_XML.src.db
             }
         }
 
+        public static TableQuery<T> Table<T>() where T : new()
+        {
+            return conn.Table<T>();
+        }
+
+        public static IEnumerable<T> Query<T>(string query, object args = null) where T : new()
+        {
+            try
+            {
+                return conn.Query<T>(query, args);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Migration tables to File.
         /// </summary>

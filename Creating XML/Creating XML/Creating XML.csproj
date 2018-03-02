@@ -85,6 +85,7 @@
     <Compile Include="libs\SQLite.cs" />
     <Compile Include="libs\SQLiteAsync.cs" />
     <Compile Include="src\objects\FileObject.cs" />
+    <Compile Include="src\objects\OfferObject.cs" />
     <Compile Include="src\RegexHelper.cs" />
     <Compile Include="src\Settings.cs" />
     <Compile Include="src\store\CategoryStore.cs" />
