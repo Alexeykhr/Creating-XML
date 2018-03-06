@@ -2,7 +2,7 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class CurrencyTable : Table
+    public class CurrencyTable : Table
     {
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }

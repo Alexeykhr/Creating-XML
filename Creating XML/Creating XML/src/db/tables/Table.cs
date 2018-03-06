@@ -1,4 +1,4 @@
 ﻿namespace Creating_XML.src.db.tables
 {
-    abstract class Table { }
+    public abstract class Table { }
 }

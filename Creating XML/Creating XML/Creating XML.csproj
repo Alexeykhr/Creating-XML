@@ -98,6 +98,9 @@
     <Compile Include="windows\CurrencyWindow.xaml.cs">
       <DependentUpon>CurrencyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="windows\dialogs\CurrencyItemDialog.xaml.cs">
+      <DependentUpon>CurrencyItemDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\OfferWindow.xaml.cs">
       <DependentUpon>OfferWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="windows\CurrencyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\dialogs\CurrencyItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,8 +204,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="windows\dialogs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

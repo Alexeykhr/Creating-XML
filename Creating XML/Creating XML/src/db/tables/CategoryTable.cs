@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Creating_XML.src.db.tables
 {
-    class CategoryTable : Table
+    public class CategoryTable : Table
     {
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }

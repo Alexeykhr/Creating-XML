@@ -2,7 +2,7 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class CategoryParameterTable : Table
+    public class CategoryParameterTable : Table
     {
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }

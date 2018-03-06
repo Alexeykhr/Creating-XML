@@ -2,7 +2,7 @@
 
 namespace Creating_XML.src.db.tables
 {
-    class VendorTable : Table
+    public class VendorTable : Table
     {
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }

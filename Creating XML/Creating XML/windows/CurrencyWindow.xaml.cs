@@ -3,13 +3,12 @@ using Creating_XML.src.db;
 using Creating_XML.src.store;
 using System.Windows.Controls;
 using Creating_XML.src.db.tables;
+using Creating_XML.windows.dialogs;
 
 namespace Creating_XML.windows
 {
     public partial class CurrencyWindow : Window
     {
-        private CurrencyTable selectedItem;
-        
         public CurrencyWindow()
         {
             InitializeComponent();
@@ -52,14 +51,22 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Set selectedItem.
+        /// Set selectedItem and open dialog for Edit/Delete.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void listViewCurrencies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedItem = listViewCurrencies.SelectedItem as CurrencyTable;
-            // TODO Create new window for edit - OneEditWindow
+            var item = listViewCurrencies.SelectedItem as CurrencyTable;
+
+            if (item == null)
+                return;
+
+            var dialog = new CurrencyItemDialog(item);
+            dialog.ShowDialog();
+
+            // TODO If dialog.IsEdited..
+            GUI();
         }
     }
 }
