@@ -5,25 +5,9 @@ using System.Collections.Generic;
 
 namespace Creating_XML.src.store
 {
-    class CategoryStore
+    class CategoryStore : Store<CategoryTable>
     {
-        private static IEnumerable<CategoryTable> _list;
         private static List<CategoryTable> _listTree;
-
-        /// <summary>
-        /// Set and get List of CategoryTable.
-        /// </summary>
-        public static IEnumerable<CategoryTable> List
-        {
-            get
-            {
-                if (_list == null)
-                    return FetchNewList(false);
-
-                return _list;
-            }
-            set { _list = value; }
-        }
 
         /// <summary>
         /// Set and get ListTree of CategoryTable.
@@ -37,7 +21,7 @@ namespace Creating_XML.src.store
         /// <summary>
         /// Send query for new list.
         /// </summary>
-        public static IEnumerable<CategoryTable> FetchNewList(bool returnTree = true)
+        public static IEnumerable<CategoryTable> Fetch(bool returnTree = true)
         {
             _list = Database.List<CategoryTable>().OrderBy(v => v.Name);
             _listTree = BuildTree(_list.ToList());

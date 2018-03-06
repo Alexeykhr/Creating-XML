@@ -10,13 +10,10 @@ namespace Creating_XML.windows
     {
         private VendorTable selectedItem;
         
-        /// <summary>
-        /// Constructor.
-        /// </summary>
         public VendorWindow()
         {
             InitializeComponent();
-            GUI();
+            listBoxVendors.ItemsSource = VendorStore.List;
         }
 
         /// <summary>
@@ -25,7 +22,7 @@ namespace Creating_XML.windows
         private void GUI()
         {
             listBoxVendors.ItemsSource = null;
-            listBoxVendors.ItemsSource = VendorStore.FetchNewList();
+            listBoxVendors.ItemsSource = VendorStore.Fetch();
         }
 
         /// <summary>

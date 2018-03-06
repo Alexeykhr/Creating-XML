@@ -14,7 +14,7 @@ namespace Creating_XML.windows
         public CurrencyWindow()
         {
             InitializeComponent();
-            GUI();
+            listViewCurrencies.ItemsSource = CurrencyStore.List;
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Creating_XML.windows
         private void GUI()
         {
             listViewCurrencies.ItemsSource = null;
-            listViewCurrencies.ItemsSource = CurrencyStore.FetchNewList();
+            listViewCurrencies.ItemsSource = CurrencyStore.Fetch();
         }
 
         /// <summary>

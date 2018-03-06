@@ -25,16 +25,16 @@ namespace Creating_XML.windows
         public CategoryWindow()
         {
             InitializeComponent();
-            GUI();
+            treeView.ItemsSource = CategoryStore.ListTree;
         }
 
         /// <summary>
-        /// Update GUI (Fill data).
+        /// Update GUI.
         /// </summary>
         private void GUI()
         {
             treeView.ItemsSource = null;
-            treeView.ItemsSource = CategoryStore.FetchNewList();
+            treeView.ItemsSource = CategoryStore.Fetch();
         }
 
         /// <summary>

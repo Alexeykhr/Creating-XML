@@ -3,6 +3,7 @@ using Creating_XML.src.db;
 using Creating_XML.src.db.models;
 using Creating_XML.src.db.tables;
 using Creating_XML.src.objects;
+using Creating_XML.src.store;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,15 +38,21 @@ namespace Creating_XML.windows
         public MainWindow()
         {
             InitializeComponent();
-            OpenFileWindow();
-            // TODO Get all info (currencies, categories, etc)
+
+            if (!OpenFileWindow())
+                return;
+
+            CategoryStore.Fetch();
+            CurrencyStore.Fetch();
+            VendorStore.Fetch();
         }
 
         /// <summary>
         /// OpenFileWindow for select a file and connect to the Database.
         /// </summary>
         /// <see cref="SelectFileWindow"/>
-        private void OpenFileWindow()
+        /// <returns></returns>
+        private bool OpenFileWindow()
         {
             Hide();
 
@@ -56,9 +63,11 @@ namespace Creating_XML.windows
             {
                 Show();
                 GUI();
+                return true;
             }
-            else
-                Close();
+
+            Application.Current.Shutdown();
+            return false;
         }
 
         /// <summary>

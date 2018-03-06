@@ -5,29 +5,12 @@ using System.Collections.Generic;
 
 namespace Creating_XML.src.store
 {
-    class VendorStore
+    class VendorStore : Store<VendorTable>
     {
-        private static IEnumerable<VendorTable> _list;
-
-        /// <summary>
-        /// Set and get List of VendorTable.
-        /// </summary>
-        public static IEnumerable<VendorTable> List
-        {
-            get
-            {
-                if (_list == null)
-                    return FetchNewList();
-
-                return _list;
-            }
-            set { _list = value; }
-        }
-
         /// <summary>
         /// Send query for new list.
         /// </summary>
-        public static IEnumerable<VendorTable> FetchNewList()
+        public static IEnumerable<VendorTable> Fetch()
         {
             _list = Database.List<VendorTable>().OrderBy(v => v.Name);
 

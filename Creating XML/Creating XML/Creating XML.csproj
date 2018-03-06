@@ -90,6 +90,7 @@
     <Compile Include="src\Settings.cs" />
     <Compile Include="src\store\CategoryStore.cs" />
     <Compile Include="src\store\CurrencyStore.cs" />
+    <Compile Include="src\store\Store.cs" />
     <Compile Include="src\store\VendorStore.cs" />
     <Compile Include="src\Web.cs" />
     <Compile Include="windows\CategoryWindow.xaml.cs">
