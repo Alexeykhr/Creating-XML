@@ -73,6 +73,35 @@ namespace Creating_XML.src.db
         }
 
         /// <summary>
+        /// Return table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static TableQuery<T> Table<T>() where T : new()
+        {
+            return conn.Table<T>();
+        }
+
+        /// <summary>
+        /// Create Query to the DB.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Query<T>(string query, object args = null) where T : new()
+        {
+            try
+            {
+                return conn.Query<T>(query, args);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Add a new record.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -109,31 +138,38 @@ namespace Creating_XML.src.db
         }
 
         /// <summary>
-        /// Return table.
+        /// Update row. Required to have a primary key.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
         /// <returns></returns>
-        public static TableQuery<T> Table<T>() where T : new()
-        {
-            return conn.Table<T>();
-        }
-
-        /// <summary>
-        /// Create Query to the DB.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="query"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> Query<T>(string query, object args = null) where T : new()
+        public static int Update<T>(T table)
         {
             try
             {
-                return conn.Query<T>(query, args);
+                return conn.Update(table);
             }
             catch
             {
-                return null;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Delete row. Required to have a primary key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static int Delete<T>(T table)
+        {
+            try
+            {
+                return conn.Delete(table);
+            }
+            catch
+            {
+                return 0;
             }
         }
 

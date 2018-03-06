@@ -214,7 +214,7 @@ namespace Creating_XML.windows
         private void btnAddOffer_Click(object sender, RoutedEventArgs e)
         {
             new OfferWindow().ShowDialog();
-            GUI();
+            // TODO IsUpdated
         }
 
         /*
@@ -253,6 +253,7 @@ namespace Creating_XML.windows
         private void menuItemVendor_Click(object sender, RoutedEventArgs e)
         {
             new VendorWindow().ShowDialog();
+            // TODO IsUpdated
         }
 
         /// <summary>
@@ -262,7 +263,11 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemCurrency_Click(object sender, RoutedEventArgs e)
         {
-            new CurrencyWindow().ShowDialog();
+            var window = new CurrencyWindow();
+            window.ShowDialog();
+
+            if (window.IsUpdated())
+                GUI();
         }
 
         /// <summary>
@@ -283,6 +288,7 @@ namespace Creating_XML.windows
         private void menuItemCategory_Click(object sender, RoutedEventArgs e)
         {
             new CategoryWindow().ShowDialog();
+            // TODO IsUpdated
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Creating_XML.windows
 {
     public partial class CurrencyWindow : Window
     {
+        private bool _isUpdated;
+
         public CurrencyWindow()
         {
             InitializeComponent();
@@ -65,8 +67,22 @@ namespace Creating_XML.windows
             var dialog = new CurrencyItemDialog(item);
             dialog.ShowDialog();
 
-            // TODO If dialog.IsEdited..
-            GUI();
+            if (dialog.IsUpdated())
+            {
+                _isUpdated = true;
+                GUI();
+            }
+
+            listViewCurrencies.SelectedItem = null;
+        }
+
+        /// <summary>
+        /// Get the value updated.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUpdated()
+        {
+            return _isUpdated;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows.dialogs"
         mc:Ignorable="d"
-        Title="CurrencyItemDialog" Height="260" Width="300"
+        Title="XML - Валюты (редактирование)" Height="260" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -24,10 +24,10 @@
         </Grid>
         <Grid VerticalAlignment="Bottom">
             <Button x:Name="btnDelete" HorizontalAlignment="Left" Background="#FFB05454"
-                    BorderBrush="#FFB05454">
+                    BorderBrush="#FFB05454" Click="btnDelete_Click">
                 <materialDesign:PackIcon Kind="Delete" />
             </Button>
-            <Button x:Name="btnUpdate" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Button x:Name="btnUpdate" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnUpdate_Click">
                 Обновить
             </Button>
         </Grid>
