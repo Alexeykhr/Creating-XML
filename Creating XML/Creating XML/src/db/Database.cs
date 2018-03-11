@@ -89,7 +89,8 @@ namespace Creating_XML.src.db
         /// <param name="query"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static IEnumerable<T> Query<T>(string query, object args = null) where T : new()
+        /// 
+        public static List<T> Query<T>(string query, params object[] args) where T : new()
         {
             try
             {

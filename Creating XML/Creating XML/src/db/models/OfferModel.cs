@@ -1,57 +1,74 @@
 ﻿using Creating_XML.src.db.tables;
 using System.Collections.Generic;
+using Creating_XML.src.objects;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Creating_XML.src.db.models
 {
-    class OfferModel : Model//, IModel<OfferTable>
+    class OfferModel
     {
-        public IEnumerable<OfferTable> List(
-            string search = "", int limit = 10, int offset = 0, string orderBy = "name",
+        /// <summary>
+        /// Get List of Offers (paginate).
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="take"></param>
+        /// <param name="page"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static List<OfferObject> List(
+            string search = "", int take = 10, int page = 1, string orderBy = "Name",
             ListSortDirection sortDirection = ListSortDirection.Ascending
-        ) {
-            string query = "SELECT * FROM " + typeof(OfferTable).Name;
-            object find = search;
+        )
+        {
+            List<OfferObject> list = null;
+            string query =
+                "SELECT OT.*, CatT.Name as CategoryName, CurT.Name as CurrencyName,"
+                    + " CurT.Rate as CurrencyRate, VenT.Name as VendorName"
+                + " FROM OfferTable OT";
+
+            // Search Article or Name
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query += " WHERE";
+
+                if (!int.TryParse(search.ToString(), out int art))
+                    query += " Article = ?";
+                else
+                    query += " Name = ?";
+            }
+
+            // Joins
+            query += " LEFT JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
+                + " LEFT JOIN CurrencyTable CurT ON OT.CurrencyId = CurT.Id"
+                + " LEFT JOIN VendorTable VenT ON OT.VendorId = VenT.Id";
+
+            query += " ORDER BY ? " + (sortDirection == ListSortDirection.Ascending ? "ASC" : "DESC")
+                + " LIMIT ?"
+                + " OFFSET ?";
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                query += " WHERE ";
-
-                if (!int.TryParse(search.ToString(), out int art))
-                {
-                    query += "Article = ?";
-                    find = art;
-                }
-                else
-                    query += "Name = ?";
+                list = Database.Query<OfferObject>(query,
+                        search,
+                        orderBy,
+                        take,
+                        (page - 1) * take
+                    ).ToList();
+            }
+            else
+            {
+                list = Database.Query<OfferObject>(query,
+                        orderBy,
+                        take,
+                        (page - 1) * take
+                    ).ToList();
             }
 
-            query += " ORDER BY ? ? LIMIT ? OFFSET ?";
+            // TODO Join 2 tables
 
-            // TODO: JOIN
-
-            return Query<OfferTable>(query, new object[] {
-                    find,
-                    orderBy,
-                    sortDirection == ListSortDirection.Ascending ? "ASC" : "DESC",
-                    limit,
-                    offset
-                });
+            return list;
         }
-
-        //public long Add(OfferTable obj)
-        //{
-        //    return Insert(obj);
-        //}
-
-        //public long Upd(OfferTable obj)
-        //{
-        //    return Update(obj);
-        //}
-
-        //public long Del(long id)
-        //{
-        //    return Delete<OfferTable>(id);
-        //}
     }
 }
