@@ -75,7 +75,7 @@ namespace Creating_XML.windows
         /// </summary>
         private void GUI()
         {
-            UpdateListView(fSearch.Text, maxItemsOnPage, currentPage);
+            UpdateListView(fSearch.Text, maxItemsOnPage, currentPage); // FIXME All params
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Creating_XML.windows
             {
                 try
                 {
-                    return OfferModel.List(search, take, page); // FIXME All params
+                    return OfferModel.List(search, take, page);
                 }
                 catch { return null; }
             });
@@ -102,101 +102,15 @@ namespace Creating_XML.windows
                 OpenFileWindow();
                 return;
             }
+            
+            if (collection.Count < 1 && page > 1)
+            {
+                fCurrentPage.Text = (page - 1).ToString();
+                currentPage = page - 1;
+            }
 
             listView.ItemsSource = collection;
             listView.Items.Refresh();
-        }
-
-        /// <summary>
-        /// After got focus = clear the text.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_GotFocus(object sender, RoutedEventArgs e)
-        {
-            lastNumber = int.Parse(fCurrentPage.Text);
-            fCurrentPage.Text = string.Empty;
-        }
-
-        /// <summary>
-        /// Check Input.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!int.TryParse(fCurrentPage.Text, out int result) || result < 1)
-                fCurrentPage.Text = lastNumber.ToString();
-        }
-
-        /// <summary>
-        /// Accept only numbers.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
-        }
-
-        /// <summary>
-        /// Change text => Update GUI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
-            {
-                maxItemsOnPage = result;
-                GUI();
-            }
-        }
-
-        /// <summary>
-        /// After got focus = clear the text.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_GotFocus(object sender, RoutedEventArgs e)
-        {
-            lastNumber = int.Parse(fMaxItemsOnPage.Text);
-            fMaxItemsOnPage.Text = string.Empty;
-        }
-
-        /// <summary>
-        /// Check Input.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!int.TryParse(fMaxItemsOnPage.Text, out int result) || result < 1)
-                fMaxItemsOnPage.Text = lastNumber.ToString();
-        }
-
-        /// <summary>
-        /// Accept only numbers.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
-        }
-
-        /// <summary>
-        /// Change text => Update GUI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
-            {
-                maxItemsOnPage = result;
-                GUI();
-            }
         }
 
         /// <summary>
@@ -285,6 +199,132 @@ namespace Creating_XML.windows
         {
             new CategoryWindow().ShowDialog();
             // TODO IsUpdated
+        }
+
+        /*
+         * |-------------------------------------------
+         * | Paginate.
+         * |-------------------------------------------
+         * |
+         */
+
+        /// <summary>
+        /// After got focus = clear the text.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fCurrentPage_GotFocus(object sender, RoutedEventArgs e)
+        {
+            lastNumber = int.Parse(fCurrentPage.Text);
+            fCurrentPage.Text = string.Empty;
+        }
+
+        /// <summary>
+        /// Check Input.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fCurrentPage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!int.TryParse(fCurrentPage.Text, out int result) || result < 1)
+                fCurrentPage.Text = lastNumber.ToString();
+        }
+
+        /// <summary>
+        /// Accept only numbers.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fCurrentPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
+        }
+
+        /// <summary>
+        /// Change text => Update GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fCurrentPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(fCurrentPage.Text, out int result) && result > 0)
+            {
+                currentPage = result;
+                GUI();
+            }
+        }
+
+        /// <summary>
+        /// After got focus = clear the text.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_GotFocus(object sender, RoutedEventArgs e)
+        {
+            lastNumber = int.Parse(fMaxItemsOnPage.Text);
+            fMaxItemsOnPage.Text = string.Empty;
+        }
+
+        /// <summary>
+        /// Check Input.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!int.TryParse(fMaxItemsOnPage.Text, out int result) || result < 1)
+                fMaxItemsOnPage.Text = lastNumber.ToString();
+        }
+
+        /// <summary>
+        /// Accept only numbers.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
+        }
+
+        /// <summary>
+        /// Change text => Update GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fMaxItemsOnPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
+            {
+                maxItemsOnPage = result;
+                GUI();
+            }
+        }
+
+        /// <summary>
+        /// Change page to -1.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        {
+            // FIXME Simple paginate*
+            if (currentPage > 1)
+            {
+                fCurrentPage.Text = (--currentPage).ToString();
+                GUI();
+            }
+        }
+
+        /// <summary>
+        /// Change page to +1.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            // FIXME Simple paginate*
+            fCurrentPage.Text = (++currentPage).ToString();
+            GUI();
         }
     }
 }

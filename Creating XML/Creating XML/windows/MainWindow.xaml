@@ -127,13 +127,14 @@
                 Добавить товар
             </Button>
             <StackPanel DockPanel.Dock="Bottom" Margin="0,5" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100">
+                <Button x:Name="btnPrevPage" Style="{StaticResource MaterialDesignFlatButton}" Width="100" Click="btnPrevPage_Click">
                     <materialDesign:PackIcon Kind="ArrowLeftBold" />
                 </Button>
                 <TextBox x:Name="fCurrentPage" materialDesign:HintAssist.Hint="Стр." Width="45" PreviewTextInput="fCurrentPage_PreviewTextInput"
                          Margin="25,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus" GotFocus="fCurrentPage_GotFocus" Text="1" TextChanged="fCurrentPage_TextChanged" />
-                <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100">
+                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus"
+                         GotFocus="fCurrentPage_GotFocus" Text="1" TextChanged="fCurrentPage_TextChanged" />
+                <Button x:Name="btnNextPage" Style="{StaticResource MaterialDesignFlatButton}" Width="100" Click="btnNextPage_Click">
                     <materialDesign:PackIcon Kind="ArrowRightBold" />
                 </Button>
             </StackPanel>
