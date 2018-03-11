@@ -102,6 +102,9 @@
     <Compile Include="windows\dialogs\CurrencyItemDialog.xaml.cs">
       <DependentUpon>CurrencyItemDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="windows\dialogs\VendorItemDialog.xaml.cs">
+      <DependentUpon>VendorItemDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\OfferWindow.xaml.cs">
       <DependentUpon>OfferWindow.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="windows\dialogs\CurrencyItemDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\dialogs\VendorItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -53,7 +53,7 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Set selectedItem and open dialog for Edit/Delete.
+        /// Open the dialog for Edit/Delete item.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -77,7 +77,7 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Get the value updated.
+        /// Get the value is updated.
         /// </summary>
         /// <returns></returns>
         public bool IsUpdated()

@@ -19,9 +19,9 @@
         <Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="#FFD8D8D8">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="60" Background="#FFF0F0F0">
                 <TextBox x:Name="fVendor" materialDesign:HintAssist.Hint="Продавец" Margin="10" Width="250"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                 <Button x:Name="btnAddVendor" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
-                            Click="btnAddVendor_Click" Margin="0,5,0,0">
+                        Click="btnAddVendor_Click" Margin="0,5,0,0">
                     <materialDesign:PackIcon Kind="Plus" />
                 </Button>
             </StackPanel>

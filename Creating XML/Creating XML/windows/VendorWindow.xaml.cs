@@ -3,13 +3,14 @@ using Creating_XML.src.db;
 using Creating_XML.src.store;
 using System.Windows.Controls;
 using Creating_XML.src.db.tables;
+using Creating_XML.windows.dialogs;
 
 namespace Creating_XML.windows
 {
     public partial class VendorWindow : Window
     {
-        private VendorTable selectedItem;
-        
+        private bool _isUpdated;
+
         public VendorWindow()
         {
             InitializeComponent();
@@ -17,7 +18,7 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Update GUI (Fill data).
+        /// Update GUI.
         /// </summary>
         private void GUI()
         {
@@ -50,14 +51,36 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Set selectedItem.
+        /// Open the dialog for Edit/Delete item.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void listBoxVendors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedItem = listBoxVendors.SelectedItem as VendorTable;
-            // TODO Create new window for edit - OneEditWindow
+            var item = listBoxVendors.SelectedItem as VendorTable;
+
+            if (item == null)
+                return;
+
+            var dialog = new VendorItemDialog(item);
+            dialog.ShowDialog();
+
+            if (dialog.IsUpdated())
+            {
+                _isUpdated = true;
+                GUI();
+            }
+
+            listBoxVendors.SelectedItem = null;
+        }
+
+        /// <summary>
+        /// Get the value is updated.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUpdated()
+        {
+            return _isUpdated;
         }
     }
 }

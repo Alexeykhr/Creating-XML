@@ -261,8 +261,11 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemVendor_Click(object sender, RoutedEventArgs e)
         {
-            new VendorWindow().ShowDialog();
-            // TODO IsUpdated
+            var window = new VendorWindow();
+            window.ShowDialog();
+
+            if (window.IsUpdated())
+                GUI();
         }
 
         /// <summary>

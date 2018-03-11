@@ -4,17 +4,16 @@ using Creating_XML.src.db.tables;
 
 namespace Creating_XML.windows.dialogs
 {
-    public partial class CurrencyItemDialog : Window
+    public partial class VendorItemDialog : Window
     {
-        private CurrencyTable _item;
+        private VendorTable _item;
 
         private bool _isUpdated;
 
-        public CurrencyItemDialog(CurrencyTable item)
+        public VendorItemDialog(VendorTable item)
         {
             InitializeComponent();
             fName.Text = item.Name;
-            fRate.Text = item.Rate;
             _item = item;
         }
 
@@ -34,14 +33,12 @@ namespace Creating_XML.windows.dialogs
         /// <param name="e"></param>
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            string name = fName.Text.Trim().ToUpper(),
-                rate = fRate.Text.Trim().ToUpper();
+            string name = fName.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(rate))
+            if (string.IsNullOrWhiteSpace(name))
                 return;
 
             _item.Name = name;
-            _item.Rate = rate;
 
             int result = Database.Update(_item);
 
@@ -51,7 +48,7 @@ namespace Creating_XML.windows.dialogs
                 Close();
             }
             else
-                MessageBox.Show("Валюта не обновлена. Проверьте на уникальность.");
+                MessageBox.Show("Продавец не обновлён. Проверьте на уникальность.");
         }
 
         /// <summary>
@@ -69,7 +66,7 @@ namespace Creating_XML.windows.dialogs
                 Close();
             }
             else
-                MessageBox.Show("Валюта не удалена.");
+                MessageBox.Show("Продавец не удалён.");
         }
     }
 }
