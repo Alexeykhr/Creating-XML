@@ -1,5 +1,4 @@
-﻿using Creating_XML.src.db.tables;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Creating_XML.src.objects;
 using System.ComponentModel;
 using System.Linq;
@@ -28,21 +27,24 @@ namespace Creating_XML.src.db.models
                     + " CurT.Rate as CurrencyRate, VenT.Name as VendorName"
                 + " FROM OfferTable OT";
 
+            // Joins
+            query += " LEFT JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
+                + " LEFT JOIN CurrencyTable CurT ON OT.CurrencyId = CurT.Id"
+                + " LEFT JOIN VendorTable VenT ON OT.VendorId = VenT.Id";
+
             // Search Article or Name
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query += " WHERE";
 
-                if (!int.TryParse(search.ToString(), out int art))
-                    query += " Article = ?";
+                if (int.TryParse(search.ToString(), out int art))
+                    query += " OT.Article = ?";
                 else
-                    query += " Name = ?";
+                {
+                    query += " OT.Name LIKE ?";
+                    search = "%" + search + "%";
+                }
             }
-
-            // Joins
-            query += " LEFT JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
-                + " LEFT JOIN CurrencyTable CurT ON OT.CurrencyId = CurT.Id"
-                + " LEFT JOIN VendorTable VenT ON OT.VendorId = VenT.Id";
 
             query += " ORDER BY ? " + (sortDirection == ListSortDirection.Ascending ? "ASC" : "DESC")
                 + " LIMIT ?"

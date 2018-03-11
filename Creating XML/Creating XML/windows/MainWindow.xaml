@@ -103,7 +103,7 @@
         <DockPanel>
             <Grid DockPanel.Dock="Top" Margin="5">
                 <TextBox x:Name="fSearch" materialDesign:HintAssist.Hint="Поиск по названию, артикулу"
-                         Margin="0,0,50,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                         Margin="0,0,50,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" TextChanged="fSearch_TextChanged" />
                 <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right"
                          HorizontalContentAlignment="Center" GotFocus="fMaxItemsOnPage_GotFocus"
@@ -113,6 +113,7 @@
             <ListView x:Name="listView" DockPanel.Dock="Top">
                 <ListView.View>
                     <GridView>
+                        <!-- Image -->
                         <GridViewColumn DisplayMemberBinding="{Binding Article}" Header="Артикуль" />
                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название" />
                         <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Цена" />

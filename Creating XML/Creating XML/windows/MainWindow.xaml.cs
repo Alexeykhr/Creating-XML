@@ -207,6 +207,16 @@ namespace Creating_XML.windows
          * |-------------------------------------------
          * |
          */
+         
+        /// <summary>
+        /// Seach Article or Name of offer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GUI();
+        }
 
         /// <summary>
         /// After got focus = clear the text.
