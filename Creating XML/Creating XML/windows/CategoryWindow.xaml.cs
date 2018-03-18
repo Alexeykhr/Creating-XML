@@ -15,12 +15,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Creating_XML.windows.dialogs;
 
 namespace Creating_XML.windows
 {
     public partial class CategoryWindow : Window
     {
         private CategoryTable selectedItem;
+
+        private bool _isUpdated;
 
         public CategoryWindow()
         {
@@ -76,7 +79,7 @@ namespace Creating_XML.windows
         private void fParentCategory_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // TODO Open dialog for edit parent Category
-            MessageBox.Show("Open dialog");
+            //(treeView.SelectedItem as TreeViewItem).IsSelected = false;
         }
 
         /// <summary>
@@ -86,6 +89,22 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            //var item = treeView.SelectedItem as CategoryTable;
+
+            //if (item == null)
+            //    return;
+
+            //var dialog = new CategoryItemDialog(item);
+            //dialog.ShowDialog();
+
+            //if (dialog.IsUpdated())
+            //{
+            //    _isUpdated = true;
+            //    GUI();
+            //}
+
+            //treeView.SelectedItem = null;
+
             if (e.NewValue == null)
                 return;
             
