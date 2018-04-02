@@ -197,8 +197,11 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemCategory_Click(object sender, RoutedEventArgs e)
         {
-            new CategoryWindow().ShowDialog();
-            // TODO IsUpdated
+            var window = new CategoryWindow();
+            window.ShowDialog();
+
+            if (window.IsUpdated())
+                GUI();
         }
 
         /*

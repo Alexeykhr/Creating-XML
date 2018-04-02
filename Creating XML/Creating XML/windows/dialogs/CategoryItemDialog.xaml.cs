@@ -1,18 +1,6 @@
+using System.Windows;
 using Creating_XML.src.db;
 using Creating_XML.src.db.tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Creating_XML.windows.dialogs
 {
@@ -25,8 +13,17 @@ namespace Creating_XML.windows.dialogs
         public CategoryItemDialog(CategoryTable item)
         {
             InitializeComponent();
-            // FIll GUI
+            fCategory.Text = item.Name;
             _item = item;
+        }
+
+        /// <summary>
+        /// Get the value is updated.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUpdated()
+        {
+            return _isUpdated;
         }
 
         /// <summary>
@@ -45,7 +42,6 @@ namespace Creating_XML.windows.dialogs
             }
 
             int result = Database.Delete(_item);
-
             
             if (result == 1)
             {
@@ -58,17 +54,28 @@ namespace Creating_XML.windows.dialogs
         }
 
         /// <summary>
-        /// Get the value is updated.
+        /// Update Category item in the DB.
         /// </summary>
-        /// <returns></returns>
-        public bool IsUpdated()
-        {
-            return _isUpdated;
-        }
-
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            string category = fCategory.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(category))
+                return;
+
+            _item.Name = category;
+
+            int result = Database.Update(_item);
+
+            if (result == 1)
+            {
+                _isUpdated = true;
+                Close();
+            }
+            else
+                MessageBox.Show("Категория не обновлена. Проверьте на уникальность.");
         }
     }
 }

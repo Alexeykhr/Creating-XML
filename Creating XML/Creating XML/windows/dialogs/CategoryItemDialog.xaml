@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows.dialogs"
         mc:Ignorable="d"
-        Title="XML - Категория" Height="260" Width="300"
+        Title="XML - Категория" Height="200" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -17,10 +17,8 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid Margin="5">
-            <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Width="200" Margin="0,30,0,0" Height="110">
-                <TextBox x:Name="fParentCategory" materialDesign:HintAssist.Hint="Родитель" VerticalAlignment="Top"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                <TextBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" VerticalAlignment="Bottom"
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Width="200" Margin="0,30,0,0" Height="50">
+                <TextBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
             <Grid VerticalAlignment="Bottom">

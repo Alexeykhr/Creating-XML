@@ -130,5 +130,14 @@ namespace Creating_XML.windows
                 }
             }
         }
+
+        /// <summary>
+        /// Get the value is updated.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUpdated()
+        {
+            return _isUpdated;
+        }
     }
 }
