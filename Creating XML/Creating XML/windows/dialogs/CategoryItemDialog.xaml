@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows.dialogs"
         mc:Ignorable="d"
-        Title="CategoryItemDialog" Height="400" Width="400"
+        Title="XML - Категория" Height="260" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -16,6 +16,22 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-        
+        <Grid Margin="5">
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Width="200" Margin="0,30,0,0" Height="110">
+                <TextBox x:Name="fParentCategory" materialDesign:HintAssist.Hint="Родитель" VerticalAlignment="Top"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <TextBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" VerticalAlignment="Bottom"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+            </Grid>
+            <Grid VerticalAlignment="Bottom">
+                <Button x:Name="btnDelete" HorizontalAlignment="Left" Background="#FFB05454"
+                    BorderBrush="#FFB05454" Click="btnDelete_Click">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+                <Button x:Name="btnUpdate" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnUpdate_Click">
+                    Обновить
+                </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
