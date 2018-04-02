@@ -99,6 +99,9 @@
     <Compile Include="windows\CurrencyWindow.xaml.cs">
       <DependentUpon>CurrencyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="windows\dialogs\CategoryItemDialog.xaml.cs">
+      <DependentUpon>CategoryItemDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\dialogs\CurrencyItemDialog.xaml.cs">
       <DependentUpon>CurrencyItemDialog.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="windows\CurrencyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\dialogs\CategoryItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

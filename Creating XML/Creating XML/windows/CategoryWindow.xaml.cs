@@ -1,26 +1,19 @@
-﻿using Creating_XML.src;
+﻿using System.Windows;
+using Creating_XML.src;
 using Creating_XML.src.db;
-using Creating_XML.src.store;
-using Creating_XML.src.db.tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Creating_XML.src.store;
+using System.Windows.Controls;
+using Creating_XML.src.db.tables;
+using Creating_XML.windows.dialogs;
 
 namespace Creating_XML.windows
 {
     public partial class CategoryWindow : Window
     {
         private CategoryTable selectedItem;
+
+        private bool _isUpdated;
 
         public CategoryWindow()
         {
@@ -59,9 +52,11 @@ namespace Creating_XML.windows
 
             if (result == 1)
             {
+                TreeViewClearSelected();
                 fCategory.Text = string.Empty;
                 fParentCategory.Text = string.Empty;
                 selectedItem = null;
+                _isUpdated = true;
                 GUI();
             }
             else
@@ -69,14 +64,15 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Open DialogWindow for edit/delete selected parent category.
+        /// Clear parentCategory.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void fParentCategory_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // TODO Open dialog for edit parent Category
-            MessageBox.Show("Open dialog");
+            TreeViewClearSelected();
+            fParentCategory.Text = string.Empty;
+            selectedItem = null;
         }
 
         /// <summary>
@@ -91,6 +87,48 @@ namespace Creating_XML.windows
             
             selectedItem = e.NewValue as CategoryTable;
             fParentCategory.Text = selectedItem.Name;
+        }
+
+        /// <summary>
+        /// Open DialogWindow for edit/delete selected parent category.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnEditParent_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedItem == null)
+                return;
+
+            var dialog = new CategoryItemDialog(selectedItem);
+            dialog.ShowDialog();
+
+            if (dialog.IsUpdated())
+            {
+                _isUpdated = true;
+                GUI();
+            }
+        }
+
+        /// <summary>
+        /// Set isSelected to false.
+        /// </summary>
+        private void TreeViewClearSelected()
+        {
+            if (treeView.SelectedItem == null)
+                return;
+
+            if (treeView.SelectedItem is TreeViewItem)
+            {
+                (treeView.SelectedItem as TreeViewItem).IsSelected = false;
+            }
+            else
+            {
+                if (treeView.ItemContainerGenerator.ContainerFromIndex(0) is TreeViewItem item)
+                {
+                    item.IsSelected = true;
+                    item.IsSelected = false;
+                }
+            }
         }
     }
 }

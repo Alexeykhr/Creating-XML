@@ -46,6 +46,7 @@ namespace Creating_XML.windows
             {
                 fName.Text = string.Empty;
                 fRate.Text = string.Empty;
+                _isUpdated = true;
                 GUI();
             }
             else

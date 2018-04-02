@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Creating_XML.windows"
         mc:Ignorable="d"
-        Title="XML - Категория" Height="400" Width="400"
+        Title="XML - Категории" Height="400" Width="450"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -32,9 +32,14 @@
         </TreeView>
         <Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="#FFD8D8D8">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="60" Background="#FFF0F0F0">
-                <TextBox x:Name="fParentCategory" materialDesign:HintAssist.Hint="Родитель" Margin="10" Width="140" IsReadOnly="True"
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="fParentCategory" materialDesign:HintAssist.Hint="Родитель" Margin="10" Width="140" IsReadOnly="True"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="Hand"
                          PreviewMouseLeftButtonDown="fParentCategory_PreviewMouseLeftButtonDown" />
+                    <Button x:Name="btnEditParent" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,10,0,0" Click="btnEditParent_Click">
+                        <materialDesign:PackIcon Kind="BorderColor" />
+                    </Button>
+                </StackPanel>
                 <TextBox x:Name="fCategory" materialDesign:HintAssist.Hint="Категория" Margin="10" Width="140"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                 <Button x:Name="btnAddCategory" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"
