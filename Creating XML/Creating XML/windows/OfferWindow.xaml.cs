@@ -105,7 +105,7 @@ namespace Creating_XML.windows
                         OfferId = 1,
                         Url = (image as OfferImageTable).Url
                     };
-                    Database.InsertOrReplace(table);
+                    Database.InsertOrReplace(tableImage);
                 }
                 // END TEST
 
