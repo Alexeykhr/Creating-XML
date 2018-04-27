@@ -41,6 +41,8 @@ namespace Creating_XML.src.objects
         public string VendorName { get; set; }
 
 
-        //public List<OfferImageTable> Images { get; set; }
+        public List<OfferImageTable> Images { get; set; }
+
+        public List<OfferParameterTable> Parameters { get; set; }
     }
 }

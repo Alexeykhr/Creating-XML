@@ -78,7 +78,7 @@ namespace Creating_XML.windows
 
             bool isAvailable = fIsAvailable.IsChecked.Value;
 
-            var table = new OfferTable
+            var offer = new OfferTable
             {
                 Name = name,
                 Article = article,
@@ -90,22 +90,30 @@ namespace Creating_XML.windows
                 CategoryId = _selectedCategory.Id,
                 CurrencyId = _selectedCurrency.Id
             };
-            int result = Database.Insert(table);
+            int result = Database.Insert(offer);
 
             if (result == 1)
             {
-                // TODO Test
-                var images = listBoxImages.Items;
-                foreach (var image in images)
+                foreach (var image in listBoxImages.Items)
                 {
-                    var tableImage = new OfferImageTable
+                    Database.InsertOrReplace(new OfferImageTable
                     {
-                        OfferId = 1,
+                        OfferId = offer.Id,
                         Url = (image as OfferImageTable).Url
-                    };
-                    Database.InsertOrReplace(table);
+                    });
                 }
-                // END TEST
+
+                foreach (var parameter in dataGridParams.Items)
+                {
+                    var par = parameter as OfferParameterTable;
+
+                    Database.InsertOrReplace(new OfferParameterTable
+                    {
+                        OfferId = offer.Id,
+                        Name = par.Name,
+                        Value = par.Value
+                    });
+                }
 
                 MessageBox.Show("Товар добавлен");
             }

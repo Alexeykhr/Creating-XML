@@ -7,13 +7,13 @@ namespace Creating_XML.src.db.tables
         [AutoIncrement, PrimaryKey]
         public int Id { get; set; }
 
-        [Indexed, NotNull]
+        [Indexed(Name = "Parameter", Order = 1, Unique = true), NotNull]
         public int OfferId { get; set; }
 
-        [NotNull]
+        [Indexed(Name = "Parameter", Order = 2, Unique = true), NotNull]
         public string Name { get; set; }
 
-        [NotNull]
+        [Indexed(Name = "Parameter", Order = 3, Unique = true), NotNull]
         public string Value { get; set; }
     }
 }
