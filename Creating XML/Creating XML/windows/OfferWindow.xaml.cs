@@ -1,31 +1,31 @@
-﻿using Creating_XML.src;
+﻿using System;
+using System.Windows;
+using Creating_XML.src;
 using Creating_XML.src.db;
-using Creating_XML.src.db.tables;
 using Creating_XML.src.store;
-using System;
+using System.Windows.Controls;
 using System.Collections.Generic;
+using Creating_XML.src.db.tables;
+using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Creating_XML.windows
 {
     public partial class OfferWindow : Window
     {
-        private List<OfferImageTable> listImages = new List<OfferImageTable>();
-        private List<OfferParameterTable> listParameters = new List<OfferParameterTable>();
+        private List<OfferImageTable> _listImages = new List<OfferImageTable>();
+        private List<OfferParameterTable> _listParameters = new List<OfferParameterTable>();
 
-        private CategoryTable selectedCategory;
-        private CurrencyTable selectedCurrency;
-        private VendorTable selectedVendor;
+        private CategoryTable _selectedCategory;
+        private CurrencyTable _selectedCurrency;
+        private VendorTable _selectedVendor;
 
         public OfferWindow()
         {
@@ -37,15 +37,12 @@ namespace Creating_XML.windows
         }
 
         /// <summary>
-        /// Update GUI (Fill data).
+        /// Update GUI.
         /// </summary>
         private void GUI()
         {
-            listBoxImages.ItemsSource = null;
-            listBoxImages.ItemsSource = listImages;
-
             dataGridParams.ItemsSource = null;
-            dataGridParams.ItemsSource = listParameters;
+            dataGridParams.ItemsSource = _listParameters;
         }
 
         private void btnImageAdd_Click(object sender, RoutedEventArgs e)
@@ -57,11 +54,12 @@ namespace Creating_XML.windows
                 // TODO: Test
                 fImage.Source = new BitmapImage(new Uri(fImageUrl.Text));
 
-                listImages.Add(new OfferImageTable {
+                _listImages.Add(new OfferImageTable {
                     Url = fImageUrl.Text
                 });
 
-                GUI();
+                listBoxImages.ItemsSource = null;
+                listBoxImages.ItemsSource = _listImages;
 
                 listBoxImages.Items.MoveCurrentToLast();
                 fImageUrl.Text = string.Empty;
@@ -88,9 +86,9 @@ namespace Creating_XML.windows
                 Url = url,
                 Description = description,
                 IsAvailable = isAvailable,
-                VendorId = selectedVendor.Id,
-                CategoryId = selectedCategory.Id,
-                CurrencyId = selectedCurrency.Id
+                VendorId = _selectedVendor.Id,
+                CategoryId = _selectedCategory.Id,
+                CurrencyId = _selectedCurrency.Id
             };
             int result = Database.Insert(table);
 
@@ -117,17 +115,17 @@ namespace Creating_XML.windows
 
         private void fCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedCategory = e.AddedItems[0] as CategoryTable;
+            _selectedCategory = e.AddedItems[0] as CategoryTable;
         }
 
         private void fCurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedCurrency = e.AddedItems[0] as CurrencyTable;
+            _selectedCurrency = e.AddedItems[0] as CurrencyTable;
         }
 
         private void fVendor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedVendor = e.AddedItems[0] as VendorTable;
+            _selectedVendor = e.AddedItems[0] as VendorTable;
         }
     }
 }
