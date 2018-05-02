@@ -1,20 +1,21 @@
-﻿using Creating_XML.src;
+﻿using System;
+using System.Windows;
+using Creating_XML.src;
 using Creating_XML.src.db;
 using Creating_XML.src.db.tables;
 using Creating_XML.src.objects;
 using Creating_XML.src.store;
-using System;
+using System.Windows.Controls;
 using System.Collections.Generic;
+using Creating_XML.src.db.tables;
+using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Creating_XML.windows
@@ -24,6 +25,10 @@ namespace Creating_XML.windows
         private CategoryTable selectedCategory;
         private CurrencyTable selectedCurrency;
         private VendorTable selectedVendor;
+
+        private CategoryTable _selectedCategory;
+        private CurrencyTable _selectedCurrency;
+        private VendorTable _selectedVendor;
 
         private OfferObject _offer;
 
@@ -38,8 +43,6 @@ namespace Creating_XML.windows
             fVendor.ItemsSource = VendorStore.List;
             fCurrency.ItemsSource = CurrencyStore.List;
             fCategory.ItemsSource = CategoryStore.List;
-
-            listBoxImages.ItemsSource = _offer.Images;
         }
 
         private void btnImageAdd_Click(object sender, RoutedEventArgs e)
@@ -47,7 +50,7 @@ namespace Creating_XML.windows
             if (Web.IsCorrectURL(fImageUrl.Text))
             {
                 fImage.Source = new BitmapImage(new Uri(fImageUrl.Text));
-
+                
                 _offer.Images.Add(new OfferImageTable {
                     Url = fImageUrl.Text
                 });
@@ -79,9 +82,9 @@ namespace Creating_XML.windows
                 Url = url,
                 Description = description,
                 IsAvailable = isAvailable,
-                VendorId = selectedVendor.Id,
-                CategoryId = selectedCategory.Id,
-                CurrencyId = selectedCurrency.Id
+                VendorId = _selectedVendor.Id,
+                CategoryId = _selectedCategory.Id,
+                CurrencyId = _selectedCurrency.Id
             };
             int result = Database.Insert(offer);
 
@@ -116,17 +119,17 @@ namespace Creating_XML.windows
 
         private void fCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedCategory = e.AddedItems[0] as CategoryTable;
+            _selectedCategory = e.AddedItems[0] as CategoryTable;
         }
 
         private void fCurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedCurrency = e.AddedItems[0] as CurrencyTable;
+            _selectedCurrency = e.AddedItems[0] as CurrencyTable;
         }
 
         private void fVendor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedVendor = e.AddedItems[0] as VendorTable;
+            _selectedVendor = e.AddedItems[0] as VendorTable;
         }
     }
 }

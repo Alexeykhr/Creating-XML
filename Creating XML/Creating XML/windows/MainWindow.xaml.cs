@@ -25,11 +25,11 @@ namespace Creating_XML.windows
 {
     public partial class MainWindow : Window
     {
-        private int lastNumber;
+        private int _lastNumber;
 
-        private int maxItemsOnPage = 20;
+        private int _maxItemsOnPage = 20;
 
-        private int currentPage = 1;
+        private int _currentPage = 1;
 
         /// <summary>
         /// Select file before work (open window).
@@ -75,7 +75,7 @@ namespace Creating_XML.windows
         /// </summary>
         private void GUI()
         {
-            UpdateListView(fSearch.Text, maxItemsOnPage, currentPage); // FIXME All params
+            UpdateListView(fSearch.Text, _maxItemsOnPage, _currentPage); // FIXME All params
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Creating_XML.windows
             if (collection.Count < 1 && page > 1)
             {
                 fCurrentPage.Text = (page - 1).ToString();
-                currentPage = page - 1;
+                _currentPage = page - 1;
             }
 
             listView.ItemsSource = collection;
@@ -120,7 +120,8 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void btnAddOffer_Click(object sender, RoutedEventArgs e)
         {
-            new OfferWindow().ShowDialog();
+            var window = new OfferWindow();
+            window.ShowDialog();
             // TODO IsUpdated
         }
 
@@ -228,7 +229,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void fCurrentPage_GotFocus(object sender, RoutedEventArgs e)
         {
-            lastNumber = int.Parse(fCurrentPage.Text);
+            _lastNumber = int.Parse(fCurrentPage.Text);
             fCurrentPage.Text = string.Empty;
         }
 
@@ -240,7 +241,7 @@ namespace Creating_XML.windows
         private void fCurrentPage_LostFocus(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(fCurrentPage.Text, out int result) || result < 1)
-                fCurrentPage.Text = lastNumber.ToString();
+                fCurrentPage.Text = _lastNumber.ToString();
         }
 
         /// <summary>
@@ -262,7 +263,7 @@ namespace Creating_XML.windows
         {
             if (int.TryParse(fCurrentPage.Text, out int result) && result > 0)
             {
-                currentPage = result;
+                _currentPage = result;
                 GUI();
             }
         }
@@ -274,7 +275,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void fMaxItemsOnPage_GotFocus(object sender, RoutedEventArgs e)
         {
-            lastNumber = int.Parse(fMaxItemsOnPage.Text);
+            _lastNumber = int.Parse(fMaxItemsOnPage.Text);
             fMaxItemsOnPage.Text = string.Empty;
         }
 
@@ -286,7 +287,7 @@ namespace Creating_XML.windows
         private void fMaxItemsOnPage_LostFocus(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(fMaxItemsOnPage.Text, out int result) || result < 1)
-                fMaxItemsOnPage.Text = lastNumber.ToString();
+                fMaxItemsOnPage.Text = _lastNumber.ToString();
         }
 
         /// <summary>
@@ -308,7 +309,7 @@ namespace Creating_XML.windows
         {
             if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
             {
-                maxItemsOnPage = result;
+                _maxItemsOnPage = result;
                 GUI();
             }
         }
@@ -321,9 +322,9 @@ namespace Creating_XML.windows
         private void btnPrevPage_Click(object sender, RoutedEventArgs e)
         {
             // FIXME Simple paginate*
-            if (currentPage > 1)
+            if (_currentPage > 1)
             {
-                fCurrentPage.Text = (--currentPage).ToString();
+                fCurrentPage.Text = (--_currentPage).ToString();
                 GUI();
             }
         }
@@ -336,7 +337,7 @@ namespace Creating_XML.windows
         private void btnNextPage_Click(object sender, RoutedEventArgs e)
         {
             // FIXME Simple paginate*
-            fCurrentPage.Text = (++currentPage).ToString();
+            fCurrentPage.Text = (++_currentPage).ToString();
             GUI();
         }
     }
