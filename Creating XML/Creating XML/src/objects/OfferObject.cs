@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Creating_XML.src.objects
 {
-    class OfferObject
+    public class OfferObject
     {
         public int Id { get; set; }
 

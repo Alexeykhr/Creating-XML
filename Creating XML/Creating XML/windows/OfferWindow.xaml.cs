@@ -1,6 +1,7 @@
 ﻿using Creating_XML.src;
 using Creating_XML.src.db;
 using Creating_XML.src.db.tables;
+using Creating_XML.src.objects;
 using Creating_XML.src.store;
 using System;
 using System.Collections.Generic;
@@ -20,48 +21,38 @@ namespace Creating_XML.windows
 {
     public partial class OfferWindow : Window
     {
-        private List<OfferImageTable> listImages = new List<OfferImageTable>();
-        private List<OfferParameterTable> listParameters = new List<OfferParameterTable>();
-
         private CategoryTable selectedCategory;
         private CurrencyTable selectedCurrency;
         private VendorTable selectedVendor;
 
-        public OfferWindow()
+        private OfferObject _offer;
+
+        public OfferWindow(OfferObject offer = null)
         {
             InitializeComponent();
+
+            _offer = new OfferObject();
+            _offer.Images = new List<OfferImageTable>();
+            _offer.Parameters = new List<OfferParameterTable>();
+            
             fVendor.ItemsSource = VendorStore.List;
             fCurrency.ItemsSource = CurrencyStore.List;
             fCategory.ItemsSource = CategoryStore.List;
-            GUI();
-        }
 
-        /// <summary>
-        /// Update GUI (Fill data).
-        /// </summary>
-        private void GUI()
-        {
-            listBoxImages.ItemsSource = null;
-            listBoxImages.ItemsSource = listImages;
-
-            dataGridParams.ItemsSource = null;
-            dataGridParams.ItemsSource = listParameters;
+            listBoxImages.ItemsSource = _offer.Images;
         }
 
         private void btnImageAdd_Click(object sender, RoutedEventArgs e)
         {
-            bool isUrl = Web.IsCorrectURL(fImageUrl.Text);
-
-            if (isUrl)
+            if (Web.IsCorrectURL(fImageUrl.Text))
             {
-                // TODO: Test
                 fImage.Source = new BitmapImage(new Uri(fImageUrl.Text));
 
-                listImages.Add(new OfferImageTable {
+                _offer.Images.Add(new OfferImageTable {
                     Url = fImageUrl.Text
                 });
 
-                GUI();
+                listBoxImages.ItemsSource = _offer.Images;
 
                 listBoxImages.Items.MoveCurrentToLast();
                 fImageUrl.Text = string.Empty;

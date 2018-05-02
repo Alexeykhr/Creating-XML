@@ -27,10 +27,8 @@ namespace Creating_XML.src.db.models
             string query =
                 "SELECT OT.*, CatT.Name as CategoryName, CurT.Name as CurrencyName,"
                     + " CurT.Rate as CurrencyRate, VenT.Name as VendorName"
-                + " FROM OfferTable OT";
-
-            // Joins
-            query += " LEFT JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
+                + " FROM OfferTable OT"
+                + " LEFT JOIN CategoryTable CatT ON OT.CategoryId = CatT.Id"
                 + " LEFT JOIN CurrencyTable CurT ON OT.CurrencyId = CurT.Id"
                 + " LEFT JOIN VendorTable VenT ON OT.VendorId = VenT.Id";
 
