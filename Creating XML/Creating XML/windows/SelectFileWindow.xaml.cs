@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using Microsoft.Win32;
-using Creating_XML.src;
-using Creating_XML.src.db;
+﻿using Creating_XML.src.objects;
 using System.Windows.Controls;
-using Creating_XML.src.objects;
+using Creating_XML.src.db;
+using Creating_XML.src;
+using Microsoft.Win32;
+using System.Windows;
+using System.IO;
+using System;
 
 namespace Creating_XML.windows
 {
@@ -16,7 +16,7 @@ namespace Creating_XML.windows
         private bool _isOpened;
 
         /// <summary>
-        /// Constructor.
+        /// Iutput the latest files from Settings and establish a connection with the database.
         /// </summary>
         public SelectFileWindow()
         {
@@ -25,14 +25,6 @@ namespace Creating_XML.windows
 
             if (Database.HasConnection())
                 Database.CloseConnection();
-        }
-
-        /// <summary>
-        /// Get property. Used in other classes.
-        /// </summary>
-        public bool IsOpened
-        {
-            get { return _isOpened; }
         }
 
         /// <summary>
@@ -58,7 +50,7 @@ namespace Creating_XML.windows
             bool? result = ofd.ShowDialog();
 
             if (result == true)
-                SelectFile(ofd.FileName);
+                OpenExistsProject(ofd.FileName);
         }
 
         /// <summary>
@@ -76,7 +68,7 @@ namespace Creating_XML.windows
             bool? result = sfd.ShowDialog();
             
             if (result == true)
-                SelectFile(sfd.FileName, true);
+                CreateNewProject(sfd.FileName);
         }
 
         /// <summary>
@@ -91,49 +83,74 @@ namespace Creating_XML.windows
             if (item == null)
                 return;
 
-            SelectFile((item as FileObject).Uri);
+            OpenExistsProject((item as FileObject).Uri);
         }
-
+        
         /// <summary>
-        /// Connect to the file and close Window.
+        /// Create new project.
         /// </summary>
         /// <param name="file"></param>
-        /// <param name="isNewProject"></param>
-        private void SelectFile(string file, bool isNewProject = false)
+        private void CreateNewProject(string file)
         {
             try
             {
-                if (isNewProject)
-                {
-                    if (File.Exists(file))
-                        File.Delete(file);
+                if (File.Exists(file))
+                    File.Delete(file);
 
-                    Database.Connection(file);
-                    Database.Migration();
-                }
-                else
-                {
-                    if (!File.Exists(file))
-                    {
-                        MessageBox.Show("Файл не существует, ссылка удалена");
-                        Settings.DeleteFileUri(file);
-                        DisplayRecentFiles();
-                        return;
-                    }
+                Database.Connection(file);
+                Database.Migration();
 
-                    Database.Connection(file);
-                }
-
-                _isOpened = true;
-                Project.FileUri = file;
-                Settings.InsertLastFile(file);
-
-                Close();
+                SelectFile(file);
             }
             catch (Exception e)
             {
                 throw new Exception("Ошибка при работе с файлом");
             }
+        }
+
+        /// <summary>
+        /// Open exists project.
+        /// </summary>
+        /// <param name="file"></param>
+        private void OpenExistsProject(string file)
+        {
+            try
+            {
+                if (!File.Exists(file))
+                {
+                    MessageBox.Show("Файл не существует, ссылка удалена");
+                    Settings.DeleteFileUri(file);
+                    DisplayRecentFiles();
+                    return;
+                }
+
+                Database.Connection(file);
+                SelectFile(file);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ошибка при работе с файлом");
+            }
+        }
+
+        /// <summary>
+        /// Save choose and close this window.
+        /// </summary>
+        /// <param name="file"></param>
+        private void SelectFile(string file)
+        {
+            _isOpened = true;
+            Project.FileUri = file;
+            Settings.InsertLastFile(file);
+            Close();
+        }
+
+        /// <summary>
+        /// Get property _isOpened.
+        /// </summary>
+        public bool IsOpened
+        {
+            get { return _isOpened; }
         }
     }
 }

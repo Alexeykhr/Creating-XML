@@ -7,7 +7,6 @@ using Creating_XML.src.objects;
 using Creating_XML.src.store;
 using System.Windows.Controls;
 using System.Collections.Generic;
-using Creating_XML.src.db.tables;
 using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Text;
