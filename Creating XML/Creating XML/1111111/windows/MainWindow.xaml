@@ -104,8 +104,11 @@
             <Grid DockPanel.Dock="Top" Margin="5">
                 <TextBox x:Name="fSearch" materialDesign:HintAssist.Hint="Поиск по названию, артикулу"
                          Margin="0,0,50,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" TextChanged="fSearch_TextChanged" />
-                <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45" HorizontalContentAlignment="Center"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right" Text="20" />
+                <TextBox x:Name="fMaxItemsOnPage" materialDesign:HintAssist.Hint="Кол." Width="45"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Right"
+                         HorizontalContentAlignment="Center" GotFocus="fMaxItemsOnPage_GotFocus"
+                         LostFocus="fMaxItemsOnPage_LostFocus" PreviewTextInput="fMaxItemsOnPage_PreviewTextInput"
+                         Text="20" TextChanged="fMaxItemsOnPage_TextChanged" />
             </Grid>
             <ListView x:Name="listView" DockPanel.Dock="Top">
                 <ListView.View>
@@ -125,12 +128,14 @@
                 Добавить товар
             </Button>
             <StackPanel DockPanel.Dock="Bottom" Margin="0,5" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <Button x:Name="btnPrevPage" Style="{StaticResource MaterialDesignFlatButton}" Width="100">
+                <Button x:Name="btnPrevPage" Style="{StaticResource MaterialDesignFlatButton}" Width="100" Click="btnPrevPage_Click">
                     <materialDesign:PackIcon Kind="ArrowLeftBold" />
                 </Button>
-                <TextBox x:Name="fCurrentPage" materialDesign:HintAssist.Hint="Стр." Width="45" Margin="25,0" HorizontalContentAlignment="Center"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Text="1" />
-                <Button x:Name="btnNextPage" Style="{StaticResource MaterialDesignFlatButton}" Width="100">
+                <TextBox x:Name="fCurrentPage" materialDesign:HintAssist.Hint="Стр." Width="45" PreviewTextInput="fCurrentPage_PreviewTextInput"
+                         Margin="25,0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         VerticalAlignment="Center" HorizontalContentAlignment="Center" LostFocus="fCurrentPage_LostFocus"
+                         GotFocus="fCurrentPage_GotFocus" Text="1" TextChanged="fCurrentPage_TextChanged" />
+                <Button x:Name="btnNextPage" Style="{StaticResource MaterialDesignFlatButton}" Width="100" Click="btnNextPage_Click">
                     <materialDesign:PackIcon Kind="ArrowRightBold" />
                 </Button>
             </StackPanel>

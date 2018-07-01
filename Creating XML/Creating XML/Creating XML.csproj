@@ -82,64 +82,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="core\Controller.cs" />
+    <Compile Include="core\db\Table.cs" />
+    <Compile Include="core\db\Model.cs" />
+    <Compile Include="core\Pagination.cs" />
+    <Compile Include="core\Store.cs" />
     <Compile Include="libs\SQLite.cs" />
     <Compile Include="libs\SQLiteAsync.cs" />
     <Compile Include="src\objects\FileObject.cs" />
-    <Compile Include="src\objects\OfferObject.cs" />
-    <Compile Include="src\RegexHelper.cs" />
-    <Compile Include="src\Settings.cs" />
-    <Compile Include="src\store\CategoryStore.cs" />
-    <Compile Include="src\store\CurrencyStore.cs" />
-    <Compile Include="src\store\Store.cs" />
-    <Compile Include="src\store\VendorStore.cs" />
-    <Compile Include="src\Web.cs" />
-    <Compile Include="windows\CategoryWindow.xaml.cs">
-      <DependentUpon>CategoryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="windows\CurrencyWindow.xaml.cs">
-      <DependentUpon>CurrencyWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="windows\dialogs\CategoryItemDialog.xaml.cs">
-      <DependentUpon>CategoryItemDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="windows\dialogs\CurrencyItemDialog.xaml.cs">
-      <DependentUpon>CurrencyItemDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="windows\dialogs\VendorItemDialog.xaml.cs">
-      <DependentUpon>VendorItemDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="windows\OfferWindow.xaml.cs">
-      <DependentUpon>OfferWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="core\RegexHelper.cs" />
+    <Compile Include="core\Settings.cs" />
+    <Compile Include="core\Web.cs" />
     <Compile Include="windows\SelectFileWindow.xaml.cs">
       <DependentUpon>SelectFileWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="windows\ShopWindow.xaml.cs">
-      <DependentUpon>ShopWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="windows\VendorWindow.xaml.cs">
-      <DependentUpon>VendorWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="windows\CategoryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="windows\CurrencyWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="windows\dialogs\CategoryItemDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="windows\dialogs\CurrencyItemDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="windows\dialogs\VendorItemDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -148,34 +104,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\db\Database.cs" />
-    <Compile Include="src\db\models\OfferModel.cs" />
-    <Compile Include="src\db\Project.cs" />
-    <Compile Include="src\db\tables\Table.cs" />
-    <Compile Include="src\db\tables\CategoryParameterTable.cs" />
-    <Compile Include="src\db\tables\CategoryTable.cs" />
-    <Compile Include="src\db\tables\CurrencyTable.cs" />
-    <Compile Include="src\db\tables\OfferImageTable.cs" />
-    <Compile Include="src\db\tables\OfferParameterTable.cs" />
-    <Compile Include="src\db\tables\OfferTable.cs" />
-    <Compile Include="src\db\tables\VendorTable.cs" />
+    <Compile Include="core\db\Database.cs" />
+    <Compile Include="core\Project.cs" />
+    <Compile Include="core\db\tables\CategoryParameterTable.cs" />
+    <Compile Include="core\db\tables\CategoryTable.cs" />
+    <Compile Include="core\db\tables\CurrencyTable.cs" />
+    <Compile Include="core\db\tables\OfferImageTable.cs" />
+    <Compile Include="core\db\tables\OfferParameterTable.cs" />
+    <Compile Include="core\db\tables\OfferTable.cs" />
+    <Compile Include="core\db\tables\VendorTable.cs" />
     <Compile Include="windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="windows\OfferWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="windows\SelectFileWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="windows\ShopWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="windows\VendorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,6 +159,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\controllers\" />
+    <Folder Include="src\models\" />
+    <Folder Include="src\store\" />
+    <Folder Include="windows\dialogs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,9 +1,6 @@
-﻿using Creating_XML.src;
-using Creating_XML.src.db;
-using Creating_XML.src.db.models;
-using Creating_XML.src.db.tables;
+﻿using Creating_XML.core;
+using Creating_XML.src;
 using Creating_XML.src.objects;
-using Creating_XML.src.store;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,11 +22,9 @@ namespace Creating_XML.windows
 {
     public partial class MainWindow : Window
     {
+        private Pagination _pagination;
+
         private int _lastNumber;
-
-        private int _maxItemsOnPage = 20;
-
-        private int _currentPage = 1;
 
         /// <summary>
         /// Select file before work (open window).
@@ -42,9 +37,11 @@ namespace Creating_XML.windows
             if (!OpenFileWindow())
                 return;
 
-            CategoryStore.Fetch();
-            CurrencyStore.Fetch();
-            VendorStore.Fetch();
+            _pagination = new Pagination(fCurrentPage, fMaxItemsOnPage, btnNextPage, btnPrevPage, GUI);
+
+            //CategoryStore.Fetch();
+            //CurrencyStore.Fetch();
+            //VendorStore.Fetch();
         }
 
         /// <summary>
@@ -62,7 +59,6 @@ namespace Creating_XML.windows
             if (fileWindow.IsOpened)
             {
                 Show();
-                GUI();
                 return true;
             }
 
@@ -73,9 +69,10 @@ namespace Creating_XML.windows
         /// <summary>
         /// Update GUI (Fill data).
         /// </summary>
-        private void GUI()
+        private bool GUI()
         {
-            UpdateListView(fSearch.Text, _maxItemsOnPage, _currentPage); // FIXME All params
+            UpdateListView(fSearch.Text, _pagination.MaxItemsOnPageNumber, _pagination.CurrentPageNumber); // FIXME All params
+            return true;
         }
 
         /// <summary>
@@ -83,34 +80,33 @@ namespace Creating_XML.windows
         /// </summary>
         private async void UpdateListView(string search, int take, int page)
         {
-            if (!Database.HasConnection())
-                return;
+            //if (!Database.HasConnection())
+            //    return;
             
-            var collection = await Task.Run(() =>
-            {
-                try
-                {
-                    return OfferModel.List(search, take, page);
-                }
-                catch { return null; }
-            });
+            //var collection = await Task.Run(() =>
+            //{
+            //    try
+            //    {
+            //        return OfferModel.List(search, take, page);
+            //    }
+            //    catch { return null; }
+            //});
 
-            if (collection == null)
-            {
-                MessageBox.Show("Файл повреждён");
-                Settings.DeleteFileUri(Project.FileUri);
-                OpenFileWindow();
-                return;
-            }
+            //if (collection == null)
+            //{
+            //    MessageBox.Show("Ошибка в Базе данных");
+            //    OpenFileWindow();
+            //    return;
+            //}
             
-            if (collection.Count < 1 && page > 1)
-            {
-                fCurrentPage.Text = (page - 1).ToString();
-                _currentPage = page - 1;
-            }
+            //if (collection.Count < 1 && page > 1)
+            //{
+            //    fCurrentPage.Text = (page - 1).ToString();
+            //    _currentPage = page - 1;
+            //}
 
-            listView.ItemsSource = collection;
-            listView.Items.Refresh();
+            //listView.ItemsSource = collection;
+            //listView.Items.Refresh();
         }
 
         /// <summary>
@@ -120,9 +116,19 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void btnAddOffer_Click(object sender, RoutedEventArgs e)
         {
-            var window = new OfferWindow();
-            window.ShowDialog();
+            //var window = new OfferWindow();
+            //window.ShowDialog();
             // TODO IsUpdated
+        }
+
+        /// <summary>
+        /// Seach Article or Name of offer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GUI();
         }
 
         /*
@@ -160,11 +166,11 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemVendor_Click(object sender, RoutedEventArgs e)
         {
-            var window = new VendorWindow();
-            window.ShowDialog();
+            //var window = new VendorWindow();
+            //window.ShowDialog();
 
-            if (window.IsUpdated())
-                GUI();
+            //if (window.IsUpdated())
+            //    GUI();
         }
 
         /// <summary>
@@ -174,11 +180,11 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemCurrency_Click(object sender, RoutedEventArgs e)
         {
-            var window = new CurrencyWindow();
-            window.ShowDialog();
+            //var window = new CurrencyWindow();
+            //window.ShowDialog();
 
-            if (window.IsUpdated())
-                GUI();
+            //if (window.IsUpdated())
+            //    GUI();
         }
 
         /// <summary>
@@ -188,7 +194,7 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemShop_Click(object sender, RoutedEventArgs e)
         {
-            new ShopWindow().ShowDialog();
+            //new ShopWindow().ShowDialog();
         }
 
         /// <summary>
@@ -198,147 +204,11 @@ namespace Creating_XML.windows
         /// <param name="e"></param>
         private void menuItemCategory_Click(object sender, RoutedEventArgs e)
         {
-            var window = new CategoryWindow();
-            window.ShowDialog();
+            //var window = new CategoryWindow();
+            //window.ShowDialog();
 
-            if (window.IsUpdated())
-                GUI();
-        }
-
-        /*
-         * |-------------------------------------------
-         * | Paginate.
-         * |-------------------------------------------
-         * |
-         */
-         
-        /// <summary>
-        /// Seach Article or Name of offer.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            GUI();
-        }
-
-        /// <summary>
-        /// After got focus = clear the text.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_GotFocus(object sender, RoutedEventArgs e)
-        {
-            _lastNumber = int.Parse(fCurrentPage.Text);
-            fCurrentPage.Text = string.Empty;
-        }
-
-        /// <summary>
-        /// Check Input.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!int.TryParse(fCurrentPage.Text, out int result) || result < 1)
-                fCurrentPage.Text = _lastNumber.ToString();
-        }
-
-        /// <summary>
-        /// Accept only numbers.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
-        }
-
-        /// <summary>
-        /// Change text => Update GUI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fCurrentPage_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (int.TryParse(fCurrentPage.Text, out int result) && result > 0)
-            {
-                _currentPage = result;
-                GUI();
-            }
-        }
-
-        /// <summary>
-        /// After got focus = clear the text.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_GotFocus(object sender, RoutedEventArgs e)
-        {
-            _lastNumber = int.Parse(fMaxItemsOnPage.Text);
-            fMaxItemsOnPage.Text = string.Empty;
-        }
-
-        /// <summary>
-        /// Check Input.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!int.TryParse(fMaxItemsOnPage.Text, out int result) || result < 1)
-                fMaxItemsOnPage.Text = _lastNumber.ToString();
-        }
-
-        /// <summary>
-        /// Accept only numbers.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = RegexHelper.IsOnlyNumbers(e.Text);
-        }
-
-        /// <summary>
-        /// Change text => Update GUI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void fMaxItemsOnPage_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (int.TryParse(fMaxItemsOnPage.Text, out int result) && result > 0)
-            {
-                _maxItemsOnPage = result;
-                GUI();
-            }
-        }
-
-        /// <summary>
-        /// Change page to -1.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
-        {
-            // FIXME Simple paginate*
-            if (_currentPage > 1)
-            {
-                fCurrentPage.Text = (--_currentPage).ToString();
-                GUI();
-            }
-        }
-
-        /// <summary>
-        /// Change page to +1.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnNextPage_Click(object sender, RoutedEventArgs e)
-        {
-            // FIXME Simple paginate*
-            fCurrentPage.Text = (++_currentPage).ToString();
-            GUI();
+            //if (window.IsUpdated())
+            //    GUI();
         }
     }
 }

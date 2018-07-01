@@ -104,7 +104,7 @@ namespace Creating_XML.windows
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new Exception("Ошибка при работе с файлом");
             }
         }
 
@@ -129,7 +129,7 @@ namespace Creating_XML.windows
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new Exception("Ошибка при работе с файлом");
             }
         }
 
@@ -150,7 +150,7 @@ namespace Creating_XML.windows
         /// </summary>
         public bool IsOpened
         {
-            get => _isOpened;
+            get { return _isOpened; }
         }
     }
 }
